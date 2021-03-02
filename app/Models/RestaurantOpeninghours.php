@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class RestaurantOpeninghours extends Model
 {
     use HasFactory;
+
+    public function restaurant() {
+        return $this->belongsTo(Restaurant::class);
+    }
 }
