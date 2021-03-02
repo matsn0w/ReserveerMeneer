@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Restaurant;
+use App\Models\RestaurantCategory;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
@@ -24,7 +25,8 @@ class RestaurantController extends Controller
      */
     public function create()
     {
-        //
+        $availableCategories = RestaurantCategory::all('name');
+        return view('restaurants.create', ['availableCategories' => $availableCategories]);
     }
 
     /**
@@ -35,7 +37,16 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedAttributes = request()->validate([
+            'name' => ['required', 'min:3', 'max:255'],
+            'description' => ['required'],
+            'category' => ['required'],
+            'seats' => ['required']
+        ]);
+
+        $restaurant = Restaurant::create($validatedAttributes);
+
+        return redirect(Route('restaurants.show', $restaurant));
     }
 
     /**
@@ -46,7 +57,9 @@ class RestaurantController extends Controller
      */
     public function show(Restaurant $restaurant)
     {
-        //
+        if($restaurant == null) abort(404, "Page not found"); 
+
+        return view('restaurants.show', ['restaurant' => $restaurant]);
     }
 
     /**

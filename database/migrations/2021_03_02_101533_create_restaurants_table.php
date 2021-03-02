@@ -18,6 +18,7 @@ class CreateRestaurantsTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('category');
+            $table->integer('seats');
             $table->timestamps();
 
         });

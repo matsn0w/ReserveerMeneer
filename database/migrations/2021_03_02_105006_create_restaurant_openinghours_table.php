@@ -17,8 +17,8 @@ class CreateRestaurantOpeninghoursTable extends Migration
             $table->id();
             $table->unsignedBigInteger('restaurant_id');
             $table->string('weekday');
-            $table->timestamp('openingtime');
-            $table->timestamp('closingtime');
+            $table->time('openingtime');
+            $table->time('closingtime');
             $table->timestamps();
         });
     }
