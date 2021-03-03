@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Restaurant;
-use App\Models\RestaurantCategory;
-use App\Models\RestaurantOpeninghours;
 use DateTime;
+use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use App\Models\RestaurantCategory;
+use Illuminate\Support\Facades\DB;
+use App\Models\RestaurantOpeninghours;
 
 class RestaurantController extends Controller
 {
@@ -47,8 +48,6 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        global $weekdays;
-
         $validatedAttributes = request()->validate([
             'name' => ['required', 'min:3', 'max:255'],
             'description' => ['required'],
@@ -78,7 +77,9 @@ class RestaurantController extends Controller
     {
         if($restaurant == null) abort(404, "Page not found"); 
 
-        return view('restaurants.show', ['restaurant' => $restaurant]);
+        $openingtimes = RestaurantOpeninghours::where('restaurant_id' , '=' , $restaurant->id)->get();
+
+        return view('restaurants.show', ['restaurant' => $restaurant, 'openingtimes' => $openingtimes]);
     }
 
     /**
@@ -89,7 +90,10 @@ class RestaurantController extends Controller
      */
     public function edit(Restaurant $restaurant)
     {
-        //
+        $availableCategories = RestaurantCategory::all('name');
+        $openingtimes = RestaurantOpeninghours::where('restaurant_id' , '=' , $restaurant->id)->get();
+
+        return view('restaurants.edit', [compact('restaurant'), 'availableCategories' => $availableCategories, 'openingtimes' => $openingtimes]);
     }
 
     /**

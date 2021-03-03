@@ -12,7 +12,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+                    @foreach($openingtimes as $day)
+                        <tr>
+                            <td>{{$day->weekday}}</td>
+                            <td>{{date('H:i', strtotime($day->openingtime))}}</td>
+                            <td>{{date('H:i', strtotime($day->closingtime))}}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
