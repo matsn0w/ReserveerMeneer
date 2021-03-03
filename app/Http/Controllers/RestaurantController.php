@@ -19,7 +19,7 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -132,7 +132,8 @@ class RestaurantController extends Controller
      */
     public function destroy(Restaurant $restaurant)
     {
-        //
+        Restaurant::destroy($restaurant);
+        return redirect('restaurants')->with('flash_message', 'Post deleted!');
     }
 
     
