@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Restaurant;
 use App\Models\RestaurantCategory;
+use App\Models\RestaurantOpeninghours;
+use DateTime;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +29,14 @@ class RestaurantController extends Controller
     public function create()
     {
         $availableCategories = RestaurantCategory::all('name');
-        return view('restaurants.create', ['availableCategories' => $availableCategories]);
+        $weekdays = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
+        
+        $array = [];
+        foreach($weekdays as $weekday) {
+            $array[$weekday] = ["openinghour" => "00:00", "closinghour" => "00:00"];
+        }
+
+        return view('restaurants.create', ['availableCategories' => $availableCategories, 'openinghours' => $array]);
     }
 
     /**
@@ -37,6 +47,8 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
+        global $weekdays;
+
         $validatedAttributes = request()->validate([
             'name' => ['required', 'min:3', 'max:255'],
             'description' => ['required'],
@@ -45,6 +57,13 @@ class RestaurantController extends Controller
         ]);
 
         $restaurant = Restaurant::create($validatedAttributes);
+
+        $weekdays = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
+        foreach($weekdays as $day) {
+            $openinghour = $request->get("openinghour".$day);
+            $closinghour = $request->get("closinghour".$day);
+            RestaurantOpeninghours::create(['weekday' => $day, 'restaurant_id' => $restaurant->id, 'openingtime' => date('H:i', strtotime($openinghour)), 'closingtime' =>  date('H:i', strtotime($closinghour))]);
+        }
 
         return redirect(Route('restaurants.show', $restaurant));
     }
@@ -95,4 +114,6 @@ class RestaurantController extends Controller
     {
         //
     }
+
+    
 }

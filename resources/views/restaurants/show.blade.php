@@ -18,7 +18,7 @@
             </div>
             <div class="tile is-3 is-vertical is-parent">
                 <div class="tile is-child box">
-                    <p class="subtitle">Openingstijden</p>
+                    @include('restaurants.restaurants-hours.show')
                 </div>
             </div>
         </div>
