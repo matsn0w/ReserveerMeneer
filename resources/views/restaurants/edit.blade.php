@@ -1,8 +1,9 @@
-@extends('layouts.base')
-
+@extends('layouts.base', [
+    'title' => 'Edit restaurant'
+])
 @section('content')
 <div class="container">
-    <form method="POST" action="/restaurant/{{$restaurant->id}}">
+    <form method="POST" action="/restaurants/{{$restaurant->id}}">
         @csrf
         @method('PUT')
         <div class="tile is-ancestor">
@@ -63,7 +64,7 @@
             </div>
             <div class="tile is-4 is-vertical is-parent">
                 <div class="tile is-child box">
-                    
+                    @include('restaurants.restaurants-hours.edit')
                 </div>
             </div>
         </div>

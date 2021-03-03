@@ -93,7 +93,7 @@ class RestaurantController extends Controller
         $availableCategories = RestaurantCategory::all('name');
         $openingtimes = RestaurantOpeninghours::where('restaurant_id' , '=' , $restaurant->id)->get();
 
-        return view('restaurants.edit', [compact('restaurant'), 'availableCategories' => $availableCategories, 'openingtimes' => $openingtimes]);
+        return view('restaurants.edit', ['restaurant' => $restaurant, 'availableCategories' => $availableCategories, 'openingtimes' => $openingtimes]);
     }
 
     /**
@@ -105,7 +105,23 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, Restaurant $restaurant)
     {
-        //
+        $validatedAttributes = request()->validate([
+            'name' => ['required', 'min:3', 'max:255'],
+            'description' => ['required'],
+            'category' => ['required'],
+            'seats' => ['required']
+        ]);
+
+        $restaurant->update($validatedAttributes);
+
+        foreach(RestaurantOpeninghours::where('restaurant_id' , '=' , $restaurant->id)->get() as $times) {
+            $openinghour = $request->get("openinghour".$times->weekday);
+            $closinghour = $request->get("closinghour".$times->weekday);
+            
+            $times->update(['weekday' => $times->weekday, 'restaurant_id' => $restaurant->id, 'openingtime' => date('H:i', strtotime($openinghour)), 'closingtime' =>  date('H:i', strtotime($closinghour))]);
+        }
+
+        return redirect(Route('restaurants.show', $restaurant));
     }
 
     /**

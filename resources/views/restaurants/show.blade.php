@@ -8,12 +8,16 @@
             <div class="tile is-parent">
                 <div class="tile is-child box">
                     <h1 class="title">{{$restaurant->name}}</h1>
+                    
 
-                    <p class="is-size-4">
-                        {{$restaurant->description}}
-                    </p>
+                    <div class="section">
+                        <p class="is-size-4">
+                            {{$restaurant->description}}
+                        </p>
+                    </div>
 
-                    <p class="is-size-5"><strong>Zitplaatsen: </strong>{{$restaurant->seats}}</p>
+                    <p class="is-size-4"><strong>Category:</strong> {{$restaurant->category}}</p>
+                    <p class="is-size-4"><strong>Zitplaatsen: </strong>{{$restaurant->seats}}</p>
                 </div>
             </div>
             <div class="tile is-3 is-vertical is-parent">
