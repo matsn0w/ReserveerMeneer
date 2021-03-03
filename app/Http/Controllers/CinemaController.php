@@ -14,7 +14,11 @@ class CinemaController extends Controller
      */
     public function index()
     {
-        //
+        $cinemas = Cinema::all();
+
+        return view('cinemas.index', [
+            'cinemas' => $cinemas
+        ]);
     }
 
     /**
@@ -24,7 +28,7 @@ class CinemaController extends Controller
      */
     public function create()
     {
-        //
+        return view('cinemas.create');
     }
 
     /**
@@ -35,7 +39,15 @@ class CinemaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required', 'min:2']
+        ]);
+
+        $cinema = Cinema::create($validated);
+
+        return view('cinemas.show', [
+            'cinema' => $cinema
+        ]);
     }
 
     /**
@@ -46,7 +58,9 @@ class CinemaController extends Controller
      */
     public function show(Cinema $cinema)
     {
-        //
+        return view('cinemas.show', [
+            'cinema' => $cinema
+        ]);
     }
 
     /**
@@ -57,7 +71,9 @@ class CinemaController extends Controller
      */
     public function edit(Cinema $cinema)
     {
-        //
+        return view('cinemas.edit', [
+            'cinema' => $cinema
+        ]);
     }
 
     /**
@@ -69,7 +85,15 @@ class CinemaController extends Controller
      */
     public function update(Request $request, Cinema $cinema)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required', 'min:2']
+        ]);
+
+        $cinema->update($validated);
+
+        return view('cinemas.show', [
+            'cinema' => $cinema
+        ]);
     }
 
     /**
@@ -80,6 +104,8 @@ class CinemaController extends Controller
      */
     public function destroy(Cinema $cinema)
     {
-        //
+        $cinema->delete();
+
+        return redirect()->route('cinemas.index');
     }
 }

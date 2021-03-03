@@ -14,7 +14,11 @@ class HallController extends Controller
      */
     public function index()
     {
-        //
+        $halls = Hall::paginate(10);
+
+        return view('halls.index', [
+            'halls' => $halls
+        ]);
     }
 
     /**
@@ -46,7 +50,9 @@ class HallController extends Controller
      */
     public function show(Hall $hall)
     {
-        //
+        return view('halls.show', [
+            'hall' => $hall
+        ]);
     }
 
     /**

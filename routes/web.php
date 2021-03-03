@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HallController;
+use App\Http\Controllers\CinemaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
+});
+
+Route::resource('cinemas', CinemaController::class);
+
+Route::name('halls.')->prefix('halls')->group(function () {
+    Route::get('/', [HallController::class, 'index'])->name('index');
+    Route::get('/{hall}', [HallController::class, 'show'])->name('show');
 });
