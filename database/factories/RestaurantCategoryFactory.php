@@ -22,7 +22,7 @@ class RestaurantCategoryFactory extends Factory
     public function definition()
     {
         return [
-            //
+           
         ];
     }
 }

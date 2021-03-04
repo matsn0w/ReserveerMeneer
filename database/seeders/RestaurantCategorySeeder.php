@@ -14,6 +14,8 @@ class RestaurantCategorySeeder extends Seeder
      */
     public function run()
     {
+        RestaurantCategory::whereNotNull('id')->delete();
+
         $categories = [
             ['id' => 1,'name' => "Italiaans"],
             ['id' => 2,'name' => "Orientaals"],

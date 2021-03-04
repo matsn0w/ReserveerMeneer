@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Restaurant;
+use App\Models\RestaurantCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RestaurantFactory extends Factory
@@ -21,8 +22,12 @@ class RestaurantFactory extends Factory
      */
     public function definition()
     {
+        $categories = RestaurantCategory::all();
         return [
-            //
+            'name' => $this->faker->firstname() . "'s ". $this->faker->word(),
+            'category' => $categories[$this->faker->numberBetween(0, count($categories) - 1)]->name,
+            'description' => $this->faker->text(),
+            'seats' => $this->faker->numberBetween(10, 130),
         ];
     }
 }
