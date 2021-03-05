@@ -40,7 +40,7 @@
 
                         @error('category')
                                 <p class="help is-danger">{{$errors->first('category')}}</p>
-                            @enderror
+                        @enderror
                     </div>
     
                     <div class="field">

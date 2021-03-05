@@ -19,6 +19,7 @@ Route::get('/', function () {
 });
 
 Route::get('/restaurants', [RestaurantController::class, 'index'])->name('restaurants.index');
+Route::post('/restaurants/{filter?}', [RestaurantController::class, 'applyFilter']);
 Route::get('/restaurants/create', [RestaurantController::class, 'create'])->name('restaurants.create');
 Route::post('/restaurants', [RestaurantController::class, 'store']);
 Route::get('/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('restaurants.show');

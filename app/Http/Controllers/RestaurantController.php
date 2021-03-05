@@ -9,6 +9,7 @@ use App\Models\RestaurantCategory;
 use Illuminate\Support\Facades\DB;
 use App\Models\RestaurantOpeninghours;
 use App\Rules\ContainsCategory;
+use Symfony\Component\Console\Input\Input;
 
 class RestaurantController extends Controller
 {
@@ -23,11 +24,13 @@ class RestaurantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $restaurants = Restaurant::paginate(8);
+        $availableCategories = RestaurantCategory::all('name');
 
-        return view('restaurants.index', ['restaurants' => $restaurants]);
+        $values = $this->applyCategoryFilter($request);
+
+        return view('restaurants.index', ['restaurants' => $values['restaurants'], 'availableCategories' => $availableCategories, 'filter' => $values['filter']]);
     }
 
     /**
@@ -127,6 +130,22 @@ class RestaurantController extends Controller
             'category' => ['required', new ContainsCategory()],
             'seats' => ['required', 'numeric', 'min:1']
         ]);
+    }
+
+    
+    public function applyCategoryFilter($request) {
+        $filter = $request->get('filter');
+        $values = array('restaurants'=>"", 'filter'=>"");
+
+        if(!empty($filter)) {
+            request()->validate(['filter' => new ContainsCategory]);
+            $values['restaurants'] = Restaurant::where('category', $filter)->paginate(8);
+        } else {
+            $values['restaurants'] = Restaurant::paginate(8);
+        } 
+
+        $values['filter'] = $filter;
+        return $values; 
     }
 
     
