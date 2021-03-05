@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 use App\Models\RestaurantCategory;
 use Illuminate\Support\Facades\DB;
 use App\Models\RestaurantOpeninghours;
+use App\Rules\ContainsCategory;
 
 class RestaurantController extends Controller
 {
+    protected $openinghoursController;
+    public function __construct(RestaurantOpeninghoursController $controller) 
+    {
+        $this->openinghoursController = $controller;
+    }
 
     /**
      * Display a listing of the resource.
@@ -50,21 +56,9 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedAttributes = request()->validate([
-            'name' => ['required', 'min:3', 'max:255'],
-            'description' => ['required'],
-            'category' => ['required'],
-            'seats' => ['required']
-        ]);
-
-        $restaurant = Restaurant::create($validatedAttributes);
-
-        $weekdays = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
-        foreach($weekdays as $day) {
-            $openinghour = $request->get("openinghour".$day);
-            $closinghour = $request->get("closinghour".$day);
-            RestaurantOpeninghours::create(['weekday' => $day, 'restaurant_id' => $restaurant->id, 'openingtime' => date('H:i', strtotime($openinghour)), 'closingtime' =>  date('H:i', strtotime($closinghour))]);
-        }
+        $validatedAttributes = $this->validateRestaurant($request);
+        $restaurant = Restaurant::create($validatedAttributes);   
+        $this->openinghoursController->store($request, $restaurant);
 
         return redirect(Route('restaurants.show', $restaurant));
     }
@@ -107,21 +101,9 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, Restaurant $restaurant)
     {
-        $validatedAttributes = request()->validate([
-            'name' => ['required', 'min:3', 'max:255'],
-            'description' => ['required'],
-            'category' => ['required'],
-            'seats' => ['required']
-        ]);
-
+        $validatedAttributes = $this->validateRestaurant($request);
         $restaurant->update($validatedAttributes);
-
-        foreach(RestaurantOpeninghours::where('restaurant_id' , '=' , $restaurant->id)->get() as $times) {
-            $openinghour = $request->get("openinghour".$times->weekday);
-            $closinghour = $request->get("closinghour".$times->weekday);
-            
-            $times->update(['weekday' => $times->weekday, 'restaurant_id' => $restaurant->id, 'openingtime' => date('H:i', strtotime($openinghour)), 'closingtime' =>  date('H:i', strtotime($closinghour))]);
-        }
+        $this->openinghoursController->update($request, $restaurant);
 
         return redirect(Route('restaurants.show', $restaurant));
     }
@@ -136,6 +118,15 @@ class RestaurantController extends Controller
     {
         Restaurant::destroy($restaurant);
         return redirect('restaurants')->with('flash_message', 'Post deleted!');
+    }
+
+    public function validateRestaurant(Request $request) {
+        return $request->validate([
+            'name' => ['required', 'min:3', 'max:100'],
+            'description' => ['required', 'min:1', 'max:1000'],
+            'category' => ['required', new ContainsCategory()],
+            'seats' => ['required', 'numeric', 'min:1']
+        ]);
     }
 
     

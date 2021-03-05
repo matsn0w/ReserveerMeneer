@@ -35,11 +35,11 @@
                                             <option value="{{$category->name}}">{{$category->name}}</option>
                                         @endforeach
                                     </select>
-            
-                                    @error('category')
-                                        <p class="help is-danger">{{$errors->first('category')}}</p>
-                                    @enderror
                                 </div>
+                                
+                                @error('category')
+                                        <p class="help is-danger">{{$errors->first('category')}}</p>
+                                 @enderror
                             </div>
             
                             <div class="field">

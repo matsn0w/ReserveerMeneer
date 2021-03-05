@@ -9,4 +9,8 @@ class RestaurantCategory extends Model
 {
     use HasFactory;
 
+    public function values() {
+        return RestaurantCategory::whereNotNull('id');
+    }
+
 }

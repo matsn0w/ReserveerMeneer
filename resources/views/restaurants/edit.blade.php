@@ -27,14 +27,20 @@
                         <div class="control select">
                             <select name="category" id="category" for="category">
                                 @foreach ($availableCategories as $category)
-                                    <option value="{{$category->name}}">{{$category->name}}</option>
+                                    <option value="{{$category->name}}"
+                                        
+                                        @if($restaurant->category == $category->name) 
+                                            selected
+                                        @endif
+
+                                        >{{$category->name}}</option>
                                 @endforeach
                             </select>
-    
-                            @error('category')
+                        </div>
+
+                        @error('category')
                                 <p class="help is-danger">{{$errors->first('category')}}</p>
                             @enderror
-                        </div>
                     </div>
     
                     <div class="field">
