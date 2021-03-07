@@ -20,8 +20,4 @@ Route::get('/', function () {
 });
 
 Route::resource('cinemas', CinemaController::class);
-
-Route::name('halls.')->prefix('halls')->group(function () {
-    Route::get('/', [HallController::class, 'index'])->name('index');
-    Route::get('/{hall}', [HallController::class, 'show'])->name('show');
-});
+Route::resource('halls', HallController::class);

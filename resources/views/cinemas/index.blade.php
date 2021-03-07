@@ -9,18 +9,16 @@
                 <div class="column">
                     <div class="card mb-3">
                         <header class="card-header">
-                            <h3 class="card-header-title">{{ $cinema->name }}</h3>
+                            <p class="card-header-title">{{ $cinema->name }}</p>
                         </header>
 
                         <div class="card-content">
-                            <div class="content">
-                                Aantal zalen: {{ count($cinema->halls) }}
-                            </div>
+                            Aantal zalen: {{ count($cinema->halls) }}
                         </div>
 
                         <footer class="card-footer">
                             <a class="card-footer-item" href="{{ route('cinemas.show', $cinema) }}">Bekijken</a>
-                            <a class="card-footer-item" href="#edit">Bewerken</a>
+                            <a class="card-footer-item" href="{{ route('cinemas.edit', $cinema) }}">Bewerken</a>
                         </footer>
                     </div>
                 </div>

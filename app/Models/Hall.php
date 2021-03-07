@@ -11,6 +11,13 @@ class Hall extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'rows',
+        'seatsPerRow',
+        'cinema_id'
+    ];
+
     public function cinema()
     {
         return $this->belongsTo(Cinema::class);
