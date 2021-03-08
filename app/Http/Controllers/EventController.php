@@ -38,7 +38,7 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $validatedAttributes = $this->validateEvent($request);
-        $event = Event::create($validatedAttributes);   
+        $event = Event::create($validatedAttributes);
 
         return redirect(Route('event.show', $event));
     }
@@ -51,7 +51,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        if($event == null) abort(404, "Page not found"); 
+        if($event == null) abort(404, "Page not found");
 
         return view('events.show', ['event' => $event]);
     }
@@ -76,7 +76,7 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        $validatedAttributes = $this->validateRestaurant($request);
+        $validatedAttributes = $this->validateEvent($request);
         $event->update($validatedAttributes);
 
         return redirect(Route('events.show', $event));
