@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\RestaurantOpeninghours;
 use Illuminate\Database\Seeder;
+use Database\Seeders\MovieSeeder;
+use Database\Seeders\CinemaSeeder;
+use Database\Seeders\FilmEventSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,8 +17,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
         $this->call(RestaurantCategorySeeder::class);
         $this->call(RestaurantSeeder::class);
+        $this->call(CinemaSeeder::class);
+        $this->call(MovieSeeder::class);
+        $this->call(FilmEventSeeder::class);
     }
 }
