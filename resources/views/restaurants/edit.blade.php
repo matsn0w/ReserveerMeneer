@@ -1,5 +1,5 @@
 @extends('layouts.base', [
-    'title' => 'Edit restaurant'
+    'title' => "'$restaurant->name' bewerken"
 ])
 @section('content')
 <div class="container">
@@ -10,26 +10,26 @@
             <div class="tile is-parent">
                 <div class="tile is-child box">
                     <div class="field">
-                        <label class="label" for="name">Name</label>
-    
+                        <label class="label" for="name">Naam</label>
+
                         <div class="control">
                             <input class="input" type="text" name="name" id="name" value="{{$restaurant->name}}">
                         </div>
 
                         @error('name')
-                            <p class="help is-danger">{{$errors->first('name')}}</p>
+                            <p class="help is-danger">{{$message}}</p>
                         @enderror
                     </div>
 
                     <div class="field">
-                        <label class="label" for="category">Category</label>
-    
+                        <label class="label" for="category">Categorie</label>
+
                         <div class="control select">
-                            <select name="category" id="category" for="category">
+                            <select name="category_id" id="category" for="category">
                                 @foreach ($availableCategories as $category)
-                                    <option value="{{$category->name}}"
-                                        
-                                        @if($restaurant->category == $category->name) 
+                                    <option value="{{$category->id}}"
+
+                                        @if($restaurant->category->id == $category->id)
                                             selected
                                         @endif
 
@@ -38,32 +38,32 @@
                             </select>
                         </div>
 
-                        @error('category')
-                                <p class="help is-danger">{{$errors->first('category')}}</p>
+                        @error('category_id')
+                            <p class="help is-danger">{{$message}}</p>
                         @enderror
                     </div>
-    
+
                     <div class="field">
-                        <label class="label" for="description">Description</label>
-    
+                        <label class="label" for="description">Beschrijving</label>
+
                         <div class="control">
                             <textarea class="textarea" name="description" id="description">{{$restaurant->description}}</textarea>
                         </div>
 
                         @error('description')
-                            <p class="help is-danger">{{$errors->first('description')}}</p>
+                            <p class="help is-danger">{{$message}}</p>
                         @enderror
                     </div>
-    
+
                     <div class="field">
-                        <label class="label" for="seats">Seats</label>
-    
+                        <label class="label" for="seats">Aantal stoelen</label>
+
                         <div class="control">
-                            <input class="input" type="text" name="seats" id="seats" value="{{$restaurant->seats}}">
+                            <input class="input" type="number" name="seats" id="seats" value="{{$restaurant->seats}}">
                         </div>
 
                         @error('seats')
-                            <p class="help is-danger">{{$errors->first('seats')}}</p>
+                            <p class="help is-danger">{{$message}}</p>
                         @enderror
                     </div>
                 </div>
@@ -74,12 +74,12 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="field is-grouped">
             <div class="control">
                 <button class="button is-link" type="submit">Submit</button>
             </div>
-        </div>         
+        </div>
 </form>
 </div>
 @endsection

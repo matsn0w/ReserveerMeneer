@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\Input;
 class RestaurantController extends Controller
 {
     protected $openinghoursController;
-    public function __construct(RestaurantOpeninghoursController $controller) 
+    public function __construct(RestaurantOpeninghoursController $controller)
     {
         $this->openinghoursController = $controller;
     }
@@ -42,7 +42,7 @@ class RestaurantController extends Controller
     {
         $availableCategories = RestaurantCategory::all('name');
         $weekdays = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
-        
+
         $array = [];
         foreach($weekdays as $weekday) {
             $array[$weekday] = ["openinghour" => "00:00", "closinghour" => "00:00"];
@@ -60,7 +60,7 @@ class RestaurantController extends Controller
     public function store(Request $request)
     {
         $validatedAttributes = $this->validateRestaurant($request);
-        $restaurant = Restaurant::create($validatedAttributes);   
+        $restaurant = Restaurant::create($validatedAttributes);
         $this->openinghoursController->store($request, $restaurant);
 
         return redirect(Route('restaurants.show', $restaurant));
@@ -74,7 +74,7 @@ class RestaurantController extends Controller
      */
     public function show(Restaurant $restaurant)
     {
-        if($restaurant == null) abort(404, "Page not found"); 
+        if($restaurant == null) abort(404, "Page not found");
 
         $openingtimes = RestaurantOpeninghours::where('restaurant_id' , '=' , $restaurant->id)->get();
 
@@ -89,7 +89,7 @@ class RestaurantController extends Controller
      */
     public function edit(Restaurant $restaurant)
     {
-        $availableCategories = RestaurantCategory::all('name');
+        $availableCategories = RestaurantCategory::all();
         $openingtimes = RestaurantOpeninghours::where('restaurant_id' , '=' , $restaurant->id)->get();
 
         return view('restaurants.edit', ['restaurant' => $restaurant, 'availableCategories' => $availableCategories, 'openingtimes' => $openingtimes]);
@@ -127,26 +127,26 @@ class RestaurantController extends Controller
         return $request->validate([
             'name' => ['required', 'min:3', 'max:100'],
             'description' => ['required', 'min:1', 'max:1000'],
-            'category' => ['required', new ContainsCategory()],
+            'category_id' => ['required', 'exists:restaurant_categories,id'],
             'seats' => ['required', 'numeric', 'min:1']
         ]);
     }
 
-    
     public function applyCategoryFilter($request) {
         $filter = $request->get('filter');
         $values = array('restaurants'=>"", 'filter'=>"");
 
         if(!empty($filter)) {
-            request()->validate(['filter' => new ContainsCategory]);
-            $values['restaurants'] = Restaurant::where('category', $filter)->paginate(8);
+            request()->validate(['filter' => 'exists:restaurant_categories,id']);
+
+            $category = RestaurantCategory::where('name', $filter)->first();
+            $values['restaurants'] = Restaurant::where('category_id', $category->id)->paginate(8);
         } else {
             $values['restaurants'] = Restaurant::paginate(8);
-        } 
+        }
 
         $values['filter'] = $filter;
-        return $values; 
+        return $values;
     }
 
-    
 }

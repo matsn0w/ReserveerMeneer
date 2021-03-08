@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Restaurant;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RestaurantCategory extends Model
 {
@@ -13,4 +14,8 @@ class RestaurantCategory extends Model
         return RestaurantCategory::whereNotNull('id');
     }
 
+    public function restaurants()
+    {
+        return $this->hasMany(Restaurant::class);
+    }
 }
