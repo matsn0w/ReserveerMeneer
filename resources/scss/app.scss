@@ -3,3 +3,53 @@
 
 // Bulma
 @import 'bulma/bulma';
+
+.seats {
+    border: solid 1px $grey;
+    padding: 1em;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+
+    .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        p {
+            margin: 0;
+            font-weight: bold;
+            margin-right: 1em;
+        }
+
+        .seat {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: .3em;
+            width: 50px;
+            height: 50px;
+            background: $grey-lighter;
+            color: findColorInvert($grey-lighter);
+            overflow: hidden;
+
+            &:hover {
+                background: $grey-light;
+                color: findColorInvert($grey-light);
+                cursor: pointer;
+            }
+        }
+
+        &:nth-child(odd) {
+            .seat {
+                background: $grey-light;
+                color: findColorInvert($grey-light);
+
+                &:hover {
+                    background: $grey-lighter;
+                    color: findColorInvert($grey-lighter);
+                }
+            }
+        }
+    }
+}
