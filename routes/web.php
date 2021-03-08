@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\RestaurantController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CinemaController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\HallController;
 use App\Http\Controllers\MovieController;
-use App\Http\Controllers\CinemaController;
+use App\Http\Controllers\RestaurantController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,13 @@ Route::post('/restaurants', [RestaurantController::class, 'store']);
 Route::get('/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('restaurants.show');
 Route::get('/restaurants/{restaurant}/edit', [RestaurantController::class, 'edit'])->name('restaurants.edit');
 Route::put('/restaurants/{restaurant}', [RestaurantController::class, 'update']);
+
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
+Route::post('/events', [EventController::class, 'store']);
+Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
+Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
+Route::put('/events/{event}', [EventController::class, 'update']);
 
 Route::resource('cinemas', CinemaController::class);
 Route::resource('halls', HallController::class);
