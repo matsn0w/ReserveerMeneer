@@ -94,7 +94,11 @@ class EventController extends Controller
 
     public function validateRestaurant(Request $request) {
         return $request->validate([
-            
+            'name' => ['required', 'min:3', 'max:100'],
+            'description' => ['required', 'min:1', 'max:1000'],
+            'startdate' => ['required'],
+            'endate' => ['required', 'after:'.$request->get('startdate')],
+            'personMax' => ['required', 'numeric', 'min:1'],
         ]);
     }
 }

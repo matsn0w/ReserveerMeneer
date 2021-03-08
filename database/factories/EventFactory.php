@@ -24,11 +24,12 @@ class EventFactory extends Factory
         $eventdate = $this->faker->dateTimeBetween('now', '+2 years');
         $eventlength = $this->faker->numberBetween(1, 5);
         return [
-            'name' => $this->faker->words(2),
+            'name' => $this->faker->word() . ' ' . $this->faker->word(),
             'description' => $this->faker->text(),
-            'startdate' => date('Y-m-d', $eventdate),
-            'enddate' => date('Y-m-d', strtotime($eventdate. ` + $eventlength days`)),
+            'startdate' => date('Y-m-d', $eventdate->getTimestamp()),
+            'enddate' => date('Y-m-d', $eventdate->modify('+'.$eventlength.' day')->getTimestamp()),
             'personMax' => $this->faker->numberBetween(5, 20)
         ];
+
     }
 }
