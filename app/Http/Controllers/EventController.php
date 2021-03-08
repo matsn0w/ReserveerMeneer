@@ -35,8 +35,8 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedAttributes = $this->validateRestaurant($request);
-        $event = Restaurant::create($validatedAttributes);   
+        $validatedAttributes = $this->validateEvent($request);
+        $event = Event::create($validatedAttributes);   
 
         return redirect(Route('event.show', $event));
     }
@@ -92,7 +92,7 @@ class EventController extends Controller
         return redirect('events')->with('flash_message', 'Post deleted!');
     }
 
-    public function validateRestaurant(Request $request) {
+    public function validateEvent(Request $request) {
         return $request->validate([
             'name' => ['required', 'min:3', 'max:100'],
             'description' => ['required', 'min:1', 'max:1000'],
