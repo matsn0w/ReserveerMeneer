@@ -2,17 +2,19 @@
 
 namespace Database\Factories;
 
+use App\Models\Hall;
 use App\Models\Movie;
+use App\Models\FilmEvent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class MovieFactory extends Factory
+class FilmEventFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Movie::class;
+    protected $model = FilmEvent::class;
 
     /**
      * Define the model's default state.
@@ -22,8 +24,9 @@ class MovieFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->sentence(3),
-            'duration' => $this->faker->numberBetween(60, 270)
+            'hall_id' => Hall::inRandomOrder()->first(),
+            'movie_id' => Movie::inRandomOrder()->first(),
+            'start' => $this->faker->dateTimeThisMonth()
         ];
     }
 }

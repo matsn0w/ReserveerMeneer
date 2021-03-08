@@ -16,7 +16,14 @@ class CreateMoviesTable extends Migration
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('duration'); // in minutes
             $table->timestamps();
+        });
+
+        Schema::create('cinema_movie', function (Blueprint $table) {
+            $table->foreignId('cinema_id')->constrained();
+            $table->foreignId('movie_id')->constrained();
+            $table->unique(['cinema_id', 'movie_id']);
         });
     }
 
@@ -28,5 +35,6 @@ class CreateMoviesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('movies');
+        Schema::dropIfExists('cinema_movie');
     }
 }

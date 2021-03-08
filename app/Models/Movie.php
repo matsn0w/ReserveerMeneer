@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Cinema;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Movie extends Model
 {
@@ -12,4 +13,9 @@ class Movie extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function cinemas()
+    {
+        return $this->belongsToMany(Cinema::class);
+    }
 }

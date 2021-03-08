@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Database\Seeders\MovieSeeder;
 use Database\Seeders\CinemaSeeder;
+use Database\Seeders\FilmEventSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,5 +18,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(CinemaSeeder::class);
         $this->call(MovieSeeder::class);
+        $this->call(FilmEventSeeder::class);
     }
 }
