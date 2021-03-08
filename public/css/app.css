@@ -10224,3 +10224,48 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem;
 }
+
+.seats {
+  border: solid 1px #7a7a7a;
+  padding: 1em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+.seats .row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.seats .row p {
+  margin: 0;
+  font-weight: bold;
+  margin-right: 1em;
+}
+.seats .row .seat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.3em;
+  width: 50px;
+  height: 50px;
+  background: #dbdbdb;
+  color: rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+.seats .row .seat:hover {
+  background: #b5b5b5;
+  color: #fff;
+  cursor: pointer;
+}
+.seats .row:nth-child(odd) .seat {
+  background: #b5b5b5;
+  color: #fff;
+}
+.seats .row:nth-child(odd) .seat:hover {
+  background: #dbdbdb;
+  color: rgba(0, 0, 0, 0.7);
+}

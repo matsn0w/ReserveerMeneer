@@ -17,7 +17,9 @@
     <section class="section">
         <h1 class="title">{{ $title }}</h1>
 
-        @yield('content')
+        <div class="content">
+            @yield('content')
+        </div>
     </section>
 </body>
 </html>
