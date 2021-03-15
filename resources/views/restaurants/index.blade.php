@@ -10,12 +10,11 @@
             <div class="control select">
                 <select name="filter" id="filter" for="filter">
                     <option value="" selected></option>
+
                     @foreach ($availableCategories as $category)
-                        <option value="{{$category->name}}"
-                            @if($filter == $category->name) 
-                                            selected
-                            @endif
-                            >{{$category->name}}</option>
+                        <option value="{{$category->name}}" @if ($filter == $category->name) selected @endif>
+                            {{$category->name}}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -29,7 +28,7 @@
             @error('filter')
                 <p class="help is-danger">{{$errors->first('filter')}}</p>
             @enderror
-            
+
         </div>
     </form>
 
@@ -44,10 +43,8 @@
 
                         <div class="card-content">
                             <div class="content">
-                                <p><strong>Categorie:</strong> {{$restaurant->category}}</p>
-                                <p>
-                                    {{$restaurant->description}}
-                                </p>
+                                <p><strong>Categorie:</strong> {{$restaurant->category->name}}</p>
+                                <p>{{$restaurant->description}}</p>
                             </div>
                         </div>
 
