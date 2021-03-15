@@ -18,6 +18,10 @@
 
                     <p class="is-size-4"><strong>Category:</strong> {{$restaurant->category->name}}</p>
                     <p class="is-size-4"><strong>Zitplaatsen: </strong>{{$restaurant->seats}}</p>
+
+                    <button class="button is-primary">Reserveren</button>
+                    <!-- Authorisatie en Authenticatie op bewerken -->
+                    <button class="button is-warning">Bewerken</button>
                 </div>
             </div>
             <div class="tile is-3 is-vertical is-parent">
