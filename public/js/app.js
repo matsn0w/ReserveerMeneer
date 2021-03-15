@@ -1842,6 +1842,8 @@ module.exports = {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+__webpack_require__(/*! ./logout */ "./resources/js/logout.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -1872,6 +1874,26 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/logout.js":
+/*!********************************!*\
+  !*** ./resources/js/logout.js ***!
+  \********************************/
+/***/ (() => {
+
+var logoutForm = document.forms.namedItem('logout-form');
+var logoutButtons = document.querySelectorAll('*[data-action="logout"]');
+
+if (logoutForm && logoutButtons) {
+  logoutButtons.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      logoutForm.submit();
+    });
+  });
+}
 
 /***/ }),
 
