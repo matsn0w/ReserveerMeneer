@@ -23,9 +23,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::resource('restaurants', RestaurantController::class);
-
 Route::resource('events', EventController::class);
-
 Route::resource('cinemas', CinemaController::class);
 Route::resource('halls', HallController::class);
 Route::resource('movies', MovieController::class);

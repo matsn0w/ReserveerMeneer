@@ -4,19 +4,19 @@
 
 @section('content')
     <div class="block">
-        <a href="{{ route('events.create') }}">Nieuwe zaal</a>
+        <a href="{{ route('restaurants.create') }}">Nieuw restaurant</a>
     </div>
 
-    <form class="mb-5" method="get" action="/restaurants/">
+    <form class="mb-5" method="get">
         <label class="label" for="filter">Filter: </label>
-        <div class="field is-grouped">
 
+        <div class="field is-grouped">
             <div class="control select">
                 <select name="filter" id="filter" for="filter">
-                    <option value="" selected></option>
+                    <option value=""></option>
 
                     @foreach ($availableCategories as $category)
-                        <option value="{{$category->name}}" @if ($filter == $category->name) selected @endif>
+                        <option value="{{$category->id}}" @if ($filter == $category->id) selected @endif>
                             {{$category->name}}
                         </option>
                     @endforeach
@@ -32,11 +32,10 @@
             @error('filter')
                 <p class="help is-danger">{{$errors->first('filter')}}</p>
             @enderror
-
         </div>
     </form>
 
-    @foreach($restaurants->chunk(4) as $chunk)
+    @forelse($restaurants->chunk(4) as $chunk)
         <div class="columns">
             @foreach($chunk as $restaurant)
                 <div class="column">
@@ -60,7 +59,9 @@
                 </div>
             @endforeach
         </div>
-    @endforeach
+    @empty
+        <p>Geen restaurants gevonden.</p>
+    @endforelse
 
     {{ $restaurants->links('vendor.pagination.bulma') }}
 @endsection
