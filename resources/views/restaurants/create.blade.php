@@ -38,7 +38,7 @@
                                 </div>
                                 
                                 @error('category')
-                                        <p class="help is-danger">{{$errors->first('category')}}</p>
+                                        <p class="help is-danger">{{$message}}</p>
                                  @enderror
                             </div>
             
@@ -52,7 +52,7 @@
                                         id="description"> {{ old('description') }} </textarea>
             
                                     @error('description')
-                                        <p class="help is-danger">{{$errors->first('description')}}</p>
+                                        <p class="help is-danger">{{$message}}</p>
                                     @enderror
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                         value="{{ old('seats') }}">
             
                                     @error('seats')
-                                        <p class="help is-danger">{{$errors->first('seats')}}</p>
+                                        <p class="help is-danger">{{$message}}</p>
                                     @enderror
                                 </div>
                             </div>

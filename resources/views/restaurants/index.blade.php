@@ -3,6 +3,10 @@
 ])
 
 @section('content')
+    <div class="block">
+        <a href="{{ route('events.create') }}">Nieuwe zaal</a>
+    </div>
+
     <form class="mb-5" method="get" action="/restaurants/">
         <label class="label" for="filter">Filter: </label>
         <div class="field is-grouped">
