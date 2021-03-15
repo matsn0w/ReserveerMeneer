@@ -14,12 +14,25 @@
     @yield('scripts')
 </head>
 <body>
-    <section class="section">
-        <h1 class="title">{{ $title }}</h1>
+    <x-navbar />
 
-        <div class="content">
-            @yield('content')
+    <div class="container">
+        <section class="section">
+            <h1 class="title">{{ $title }}</h1>
+
+            <div class="content">
+                @yield('content')
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="has-text-centered">
+                <p>&copy; {{ date('Y') }} Niels van Hal en Bart Scholtus</p>
+                <a href="https://github.com/matsn0w/ReserveerMeneer" target="_blank">GitHub</a>
+            </div>
         </div>
-    </section>
+    </footer>
 </body>
 </html>

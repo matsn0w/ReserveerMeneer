@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
 Route::get('/restaurants', [RestaurantController::class, 'index'])->name('restaurants.index');
 Route::post('/restaurants/{filter?}', [RestaurantController::class, 'applyFilter']);
