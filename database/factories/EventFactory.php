@@ -28,7 +28,7 @@ class EventFactory extends Factory
             'description' => $this->faker->text(),
             'startdate' => date('Y-m-d', $eventdate->getTimestamp()),
             'enddate' => date('Y-m-d', $eventdate->modify('+'.$eventlength.' day')->getTimestamp()),
-            'personMax' => $this->faker->numberBetween(5, 20)
+            'maxPerPerson' => $this->faker->numberBetween(5, 20)
         ];
 
     }

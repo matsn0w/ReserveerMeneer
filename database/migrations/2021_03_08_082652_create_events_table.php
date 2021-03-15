@@ -19,7 +19,7 @@ class CreateEventsTable extends Migration
             $table->text('description');
             $table->date('startdate');
             $table->date('enddate');
-            $table->integer('personMax');
+            $table->integer('maxPerPerson');
             $table->timestamps();
         });
     }

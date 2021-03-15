@@ -22,20 +22,9 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/restaurants', [RestaurantController::class, 'index'])->name('restaurants.index');
-Route::post('/restaurants/{filter?}', [RestaurantController::class, 'applyFilter']);
-Route::get('/restaurants/create', [RestaurantController::class, 'create'])->name('restaurants.create');
-Route::post('/restaurants', [RestaurantController::class, 'store']);
-Route::get('/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('restaurants.show');
-Route::get('/restaurants/{restaurant}/edit', [RestaurantController::class, 'edit'])->name('restaurants.edit');
-Route::put('/restaurants/{restaurant}', [RestaurantController::class, 'update']);
+Route::resource('restaurants', RestaurantController::class);
 
-Route::get('/events', [EventController::class, 'index'])->name('events.index');
-Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
-Route::post('/events', [EventController::class, 'store']);
-Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
-Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
-Route::put('/events/{event}', [EventController::class, 'update']);
+Route::resource('events', EventController::class);
 
 Route::resource('cinemas', CinemaController::class);
 Route::resource('halls', HallController::class);

@@ -16,7 +16,7 @@ class EventController extends Controller
     {
         $events = Event::paginate(8);
 
-        return view('events.index', $events);
+        return view('events.index', ['events' => $events]);
     }
 
     /**
@@ -64,7 +64,7 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        return view('events.edit', ['restaurant' => $event]);
+        return view('events.edit', ['event' => $event]);
     }
 
     /**
