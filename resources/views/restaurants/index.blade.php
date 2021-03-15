@@ -42,7 +42,7 @@
                 <div class="column">
                     <div class="card mb-3">
                         <header class="card-header">
-                            <h3 class="card-header-title">{{ $restaurant->name }}</h3>
+                            <p class="card-header-title">{{ $restaurant->name }}</p>
                         </header>
 
                         <div class="card-content">
