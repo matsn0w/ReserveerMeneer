@@ -5,6 +5,8 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\HallController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\RestaurantReservationController;
+use App\Models\RestaurantReservation;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +25,7 @@ Route::get('/', function () {
 });
 
 Route::resource('restaurants', RestaurantController::class);
+Route::get('/restaurants/{id}/reserve', [RestaurantReservationController::class, 'index']);
 
 Route::resource('events', EventController::class);
 
