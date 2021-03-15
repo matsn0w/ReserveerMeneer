@@ -4,22 +4,21 @@
 
 @section('content')
     <div class="block">
-        <a href="{{ route('events.create') }}">Nieuwe zaal</a>
+        <a href="{{ route('restaurants.create') }}">Nieuw restaurant</a>
     </div>
 
-    <form class="mb-5" method="get" action="/restaurants/">
+    <form class="mb-5" method="get">
         <label class="label" for="filter">Filter: </label>
-        <div class="field is-grouped">
 
+        <div class="field is-grouped">
             <div class="control select">
                 <select name="filter" id="filter" for="filter">
-                    <option value="" selected></option>
+                    <option value=""></option>
+
                     @foreach ($availableCategories as $category)
-                        <option value="{{$category->name}}"
-                            @if($filter == $category->name) 
-                                            selected
-                            @endif
-                            >{{$category->name}}</option>
+                        <option value="{{$category->id}}" @if ($filter == $category->id) selected @endif>
+                            {{$category->name}}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -33,25 +32,22 @@
             @error('filter')
                 <p class="help is-danger">{{$errors->first('filter')}}</p>
             @enderror
-            
         </div>
     </form>
 
-    @foreach($restaurants->chunk(4) as $chunk)
+    @forelse($restaurants->chunk(4) as $chunk)
         <div class="columns">
             @foreach($chunk as $restaurant)
                 <div class="column">
                     <div class="card mb-3">
                         <header class="card-header">
-                            <h3 class="card-header-title">{{ $restaurant->name }}</h3>
+                            <p class="card-header-title">{{ $restaurant->name }}</p>
                         </header>
 
                         <div class="card-content">
                             <div class="content">
-                                <p><strong>Categorie:</strong> {{$restaurant->category}}</p>
-                                <p>
-                                    {{$restaurant->description}}
-                                </p>
+                                <p><strong>Categorie:</strong> {{$restaurant->category->name}}</p>
+                                <p>{{$restaurant->description}}</p>
                             </div>
                         </div>
 
@@ -65,7 +61,9 @@
                 </div>
             @endforeach
         </div>
-    @endforeach
+    @empty
+        <p>Geen restaurants gevonden.</p>
+    @endforelse
 
     {{ $restaurants->links('vendor.pagination.bulma') }}
 @endsection

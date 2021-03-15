@@ -22,13 +22,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
 Route::resource('restaurants', RestaurantController::class);
 Route::get('/restaurants/{id}/reserve', [RestaurantReservationController::class, 'index']);
 
 Route::resource('events', EventController::class);
-
 Route::resource('cinemas', CinemaController::class);
 Route::resource('halls', HallController::class);
 Route::resource('movies', MovieController::class);

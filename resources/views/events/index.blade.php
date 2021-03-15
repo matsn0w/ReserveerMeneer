@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="block">
-        <a href="{{ route('events.create') }}">Nieuwe zaal</a>
+        <a href="{{ route('events.create') }}">Nieuw evenement</a>
     </div>
 
     @foreach($events->chunk(4) as $chunk)

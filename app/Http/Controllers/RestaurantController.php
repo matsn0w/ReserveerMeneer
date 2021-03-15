@@ -26,11 +26,18 @@ class RestaurantController extends Controller
      */
     public function index(Request $request)
     {
-        $availableCategories = RestaurantCategory::all('name');
+        $availableCategories = RestaurantCategory::all();
+
+        // we assume there is no filter set
+        $request['filter'] = null;
 
         $values = $this->applyCategoryFilter($request);
 
-        return view('restaurants.index', ['restaurants' => $values['restaurants'], 'availableCategories' => $availableCategories, 'filter' => $values['filter']]);
+        return view('restaurants.index', [
+            'restaurants' => $values['restaurants'],
+            'availableCategories' => $availableCategories,
+            'filter' => $values['filter']]
+        );
     }
 
     /**
@@ -40,7 +47,7 @@ class RestaurantController extends Controller
      */
     public function create()
     {
-        $availableCategories = RestaurantCategory::all('name');
+        $availableCategories = RestaurantCategory::all();
         $weekdays = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
 
         $array = [];
@@ -59,11 +66,14 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
+        // validate the request
         $validatedAttributes = $this->validateRestaurant($request);
+
+        // create the restaurant
         $restaurant = Restaurant::create($validatedAttributes);
         $this->openinghoursController->store($request, $restaurant);
 
-        return redirect(Route('restaurants.show', $restaurant));
+        return redirect()->route('restaurants.show', $restaurant);
     }
 
     /**
@@ -74,11 +84,12 @@ class RestaurantController extends Controller
      */
     public function show(Restaurant $restaurant)
     {
-        if($restaurant == null) abort(404, "Page not found");
-
         $openingtimes = RestaurantOpeninghours::where('restaurant_id' , '=' , $restaurant->id)->get();
 
-        return view('restaurants.show', ['restaurant' => $restaurant, 'openingtimes' => $openingtimes]);
+        return view('restaurants.show', [
+            'restaurant' => $restaurant,
+            'openingtimes' => $openingtimes
+        ]);
     }
 
     /**
@@ -92,7 +103,11 @@ class RestaurantController extends Controller
         $availableCategories = RestaurantCategory::all();
         $openingtimes = RestaurantOpeninghours::where('restaurant_id' , '=' , $restaurant->id)->get();
 
-        return view('restaurants.edit', ['restaurant' => $restaurant, 'availableCategories' => $availableCategories, 'openingtimes' => $openingtimes]);
+        return view('restaurants.edit', [
+            'restaurant' => $restaurant,
+            'availableCategories' => $availableCategories,
+            'openingtimes' => $openingtimes
+        ]);
     }
 
     /**
@@ -104,11 +119,14 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, Restaurant $restaurant)
     {
+        // validate the request
         $validatedAttributes = $this->validateRestaurant($request);
+
+        // update the restaurant
         $restaurant->update($validatedAttributes);
         $this->openinghoursController->update($request, $restaurant);
 
-        return redirect(Route('restaurants.show', $restaurant));
+        return redirect()->route('restaurants.show', $restaurant);
     }
 
     /**
@@ -119,8 +137,10 @@ class RestaurantController extends Controller
      */
     public function destroy(Restaurant $restaurant)
     {
-        Restaurant::destroy($restaurant);
-        return redirect('restaurants')->with('flash_message', 'Post deleted!');
+        // delete the restaurant
+        $restaurant->delete();
+
+        return redirect('restaurants')->with('flash_message', 'Restaurant verwijderd!');
     }
 
     public function validateRestaurant(Request $request) {
@@ -128,25 +148,31 @@ class RestaurantController extends Controller
             'name' => ['required', 'min:3', 'max:100'],
             'description' => ['required', 'min:1', 'max:1000'],
             'category_id' => ['required', 'exists:restaurant_categories,id'],
-            'seats' => ['required', 'numeric', 'min:1']
+            'seats' => ['required', 'integer', 'min:1', 'max:1000']
         ]);
     }
 
     public function applyCategoryFilter($request) {
-        $filter = $request->get('filter');
-        $values = array('restaurants'=>"", 'filter'=>"");
+        $validated = $request->validate([
+            'filter' => ['nullable', 'exists:restaurant_categories,id']
+        ]);
 
-        if(!empty($filter)) {
-            request()->validate(['filter' => 'exists:restaurant_categories,id']);
+        $filter = $validated['filter'];
 
-            $category = RestaurantCategory::where('name', $filter)->first();
-            $values['restaurants'] = Restaurant::where('category_id', $category->id)->paginate(8);
-        } else {
+        $values = array('restaurants' => "", 'filter' => "");
+
+        if (empty($filter)) {
+            // when no filter is set
             $values['restaurants'] = Restaurant::paginate(8);
+        } else {
+            // find the category
+            $category = RestaurantCategory::where('id', $filter)->firstOrFail();
+
+            // get the restaurants
+            $values['restaurants'] = Restaurant::where('category_id', $category->id)->paginate(8);
+            $values['filter'] = $filter;
         }
 
-        $values['filter'] = $filter;
         return $values;
     }
-
 }
