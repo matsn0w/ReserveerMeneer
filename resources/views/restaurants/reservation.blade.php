@@ -59,7 +59,7 @@
                                 <label class="label" for="groupsize">Aantal personen</label>
                             
                                 <div class="control">
-                                    <input class="input" min="1" max="{{$restaurant->seats}}" type="number" name="groupsize" id="groupsize" value="{{old('groupsize')}}">
+                                    <input class="input" min="1" max="" type="number" name="groupsize" id="groupsize" value="{{old('groupsize')}}">
                                 </div>
                             
                                 @error('groupsize')
