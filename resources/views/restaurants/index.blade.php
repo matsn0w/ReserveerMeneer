@@ -52,7 +52,7 @@
                         </div>
 
                         <footer class="card-footer">
-                            <a class="card-footer-item" href="{{ route('restaurantsreservation.index', $restaurant) }}">Reserveren</a>
+                            <a class="card-footer-item" href="{{ route('restaurantreservations.reserve', $restaurant->id) }}">Reserveren</a>
                             <a class="card-footer-item" href="{{ route('restaurants.show', $restaurant) }}">Bekijken</a>
                             <!-- Authorisatie en Authenticatie op bewerken -->
                             <a class="card-footer-item" href="{{ route('restaurants.edit', $restaurant) }}">Bewerken</a>

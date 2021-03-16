@@ -15,11 +15,13 @@ class CreateEventReservationsTable extends Migration
     {
         Schema::create('event_reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('event_id')->constrained();
-            $table->foreignId('personal_data_id')->constrained();
+            $table->foreignId('event_id')->constrained('events');
+            $table->foreignId('personal_data_id')->constrained('personal_data');
             $table->date('ticketstart');
             $table->date('ticketend');
             $table->timestamps();
+
+
         });
     }
 

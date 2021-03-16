@@ -15,8 +15,8 @@ class CreateMovieReservationsTable extends Migration
     {
         Schema::create('movie_reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('movie_id')->constrained();
-            $table->foreignId('personal_data_id')->constrained();
+            $table->foreignId('movie_id')->constrained('movies');
+            $table->foreignId('personal_data_id')->constrained('personal_data');
             $table->timestamps();
         });
     }
