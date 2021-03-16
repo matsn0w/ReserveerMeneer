@@ -14,8 +14,9 @@ class RestaurantReservationController extends Controller
      * @param  \App\Models\RestaurantReservation  $restaurantReservation
      * @return \Illuminate\Http\Response
      */
-    public function index(Restaurant $restaurant)
+    public function Reserve($id)
     {
+        $restaurant = Restaurant::find('id', $id);
         return view('restaurants.reservation', ['restaurant' => $restaurant]);
     }
 

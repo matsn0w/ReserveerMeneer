@@ -25,7 +25,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::resource('restaurants', RestaurantController::class);
-Route::get('/restaurants/{id}/reserve', [RestaurantReservationController::class, 'index']);
+Route::get('/restaurants/{id}/reserve', [RestaurantReservationController::class, 'reserve']);
 
 Route::resource('events', EventController::class);
 Route::resource('cinemas', CinemaController::class);
