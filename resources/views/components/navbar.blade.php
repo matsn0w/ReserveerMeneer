@@ -21,18 +21,19 @@
                 <a class="navbar-item" href="{{ route('halls.index') }}">Zalen</a>
             </div>
 
-            {{-- TODO: add later --}}
-            {{-- <div class="navbar-end">
+            <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-primary">
-                            <strong>Sign up</strong>
-                        </a>
+                        @auth
+                            <a data-action="logout" class="button is-link" href="{{ route('logout') }}">Log uit</a>
+                        @endauth
 
-                        <a class="button is-light">Log in</a>
+                        @guest
+                            <a class="button is-link" href="{{ route('login') }}">Log in</a>
+                        @endguest
                     </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
     </div>
 </nav>
