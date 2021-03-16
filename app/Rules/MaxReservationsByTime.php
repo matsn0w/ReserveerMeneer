@@ -34,7 +34,8 @@ class MaxReservationsByTime implements Rule
         $this->to = date('H:i', ceil(strtotime($value) / (30 * 60)) * (30 * 60));
 
         $reservations_in_timeslot = RestaurantReservation::where('date', $this->date)->whereBetween('time', [$this->from, $this->to])->get();
-        dd($reservations_in_timeslot);
+
+        return count($reservations_in_timeslot) < 10;
     }
 
     /**
@@ -44,7 +45,7 @@ class MaxReservationsByTime implements Rule
      */
     public function message()
     {
-        return `The timeslot $this->from - $this->to is full.`;
+        return 'The timeslot '. $this->from.' - '.$this->to.'for the chosen date is full.';
     }
 
 }

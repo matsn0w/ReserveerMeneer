@@ -53,9 +53,8 @@ class RestaurantReservationController extends Controller
         $validatedReservation = $this->validateReservation($request, $restaurant);
         $validatedReservation['restaurant_id'] = $restaurant->id;
         $validatedReservation['personal_data_id'] = $personal_data_id;
-        dd($validatedReservation);
 
-        // RestaurantReservation::create();
+        RestaurantReservation::create($validatedReservation);
 
         return redirect()->route('home');
 
