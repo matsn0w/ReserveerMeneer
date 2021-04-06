@@ -1,5 +1,5 @@
 
-<div class="field">
+{{-- <div class="field">
     <label class="label" for="firstname">Voornaam</label>
 
     <div class="control">
@@ -45,29 +45,64 @@
     @error('phonenumber')
         <p class="help is-danger">{{$message}}</p>
     @enderror
-</div>  
+</div>   --}}
 
 <div class="field">
-    <label class="label" for="postalcode">Postcode</label>
+    <label class="label" for="postal_code">Postcode</label>
 
     <div class="control">
-        <input class="input" type="text" name="postalcode" id="postalcode" value="" required>
+        <input class="input" type="text" name="postal_code" id="postal_code" value="" required>
     </div>
 
-    @error('postalcode')
+    @error('postal_code')
         <p class="help is-danger">{{$message}}</p>
     @enderror
 </div>
 
 <div class="field">
-    <label class="label" for="housenumber">Huisnummer</label>
+    <label class="label" for="street_name">Straatnaam</label>
 
     <div class="control">
-        <input class="input" type="text" name="housenumber" id="housenumber" value="" required>
+        <input class="input" type="text" name="street_name" id="street_name" value="" required>
     </div>
 
-    @error('housenumber')
+    @error('street_name')
         <p class="help is-danger">{{$message}}</p>
     @enderror
 </div>
 
+<div class="field">
+    <label class="label" for="house_number">Huisnummer</label>
+
+    <div class="control">
+        <input class="input" type="text" name="house_number" id="house_number" value="" required>
+    </div>
+
+    @error('house_number')
+        <p class="help is-danger">The given housenumber is not a valid format</p>
+    @enderror
+</div>
+
+<div class="field">
+    <label class="label" for="city">Plaatsnaam</label>
+
+    <div class="control">
+        <input class="input" type="text" name="city" id="city" value="" required>
+    </div>
+
+    @error('city')
+        <p class="help is-danger">{{$message}}</p>
+    @enderror
+</div>
+
+<div class="field">
+    <label class="label" for="country">Land</label>
+
+    <div class="control">
+        <input class="input" type="text" name="country" id="country" value="" required>
+    </div>
+
+    @error('country')
+        <p class="help is-danger">{{$message}}</p>
+    @enderror
+</div>

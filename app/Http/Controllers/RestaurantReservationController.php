@@ -7,12 +7,18 @@ use DB;
 use Illuminate\Http\Request;
 use App\Models\RestaurantReservation;
 use App\Models\RestaurantOpeninghours;
+use App\Repositories\ReservationRepository;
 use App\Rules\MaxReservationsByTime;
-
-use function PHPUnit\Framework\isEmpty;
 
 class RestaurantReservationController extends Controller
 {
+    private $reservationRepository;
+
+    public function __construct()
+    {
+        $this->reservationRepository = new ReservationRepository;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -47,29 +53,17 @@ class RestaurantReservationController extends Controller
 
         if($restaurant == null) {abort(404, "Restaurant not found");}
 
-        $validatedPersonalia = $this->validatePersonalData($request);
-        $personal_data_id = DB::table('personal_data')->insertGetId($validatedPersonalia);
-
         $validatedReservation = $this->validateReservation($request, $restaurant);
         $validatedReservation['restaurant_id'] = $restaurant->id;
-        $validatedReservation['personal_data_id'] = $personal_data_id;
-
-        RestaurantReservation::create($validatedReservation);
+        
+        $validatedAddress = $this->validateAddress($request);
+        
+        $this->reservationRepository->create($validatedReservation, $validatedAddress, 'restaurant');
 
         return redirect()->route('home');
-
     }
 
-    public function validatePersonalData(Request $request) {
-        return $request->validate([
-            'firstname' => ['required'],
-            'lastname' => ['required'],
-            'email' => ['required', 'email'],
-            'phonenumber' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:7'],
-            'postalcode' => ['required'],
-            'housenumber' => ['required', 'regex:/^\d+[a-zA-Z]*$/'],
-        ]);
-    }
+    
 
     public function validateReservation(Request $request, Restaurant $restaurant) {
         
@@ -78,6 +72,17 @@ class RestaurantReservationController extends Controller
             'time' => ['required', new MaxReservationsByTime($request->get('date'))],
             'groupsize' => ['required', 'integer', 'min:1', 'max:'.$restaurant->seats],
             //check if id's exist
+        ]);
+    }
+
+    //Move to common location
+    public function validateAddress(Request $request) {
+        return $request->validate([
+            'postal_code' => ['required'],
+            'street_name' => ['required'],
+            'house_number' => ['required', 'regex:/^\d+[a-zA-Z]*$/'],
+            'city' => ['required'],
+            'country' => ['required']
         ]);
     }
 }

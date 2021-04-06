@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePersonalDataTable extends Migration
+class CreateAddressesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreatePersonalDataTable extends Migration
      */
     public function up()
     {
-        Schema::create('personal_data', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('email');
-            $table->string('phonenumber');
-            $table->string('postalcode');
-            $table->string('housenumber');
+            $table->string('postal_code');
+            $table->string('street_name');
+            $table->string('house_number');
+            $table->string('city');
+            $table->string('country');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreatePersonalDataTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('personal_data');
+        Schema::dropIfExists('addresses');
     }
 }

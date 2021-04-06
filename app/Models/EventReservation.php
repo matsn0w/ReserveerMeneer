@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class EventReservation extends Model
 {
     use HasFactory;
+
+    public function addresses() {
+        return $this->belongsTo(Address::class);
+    }
+
+    public function reservation() {
+        return $this->morphOne(Reservation::class, 'related', 'reservations');
+    }
 }

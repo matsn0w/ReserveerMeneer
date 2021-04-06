@@ -19,7 +19,7 @@
 
                     <div class="is-flex is-justify-content-space-between">
                         <div class="column is-two-fifths p-0 pt-3">
-                            @include('components.personal-data-form')
+                            @include('components.address-form')
                         </div>
 
                         <div class="column is-half p-0 pt-3">
