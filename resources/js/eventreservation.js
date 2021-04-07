@@ -2,12 +2,11 @@ let select = document.querySelector('select#tickettype');
 select.selectedIndex = -1;
 let eventstart = new Date(document.querySelector('input#startdate').min);
 let eventend = new Date(document.querySelector('input#startdate').max);
+let startinput = document.querySelector('input#startdate');
+let endinput = document.querySelector('input#enddate');
+let enddisplay = document.querySelector('input#enddate_display');
 
 select.addEventListener('change', () => {
-    let startinput = document.querySelector('input#startdate');
-    let endinput = document.querySelector('input#enddate');
-    let enddisplay = document.querySelector('input#enddate_display');
-
     startinput.value = getDateString(eventstart);
 
     switch (select.value) {
@@ -15,14 +14,14 @@ select.addEventListener('change', () => {
             startinput.min = getDateString(eventstart);
             startinput.max = getDateString(eventend);
             startinput.disabled = false;
-            endinput.value = getDateString(getNewDate(eventstart, 1));
+            endinput.value = getDateString(eventstart);
             enddisplay.value = endinput.value
             break;
         case '2':
             startinput.min = getDateString(eventstart);
             startinput.max = getDateString(getNewDate(eventend, -1));
             startinput.disabled = false;
-            endinput.value = getDateString(getNewDate(eventstart, 2));
+            endinput.value = getDateString(getNewDate(eventstart, 1));
             enddisplay.value = endinput.value
             break;
         case 'full':
@@ -34,6 +33,37 @@ select.addEventListener('change', () => {
             break;
     }
 })
+
+startinput.addEventListener('input', () => {
+    let input = new Date(startinput.value);
+    let min = new Date(startinput.min);
+    let max = new Date(startinput.max);
+
+    
+    if (input == "Invalid Date") return;
+    if (input < min || input > max) {
+        endinput.value = "0000:00:00"
+        enddisplay.value = ""
+        return;
+    }
+    
+    switch (select.value) {
+        case '1':
+            endinput.value = getDateString(input);
+            enddisplay.value = endinput.value
+            break;
+        case '2':
+            endinput.value = getDateString(getNewDate(input, 1));
+            enddisplay.value = endinput.value
+            break;
+        case 'full':
+            endinput.value = getDateString(eventend);
+            enddisplay.value = endinput.value
+            break;
+    }
+})
+
+
 
 function getDateString(date) {
     let str = `${date.getFullYear()}-`

@@ -72,6 +72,7 @@ class RestaurantReservationController extends Controller
             'time' => ['required', new MaxReservationsByTime($request->get('date'))],
             'groupsize' => ['required', 'integer', 'min:1', 'max:'.$restaurant->seats],
             //check if id's exist
+            //check if there is still space for the groupsize
         ]);
     }
 
