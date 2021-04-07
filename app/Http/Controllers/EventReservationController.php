@@ -3,28 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\EventReservation;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class EventReservationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function Reserve($id)
     {
-        //
-    }
+        $event = Event::find($id);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        if($event == null) {
+            abort(404, "Restaurant not found");
+        }
+        
+        return view('events.reservation', [
+            'event' => $event,
+        ]);
     }
 
     /**
@@ -35,51 +29,6 @@ class EventReservationController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\EventReservation  $eventReservation
-     * @return \Illuminate\Http\Response
-     */
-    public function show(EventReservation $eventReservation)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\EventReservation  $eventReservation
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(EventReservation $eventReservation)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\EventReservation  $eventReservation
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, EventReservation $eventReservation)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\EventReservation  $eventReservation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(EventReservation $eventReservation)
-    {
-        //
+        dd($request);
     }
 }
