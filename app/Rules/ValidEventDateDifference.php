@@ -31,8 +31,8 @@ class ValidEventDateDifference implements Rule
     {
         $days = $this->startdate->diff($this->enddate)->days;
         $fullevent =  $this->eventstart->diff($this->eventend)->days;
-        
-        if($days == 1 || $days == 2 || $days == $fullevent) {
+
+        if ($days == 1 || $days == 2 || $days == $fullevent) {
             return true;
         }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\FilmEvent;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -15,8 +16,12 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::paginate(8);
+        $films = FilmEvent::paginate(8);
 
-        return view('events.index', ['events' => $events]);
+        return view('events.index', [
+            'events' => $events,
+            'films' => $films
+        ]);
     }
 
     /**
@@ -51,8 +56,6 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        if($event == null) abort(404, "Page not found");
-
         return view('events.show', ['event' => $event]);
     }
 
@@ -91,7 +94,7 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         Event::destroy($event);
-        return redirect('events')->with('flash_message', 'Post deleted!');
+        return redirect('events')->with('flash_message', 'Event deleted!');
     }
 
     public function validateEvent(Request $request) {

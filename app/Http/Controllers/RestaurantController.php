@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\Input;
 class RestaurantController extends Controller
 {
     protected $openinghoursController;
+
     public function __construct(RestaurantOpeninghoursController $controller)
     {
         $this->openinghoursController = $controller;
@@ -51,7 +52,7 @@ class RestaurantController extends Controller
         $weekdays = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
 
         $array = [];
-        foreach($weekdays as $weekday) {
+        foreach ($weekdays as $weekday) {
             $array[$weekday] = ["openinghour" => "00:00", "closinghour" => "00:00"];
         }
 

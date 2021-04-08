@@ -45,7 +45,7 @@ class MaxReservationsByTime implements Rule
      */
     public function message()
     {
-        return 'The timeslot '. $this->from.' - '.$this->to.'for the chosen date is full.';
+        return "The timeslot $this->from - $this->tofor the chosen date is full.";
     }
 
 }
