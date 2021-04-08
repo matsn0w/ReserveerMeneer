@@ -9,7 +9,7 @@ class EventReservation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['event_id', 'startdate', 'enddate', 'ticketamount'];
+    protected $fillable = ['event_id', 'file_id', 'startdate', 'enddate', 'ticketamount'];
 
     public function addresses() {
         return $this->belongsTo(Address::class);

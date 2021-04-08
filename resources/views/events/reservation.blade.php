@@ -19,7 +19,7 @@
                     <strong>Maximaal aantal tickets per persoon:</strong> {{ $event->maxPerPerson }}</a>
                 </p>
 
-                <form method="POST" action="/events/{{$event->id}}/reserve">
+                <form method="POST" action="/events/{{$event->id}}/reserve" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -81,10 +81,22 @@
                                 <label class="label" for="ticketamount">Aantal tickets</label>
                             
                                 <div class="control">
-                                    <input class="input" min="1" max="" type="number" name="ticketamount" id="ticketamount" value="{{old('ticketamount')}}">
+                                    <input class="input" min="1" max="" type="number" name="ticketamount" id="ticketamount" value="{{old('ticketamount')}}" required>
                                 </div>
                             
                                 @error('ticketamount')
+                                    <p class="help is-danger">{{$message}}</p>
+                                @enderror
+                            </div>
+
+                            <div class="field">
+                                <label class="label" for="image">Afbeelding</label>
+
+                                <div class="control">
+                                    <input id="image" type="file" name="image" required>
+                                </div>
+
+                                @error('image')
                                     <p class="help is-danger">{{$message}}</p>
                                 @enderror
                             </div>
@@ -93,7 +105,6 @@
 
                     <div class="container mt-5">
                         <button type="submit" class="button is-primary">Plaats reservering</button>
-                        <!-- Authorisatie en Authenticatie op bewerken -->
                         <button class="button is-danger">Annuleer</button>     
                     </div>
                 </form>

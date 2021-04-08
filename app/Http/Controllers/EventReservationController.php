@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\EventReservation;
 use App\Models\Event;
+use App\Models\File;
 use App\Repositories\ReservationRepository;
 use App\Rules\MaxReservationsPerPerson;
 use App\Rules\ValidEventDateDifference;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 
 class EventReservationController extends Controller
 {
@@ -43,11 +46,31 @@ class EventReservationController extends Controller
 
         if($event == null) {abort(404, "Event not found");}
 
-        $validatedReservation = $this->validateReservation($request, $event); //TODO fix validation
+        $validatedReservation = $this->validateReservation($request, $event); 
         $validatedReservation['event_id'] = $event->id;
         $validatedAddress = $this->validateAddress($request);
 
-        $this->reservationRepository->create($validatedReservation, $validatedAddress, 'event');
+        if($request->hasFile('image')) {
+            if($request->file('image')->isValid()) {
+                $this->validateFile($request);
+                $extension = $request->image->extension();
+                $name = $this->generateName(); 
+                $request->image->storeAs('/public', $name.".".$extension);
+                $url = Storage::url($name.".".$extension);
+                $file = File::create([
+                    'user_id' => auth()->user()->id,
+                    'name' => $name,
+                    'url' => $url
+                ]);
+                Session::flash('success', "Success!");
+                
+                $validatedReservation['file_id'] = $file->id;
+            }
+        } else {
+            abort(500, 'could not upload image : (');
+        }
+
+        $this->reservationRepository->create($validatedReservation, $validatedAddress,'event');
 
         return redirect()->route('home');
     }
@@ -56,7 +79,7 @@ class EventReservationController extends Controller
         return $request->validate([
             'startdate' => ['required', 'before_or_equal:enddate', 'after_or_equal:'.$event->startdate],
             'enddate' => ['required', 'after_or_equal:startdate', 'before_or_equal:'.$event->enddate, new ValidEventDateDifference($event->startdate, $event->enddate, $request->get('startdate'), $request->get('enddate'))],
-            'ticketamount' => ['required', 'min:1', 'max:'.$event->maxPerPerson, new MaxReservationsPerPerson($request->ticketamount, $event)], //Validate if not over amount with earlier reservations
+            'ticketamount' => ['required', 'min:1', 'max:'.$event->maxPerPerson, new MaxReservationsPerPerson($request->ticketamount, $event)],
         ]);
     }
 
@@ -69,6 +92,20 @@ class EventReservationController extends Controller
             'city' => ['required'],
             'country' => ['required']
         ]);
+    }
+
+    public function validateFile($request) {
+        return $request->validate([
+            'image' => ['mimes:jpeg,png, max:1014']
+        ]);
+    }
+
+    public function generateName() {
+        $user = auth()->user();
+
+        $files = File::where('name', 'like', $user->id.'-'."%")->get();
+
+        return $user->id.'-'.$user->name.'-'.($files->count()+1);
     }
 
     
