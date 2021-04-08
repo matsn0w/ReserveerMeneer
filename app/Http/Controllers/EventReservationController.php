@@ -4,11 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\EventReservation;
 use App\Models\Event;
+use App\Repositories\ReservationRepository;
+use App\Rules\MaxReservationsPerPerson;
 use App\Rules\ValidEventDateDifference;
 use Illuminate\Http\Request;
 
 class EventReservationController extends Controller
 {
+    private $reservationRepository;
+
+    public function __construct()
+    {
+        $this->reservationRepository = new ReservationRepository;
+    }
+
     public function reserve($id)
     {
         $event = Event::find($id);
@@ -43,9 +52,9 @@ class EventReservationController extends Controller
 
     public function validateReservation(Request $request, Event $event) {
         return $request->validate([
-            'startdate' => ['required', 'before_or_equal:enddate', "after_or_equal:$event->startdate"],
-            'enddate' => ['required', 'after_or_equal:startdate', "before_or_equal:$event->enddate", new ValidEventDateDifference($event->startdate, $event->enddate, $request->get('startdate'), $request->get('enddate'))],
-            'ticketamount' => ['required', 'min:1', "max:$event->maxPerPerson"], // validate if not over amount with earlier reservations
+            'startdate' => ['required', 'before_or_equal:enddate', 'after_or_equal:'.$event->startdate],
+            'enddate' => ['required', 'after_or_equal:startdate', 'before_or_equal:'.$event->enddate, new ValidEventDateDifference($event->startdate, $event->enddate, $request->get('startdate'), $request->get('enddate'))],
+            'ticketamount' => ['required', 'min:1', 'max:'.$event->maxPerPerson, new MaxReservationsPerPerson($request->ticketamount, $event)], //Validate if not over amount with earlier reservations
         ]);
     }
 

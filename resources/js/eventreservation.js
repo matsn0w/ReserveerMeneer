@@ -13,21 +13,18 @@ select.addEventListener('change', () => {
         case '1':
             startinput.min = getDateString(eventstart);
             startinput.max = getDateString(eventend);
-            startinput.disabled = false;
             endinput.value = getDateString(eventstart);
             enddisplay.value = endinput.value
             break;
         case '2':
             startinput.min = getDateString(eventstart);
             startinput.max = getDateString(getNewDate(eventend, -1));
-            startinput.disabled = false;
             endinput.value = getDateString(getNewDate(eventstart, 1));
             enddisplay.value = endinput.value
             break;
         case 'full':
             startinput.min = getDateString(eventstart);
             startinput.max = getDateString(eventstart);
-            startinput.disabled = true;
             endinput.value = getDateString(eventend);
             enddisplay.value = endinput.value
             break;
