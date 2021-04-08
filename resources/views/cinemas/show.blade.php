@@ -40,6 +40,22 @@
     @endforeach
 
     <div class="block">
+        <h2>Aankomende filmavonden</h2>
+
+        @foreach ($cinema->halls as $hall)
+            @foreach ($hall->filmevents as $filmevent)
+                <div class="block">
+                    <p>
+                        <strong>{{ $filmevent->movie->name }}</strong><br>
+                        <strong>Zaal:</strong> <a href="{{ route('halls.show', $filmevent->hall) }}">{{ $filmevent->hall->name }}</a><br>
+                        <strong>Start:</strong> {{ date('d-m-Y H:i', strtotime($filmevent->start)) }}
+                    </p>
+                </div>
+            @endforeach
+        @endforeach
+    </div>
+
+    <div class="block">
         <a href="{{ route('cinemas.edit', $cinema) }}">Bewerken</a> |
         <a href="{{ route('cinemas.index') }}">Terug naar het overzicht</a>
     </div>

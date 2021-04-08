@@ -8,10 +8,10 @@
     <title>{{ $title }} | {{ env('APP_NAME') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    @yield('styles')
+    @stack('styles')
 
     <script src="{{ asset('js/app.js') }}" defer></script>
-    @yield('scripts')
+    @stack('scripts')
 </head>
 <body>
     <x-navbar />

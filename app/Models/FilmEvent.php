@@ -15,11 +15,11 @@ class FilmEvent extends Pivot
 
     public function hall()
     {
-        return $this->hasOne(Hall::class);
+        return $this->belongsTo(Hall::class);
     }
 
     public function movie()
     {
-        return $this->hasOne(Movie::class);
+        return $this->belongsTo(Movie::class);
     }
 }

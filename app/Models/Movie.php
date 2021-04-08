@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Cinema;
+use App\Models\FilmEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -14,8 +15,7 @@ class Movie extends Model
         'name'
     ];
 
-    public function cinemas()
-    {
+    public function cinemas() {
         return $this->belongsToMany(Cinema::class);
     }
 }

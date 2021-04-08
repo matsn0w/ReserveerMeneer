@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MovieReservation;
+use App\Models\FilmEvent;
 use Illuminate\Http\Request;
 
-class MovieReservationController extends Controller
+class FilmEventReservationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class MovieReservationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MovieReservation  $movieReservation
+     * @param  \App\Models\FilmEventReservation  $filmEventReservation
      * @return \Illuminate\Http\Response
      */
-    public function show(MovieReservation $movieReservation)
+    public function show(FilmEventReservation $filmEventReservation)
     {
         //
     }
@@ -52,10 +52,10 @@ class MovieReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\MovieReservation  $movieReservation
+     * @param  \App\Models\FilmEventReservation  $filmEventReservation
      * @return \Illuminate\Http\Response
      */
-    public function edit(MovieReservation $movieReservation)
+    public function edit(FilmEventReservation $filmEventReservation)
     {
         //
     }
@@ -64,10 +64,10 @@ class MovieReservationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MovieReservation  $movieReservation
+     * @param  \App\Models\FilmEventReservation  $filmEventReservation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MovieReservation $movieReservation)
+    public function update(Request $request, FilmEventReservation $filmEventReservation)
     {
         //
     }
@@ -75,10 +75,10 @@ class MovieReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MovieReservation  $movieReservation
+     * @param  \App\Models\FilmEventReservation  $filmEventReservation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MovieReservation $movieReservation)
+    public function destroy(FilmEventReservation $filmEventReservation)
     {
         //
     }

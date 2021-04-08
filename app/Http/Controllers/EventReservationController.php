@@ -21,14 +21,14 @@ class EventReservationController extends Controller
         $this->reservationRepository = new ReservationRepository;
     }
 
-    public function Reserve($id)
+    public function reserve($id)
     {
         $event = Event::find($id);
 
         if($event == null) {
             abort(404, "Restaurant not found");
         }
-        
+
         return view('events.reservation', [
             'event' => $event,
         ]);
@@ -42,9 +42,7 @@ class EventReservationController extends Controller
      */
     public function store(Request $request)
     {
-        $event = Event::find($request->get('event_id'));
-
-        if($event == null) {abort(404, "Event not found");}
+        $event = Event::find($request->get('event_id')) ?? abort(404, "Event not found");
 
         $validatedReservation = $this->validateReservation($request, $event); 
         $validatedReservation['event_id'] = $event->id;
