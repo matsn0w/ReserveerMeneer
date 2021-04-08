@@ -18,8 +18,8 @@
 
                         <div class="card-content">
                             <strong>Beschrijving:</strong> {{$event->description}} <br>
-                            <strong>Start datum:</strong> {{ $event->startdatum }} <br>
-                            <strong>Eind datum:</strong> {{ $event->startdatum }}  <br>
+                            <strong>Start datum:</strong> {{ $event->startdate }} <br>
+                            <strong>Eind datum:</strong> {{ $event->enddate }}  <br>
                         </div>
 
                         <footer class="card-footer">

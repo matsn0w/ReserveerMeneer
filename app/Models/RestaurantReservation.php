@@ -9,7 +9,7 @@ class RestaurantReservation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['restaurant_id', 'address_id', 'date', 'time', 'groupsize'];
+    protected $fillable = ['restaurant_id', 'date', 'time', 'groupsize'];
 
     public function addresses() {
         return $this->belongsTo(Address::class);

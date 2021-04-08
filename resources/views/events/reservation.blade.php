@@ -55,7 +55,7 @@
                                         min="{{$event->startdate}}"
                                         max="{{$event->enddate}}" 
                                         required
-                                        disabled>
+                                        >
                                 </div>
                             
                                 @error('startdate')
