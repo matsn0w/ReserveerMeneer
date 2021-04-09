@@ -28,16 +28,7 @@
                     <div class="columns">
                         <div class="column">
                             @include('components.address-form')
-
-                            <div class="field is-grouped">
-                                <div class="control">
-                                    <button type="submit" class="button is-primary">Plaats reservering</button>
-                                </div>
-
-                                <div class="control">
-                                    <a class="button is-link is-light" href="{{ route('events.show', $event) }}">Annuleer</a>
-                                </div>
-                            </div>
+                            
                         </div>
 
                         <div class="column">

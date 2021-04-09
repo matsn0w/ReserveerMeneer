@@ -10,4 +10,8 @@ class File extends Model
     use HasFactory;
 
     protected $fillable = ['user_id', 'name', 'url'];
+
+    public function eventreservations() {
+        return $this->hasMany(EventReservation::class);
+    }
 }

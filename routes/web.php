@@ -9,7 +9,9 @@ use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\FilmEventController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\EventReservationController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RestaurantReservationController;
+use App\Models\Reservation;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,4 +51,9 @@ Route::middleware(['auth'])->group(function () {
         'movies' => MovieController::class,
         'filmevents' => FilmEventController::class
     ]);
+
+    Route::resource('filmevents', FilmEventController::class)->except(['index']);
+    Route::get('/myreservations', [ReservationController::class, 'index'])->name('reservations.index');
+    Route::get('/myreservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
+    Route::get('/myreservations/{reservation}/export', [ReservationController::class, 'export'])->name('reservations.export');
 });

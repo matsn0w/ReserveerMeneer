@@ -11,15 +11,7 @@ class Address extends Model
 
     use HasFactory;
 
-    public function event_reservations() {
-        $this->hasMany(EventReservation::class);
-    }
-    
-    public function movie_reservations() {
-        $this->hasMany(MovieReservation::class);
-    }
-    
-    public function restaurant_reservation() {
-        $this->hasMany(RestaurantReservation::class);
+    public function reservations() {
+        $this->hasMany(Reservation::class);
     }
 }

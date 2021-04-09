@@ -11,11 +11,11 @@ class RestaurantReservation extends Model
 
     protected $fillable = ['restaurant_id', 'date', 'time', 'groupsize'];
 
-    public function addresses() {
-        return $this->belongsTo(Address::class);
-    }
-
     public function reservation() {
         return $this->morphOne(Reservation::class, 'related', 'reservations');
+    }
+
+    public function restaurant() {
+        return $this->belongsTo(Restaurant::class);
     }
 }
