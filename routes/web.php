@@ -53,12 +53,9 @@ Route::middleware(['auth'])->group(function () {
         'movies' => MovieController::class,
         'filmevents' => FilmEventController::class
     ]);
-<<<<<<< HEAD
 
     Route::resource('filmevents', FilmEventController::class)->except(['index']);
     Route::get('/myreservations', [ReservationController::class, 'index'])->name('reservations.index');
     Route::get('/myreservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
     Route::get('/myreservations/{reservation}/export', [ReservationController::class, 'export'])->name('reservations.export');
-=======
->>>>>>> 1d95de3db2d0ecd0d9c32cd249c7d76deb4dd58c
 });
