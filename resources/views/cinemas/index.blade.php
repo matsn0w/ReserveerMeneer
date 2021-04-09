@@ -2,6 +2,10 @@
     'title' => 'Bioscopen'
 ])
 
+@section('top-right')
+    <a class="button is-link is-light" href="{{ route('cinemas.create') }}">Nieuwe bioscoop</a>
+@endsection
+
 @section('content')
     @foreach($cinemas->chunk(4) as $chunk)
         <div class="columns">
@@ -25,6 +29,4 @@
             @endforeach
         </div>
     @endforeach
-
-    <a class="button is-primary" href="{{ route('cinemas.create') }}">Nieuwe bioscoop</a>
 @endsection

@@ -11,7 +11,7 @@
         </div>
 
         <div class="level-right">
-            <a href="{{ route('halls.create') }}" class="button is-primary">Nieuwe zaal</a>
+            <a href="{{ route('halls.create') }}" class="button is-link is-light">Nieuwe zaal</a>
         </div>
     </div>
 
@@ -39,21 +39,27 @@
         </div>
     @endforeach
 
-    <div class="block">
-        <h2>Aankomende filmavonden</h2>
+    <div class="level">
+        <div class="level-left">
+            <h2>Aankomende filmavonden</h2>
+        </div>
 
-        @foreach ($cinema->halls as $hall)
-            @foreach ($hall->filmevents as $filmevent)
-                <div class="block">
-                    <p>
-                        <strong>{{ $filmevent->movie->name }}</strong><br>
-                        <strong>Zaal:</strong> <a href="{{ route('halls.show', $filmevent->hall) }}">{{ $filmevent->hall->name }}</a><br>
-                        <strong>Start:</strong> {{ date('d-m-Y H:i', strtotime($filmevent->start)) }}
-                    </p>
-                </div>
-            @endforeach
-        @endforeach
+        <div class="level-right">
+            <a href="{{ route('filmevents.create') }}" class="button is-link is-light">Nieuwe filmavond</a>
+        </div>
     </div>
+
+    @foreach ($cinema->halls as $hall)
+        @foreach ($hall->filmevents as $filmevent)
+            <div class="block">
+                <p>
+                    <strong>{{ $filmevent->movie->name }}</strong><br>
+                    <strong>Zaal:</strong> <a href="{{ route('halls.show', $filmevent->hall) }}">{{ $filmevent->hall->name }}</a><br>
+                    <strong>Start:</strong> {{ date('d-m-Y H:i', strtotime($filmevent->start)) }}
+                </p>
+            </div>
+        @endforeach
+    @endforeach
 
     <div class="block">
         <a href="{{ route('cinemas.edit', $cinema) }}">Bewerken</a> |

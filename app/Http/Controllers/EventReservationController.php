@@ -44,7 +44,7 @@ class EventReservationController extends Controller
     {
         $event = Event::find($request->get('event_id')) ?? abort(404, "Event not found");
 
-        $validatedReservation = $this->validateReservation($request, $event); 
+        $validatedReservation = $this->validateReservation($request, $event);
         $validatedReservation['event_id'] = $event->id;
         $validatedAddress = $this->validateAddress($request);
 
@@ -60,8 +60,9 @@ class EventReservationController extends Controller
                     'name' => $name,
                     'url' => $url
                 ]);
-                Session::flash('success', "Success!");
-                
+
+                session()->flash('success', "Success!");
+
                 $validatedReservation['file_id'] = $file->id;
             }
         } else {
@@ -106,5 +107,5 @@ class EventReservationController extends Controller
         return $user->id.'-'.$user->name.'-'.($files->count()+1);
     }
 
-    
+
 }

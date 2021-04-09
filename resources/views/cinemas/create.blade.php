@@ -10,7 +10,7 @@
             <label class="label" for="name">Naam</label>
 
             <div class="control">
-                <input class="input" type="text" name="name" id="name">
+                <input class="input" type="text" name="name" id="name" value="{{ old('name') }}">
             </div>
 
             @error('name')

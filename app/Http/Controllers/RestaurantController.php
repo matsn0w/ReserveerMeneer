@@ -141,7 +141,9 @@ class RestaurantController extends Controller
         // delete the restaurant
         $restaurant->delete();
 
-        return redirect('restaurants')->with('flash_message', 'Restaurant verwijderd!');
+        session()->flash('success', 'Restaurant is verwijderd!');
+
+        return redirect('restaurants');
     }
 
     public function validateRestaurant(Request $request) {

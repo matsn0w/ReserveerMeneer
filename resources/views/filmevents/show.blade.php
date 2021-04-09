@@ -14,6 +14,6 @@
     <div class="block">
         <a href="{{ route('filmevents.reserve', $filmevent) }}">Reserveren</a> |
         <a href="{{ route('filmevents.edit', $filmevent) }}">Bewerken</a> |
-        <a href="{{ route('events.index') }}">Terug naar overzicht</a>
+        <a href="{{ route('filmevents.index') }}">Terug naar overzicht</a>
     </div>
 @endsection
