@@ -18,4 +18,12 @@ class EventReservation extends Model
     public function reservation() {
         return $this->morphOne(Reservation::class, 'related', 'reservations');
     }
+
+    public function event() {
+        return $this->belongsTo(Event::class);
+    }
+
+    public function file() {
+        return $this->belongsTo(File::class);
+    }
 }

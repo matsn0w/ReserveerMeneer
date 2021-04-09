@@ -53,8 +53,8 @@ class EventReservationController extends Controller
                 $this->validateFile($request);
                 $extension = $request->image->extension();
                 $name = $this->generateName(); 
-                $request->image->storeAs('/public', $name.".".$extension);
-                $url = Storage::url($name.".".$extension);
+                $request->image->move('uploads/file/', $name.".".$extension);
+                $url = $name.".".$extension;
                 $file = File::create([
                     'user_id' => auth()->user()->id,
                     'name' => $name,
