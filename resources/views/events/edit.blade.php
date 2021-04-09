@@ -2,6 +2,15 @@
     'title' => "'$event->name' bewerken"
 ])
 
+@section('top-right')
+    <form action="{{ route('events.destroy', $event) }}" method="post">
+        @csrf
+        @method('DELETE')
+
+        <button class="button is-danger is-inverted" type="submit">Verwijderen</button>
+    </form>
+@endsection
+
 @section('content')
     <form action="{{ route('events.update', $event) }}" method="post">
         @csrf
@@ -31,10 +40,8 @@
             @enderror
         </div>
 
-
-
         <div class="field">
-            <label class="label" for="startdate">Start datum</label>
+            <label class="label" for="startdate">Startdatum</label>
 
             <div class="control">
                 <input class="input" type="date" name="startdate" id="startdate" value="{{$event->startdate}}">
@@ -46,7 +53,7 @@
         </div>
 
         <div class="field">
-            <label class="label" for="enddate">Eind datum</label>
+            <label class="label" for="enddate">Einddatum</label>
 
             <div class="control">
                 <input class="input" type="date" name="enddate" id="enddate" value="{{$event->enddate}}">
@@ -75,16 +82,8 @@
             </div>
 
             <div class="control">
-                <a href="{{ route('events.index') }}" class="button is-link is-light">Annuleren</a>
-            </div>
-    </form>
-            <div class="control">
-                <form action="{{ route('events.destroy', $event) }}" method="post">
-                    @csrf
-                    @method('DELETE')
-
-                    <button class="button is-danger is-inverted" type="submit">Verwijderen</button>
-                </form>
+                <a href="{{ route('events.show', $event) }}" class="button is-link is-light">Annuleren</a>
             </div>
         </div>
+    </form>
 @endsection

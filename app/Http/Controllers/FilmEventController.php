@@ -10,6 +10,20 @@ use Illuminate\Http\Request;
 class FilmEventController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $filmevents = FilmEvent::paginate(8);
+
+        return view('filmevents.index', [
+            'filmevents' => $filmevents
+        ]);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -37,12 +51,12 @@ class FilmEventController extends Controller
             'hall_id' => ['required'],
             'movie_id' => ['required'],
             'start' => ['required'],
+            // TODO: check for uniqeness
         ]);
 
         $filmevent = FilmEvent::create($validated);
 
-        // TODO: missing parameter??
-        return redirect()->route('filmevents.show')->with([
+        return redirect()->route('filmevents.show', [
             'filmevent' => $filmevent
         ]);
     }
@@ -50,7 +64,7 @@ class FilmEventController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\FilmEvent  $filmEvent
+     * @param  FilmEvent  $filmevent
      * @return \Illuminate\Http\Response
      */
     public function show(FilmEvent $filmevent)
@@ -68,7 +82,14 @@ class FilmEventController extends Controller
      */
     public function edit(FilmEvent $filmevent)
     {
-        //
+        $halls = Hall::all();
+        $movies = Movie::all();
+
+        return view('filmevents.edit', [
+            'filmevent' => $filmevent,
+            'halls' => $halls,
+            'movies' => $movies
+        ]);
     }
 
     /**
@@ -80,7 +101,20 @@ class FilmEventController extends Controller
      */
     public function update(Request $request, FilmEvent $filmevent)
     {
-        //
+        $validated = $request->validate([
+            'hall_id' => ['required'],
+            'movie_id' => ['required'],
+            'start' => ['required'],
+            // TODO: check for uniqeness
+        ]);
+
+        $filmevent->update($validated);
+
+        session()->flash('success', 'Filmavond is opgeslagen!');
+
+        return redirect()->route('filmevents.show', [
+            'filmevent' => $filmevent
+        ]);
     }
 
     /**

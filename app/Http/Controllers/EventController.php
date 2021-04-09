@@ -94,7 +94,10 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         Event::destroy($event);
-        return redirect('events')->with('flash_message', 'Event deleted!');
+
+        session()->flash('success', 'Evenement verwijderd!');
+
+        return redirect()->route('events.index');
     }
 
     public function validateEvent(Request $request) {

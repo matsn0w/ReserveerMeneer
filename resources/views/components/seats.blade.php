@@ -1,4 +1,4 @@
-<div class="seats">
+<div class="block seats">
     @php $counter = 1; @endphp
 
     @foreach ($hall->seats->chunk($hall->seatsPerRow) as $row)

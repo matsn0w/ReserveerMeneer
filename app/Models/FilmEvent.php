@@ -4,14 +4,20 @@ namespace App\Models;
 
 use App\Models\Hall;
 use App\Models\Movie;
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class FilmEvent extends Pivot
+class FilmEvent extends Model
 {
     use HasFactory;
 
     protected $table = 'filmevents';
+
+    protected $fillable = [
+        'hall_id',
+        'movie_id',
+        'start'
+    ];
 
     public function hall()
     {

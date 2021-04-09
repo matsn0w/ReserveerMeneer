@@ -2,6 +2,15 @@
     'title' => "'$hall->name' bewerken"
 ])
 
+@section('top-right')
+    <form action="{{ route('halls.destroy', $hall) }}" method="post">
+        @csrf
+        @method('DELETE')
+
+        <button class="button is-danger is-inverted" type="submit">Verwijderen</button>
+    </form>
+@endsection
+
 @section('content')
     <form action="{{ route('halls.update', $hall) }}" method="post">
         @csrf
@@ -47,14 +56,6 @@
             <div class="control">
                 <a href="{{ route('halls.index') }}" class="button is-link is-light">Annuleren</a>
             </div>
-    </form>
-            <div class="control">
-                <form action="{{ route('halls.destroy', $hall) }}" method="post">
-                    @csrf
-                    @method('DELETE')
-
-                    <button class="button is-danger is-inverted" type="submit">Verwijderen</button>
-                </form>
-            </div>
         </div>
+    </form>
 @endsection

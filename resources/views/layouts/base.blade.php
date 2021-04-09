@@ -18,7 +18,23 @@
 
     <div class="container">
         <section class="section">
-            <h1 class="title">{{ $title }}</h1>
+            @if (session()->has('error'))
+                <div class="notification is-danger is-light">{{ session('error') }}</div>
+            @endif
+
+            @if (session()->has('success'))
+                <div class="notification is-success is-light">{{ session('success') }}</div>
+            @endif
+
+            <div class="level">
+                <div class="level-left">
+                    <h1 class="title">{{ $title }}</h1>
+                </div>
+
+                <div class="level-right">
+                    @yield('top-right')
+                </div>
+            </div>
 
             <div class="content">
                 @yield('content')

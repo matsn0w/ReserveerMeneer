@@ -1,11 +1,21 @@
 @extends('layouts.base', [
     'title' => "'$restaurant->name' bewerken"
 ])
+
+@section('top-right')
+    <form action="{{ route('restaurants.destroy', $restaurant) }}" method="post">
+        @csrf
+        @method('DELETE')
+
+        <button class="button is-danger is-inverted" type="submit">Verwijderen</button>
+    </form>
+@endsection
+
 @section('content')
-<div class="container">
-    <form method="POST" action="/restaurants/{{$restaurant->id}}">
+    <form method="POST" action="{{ route('restaurants.update', $restaurant) }}">
         @csrf
         @method('PUT')
+
         <div class="tile is-ancestor">
             <div class="tile is-parent">
                 <div class="tile is-child box">
@@ -28,12 +38,10 @@
                             <select name="category_id" id="category" for="category">
                                 @foreach ($availableCategories as $category)
                                     <option value="{{$category->id}}"
-
-                                        @if($restaurant->category->id == $category->id)
+                                        @if ($restaurant->category->id == $category->id)
                                             selected
                                         @endif
-
-                                        >{{$category->name}}</option>
+                                    >{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -68,18 +76,22 @@
                     </div>
                 </div>
             </div>
+
             <div class="tile is-4 is-vertical is-parent">
                 <div class="tile is-child box">
-                    @include('restaurants.restaurants-hours.edit')
+                    @include('restaurants.hours.edit')
                 </div>
             </div>
         </div>
 
         <div class="field is-grouped">
             <div class="control">
-                <button class="button is-link" type="submit">Submit</button>
+                <button class="button is-primary" type="submit">Opslaan</button>
+            </div>
+
+            <div class="control">
+                <a class="button is-link is-light" href="{{ route('restaurants.show', $restaurant) }}">Annuleren</a>
             </div>
         </div>
-</form>
-</div>
+    </form>
 @endsection

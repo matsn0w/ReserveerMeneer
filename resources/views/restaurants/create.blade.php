@@ -83,7 +83,7 @@
 
                 <div class="tile is-4 is-vertical is-parent">
                     <div class="tile is-child box">
-                        @include('restaurants.restaurants-hours.create')
+                        @include('restaurants.hours.create')
                     </div>
                 </div>
             </div>

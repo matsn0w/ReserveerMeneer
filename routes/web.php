@@ -48,8 +48,7 @@ Route::middleware(['auth'])->group(function () {
         'events' => EventController::class,
         'cinemas' => CinemaController::class,
         'halls' => HallController::class,
-        'movies' => MovieController::class
+        'movies' => MovieController::class,
+        'filmevents' => FilmEventController::class
     ]);
-
-    Route::resource('filmevents', FilmEventController::class)->except(['index']);
 });
