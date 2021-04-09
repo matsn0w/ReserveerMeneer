@@ -14,12 +14,12 @@
 
         <div id="navbar" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item" href="{{ route('cinemas.index') }}">Bioscopen</a>
                 <a class="navbar-item" href="{{ route('restaurants.index') }}">Restaurants</a>
+                <a class="navbar-item" href="{{ route('cinemas.index') }}">Bioscopen</a>
+                <a class="navbar-item" href="{{ route('halls.index') }}">Zalen</a>
+                <a class="navbar-item" href="{{ route('movies.index') }}">Films</a>
                 <a class="navbar-item" href="{{ route('events.index') }}">Evenementen</a>
                 <a class="navbar-item" href="{{ route('filmevents.index') }}">Filmavonden</a>
-                <a class="navbar-item" href="{{ route('movies.index') }}">Films</a>
-                <a class="navbar-item" href="{{ route('halls.index') }}">Zalen</a>
             </div>
 
             <div class="navbar-end">
