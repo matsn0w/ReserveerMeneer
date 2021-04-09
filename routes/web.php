@@ -25,7 +25,7 @@ use App\Models\Reservation;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/events-overview/{sort?}', [HomeController::class, 'events'])->name('home.events');
+Route::get('/events-overview/{sort?}{dateFrom?}{dateTill?}', [HomeController::class, 'events'])->name('home.events');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/restaurants/{id}/reserve', [RestaurantReservationController::class, 'reserve'])
