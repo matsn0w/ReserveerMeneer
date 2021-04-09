@@ -1,9 +1,8 @@
 <?php
 
-use App\Models\EventReservation;
-use App\Models\RestaurantReservation;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HallController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\CinemaController;
@@ -23,9 +22,8 @@ use App\Http\Controllers\RestaurantReservationController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/events-overview/{sort?}', [HomeController::class, 'events'])->name('home.events');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/restaurants/{id}/reserve', [RestaurantReservationController::class, 'reserve'])

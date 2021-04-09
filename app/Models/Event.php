@@ -9,5 +9,16 @@ class Event extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'startdate', 'enddate', 'maxPerPerson'];
+    protected $fillable = [
+        'name',
+        'description',
+        'startdate',
+        'enddate',
+        'maxPerPerson'
+    ];
+
+    public function unified_date()
+    {
+        return date('Y-m-d', strtotime($this->startdate));
+    }
 }
