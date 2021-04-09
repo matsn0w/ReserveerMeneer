@@ -40,7 +40,18 @@ class ReservationRepository extends BaseRepository
                 $reservation_related = RestaurantReservation::create($validatedReservation);
                 break;
             case 'event':
+                $guests = $validatedReservation['guests'];
+                unset($validatedReservation['guests']); 
                 $reservation_related = EventReservation::create($validatedReservation);
+
+                foreach($guests as $guest) {
+                    EventGuest::create([
+                        'name' => $guest['name'],
+                        'birthdate' => $guest['birthdate'],
+                        'file_id' => $guest['file_id'],
+                        'event_reservation_id' => $reservation_related->id
+                    ]);
+                }
                 break;
             case 'movie':
                 $reservation_related = MovieReservation::create($validatedReservation);
@@ -48,7 +59,7 @@ class ReservationRepository extends BaseRepository
         }
 
         if ($address != null && $reservation_related != null && $user_id != null) {
-            $reservation = Reservation::create([
+            Reservation::create([
                 'user_id' => $user_id,
                 'address_id' => $address->id,
                 'related_id' => $reservation_related->id,

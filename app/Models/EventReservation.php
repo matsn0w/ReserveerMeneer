@@ -26,4 +26,8 @@ class EventReservation extends Model
     public function file() {
         return $this->belongsTo(File::class);
     }
+
+    public function guests() {
+        return $this->hasMany(EventGuest::class);
+    }
 }

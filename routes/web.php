@@ -37,7 +37,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/events/{id}/reserve', [EventReservationController::class, 'reserve'])
         ->name('eventreservations.reserve');
-    Route::put('/events/{id}/reserve', [EventReservationController::class, 'store'])
+    Route::post('/events/{id}/reserve', [EventReservationController::class, 'nextStep'])
+        ->name('eventreservations.next');
+    Route::put('/events/{id}/reserve/', [EventReservationController::class, 'store'])
         ->name('eventreservations.store');
 
     Route::get('/filmevents/{filmevent}/reserve', [FilmEventController::class, 'reserve'])

@@ -28,13 +28,13 @@ class ReservationController extends Controller
 
     public function export(Reservation $reservation)
     {
-        $csv = new \Laracsv\Export();
+        //$csv = new \Laracsv\Export();
 
   
 
         // $csv->insertOne(array_keys($reservation->getAttributes()));
         // $csv->insertOne($reservation->toArray());
 
-        $csv->output('people.csv');
+        //$csv->output('people.csv');
     }
 }
