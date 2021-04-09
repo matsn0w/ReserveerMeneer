@@ -19,7 +19,7 @@
         <div class="field">
             <label class="label" for="cinema">Bioscoop</label>
 
-            <div class="select">
+            <div class="select is-fullwidth">
                 <select name="cinema_id" id="cinema">
                     <option disabled selected>Kies een bioscoop...</option>
 

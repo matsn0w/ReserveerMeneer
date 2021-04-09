@@ -18,4 +18,8 @@ class Movie extends Model
     public function cinemas() {
         return $this->belongsToMany(Cinema::class);
     }
+
+    public function filmevents() {
+        return $this->hasMany(FilmEvent::class);
+    }
 }

@@ -2,11 +2,11 @@
     'title' => 'Bioscoopzalen'
 ])
 
-@section('content')
-    <div class="block">
-        <a href="{{ route('halls.create') }}">Nieuwe zaal</a>
-    </div>
+@section('top-right')
+    <a class="button is-link is-light" href="{{ route('halls.create') }}">Nieuwe zaal</a>
+@endsection
 
+@section('content')
     @foreach($halls->chunk(4) as $chunk)
         <div class="columns">
             @foreach($chunk as $hall)

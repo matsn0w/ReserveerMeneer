@@ -5,7 +5,7 @@
 @section('content')
     <div class="level">
         <div class="level-left">
-            <form class="mb-5" method="get">
+            <form method="get">
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">
                         <label class="label" for="filter">Filter: </label>

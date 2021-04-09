@@ -9,12 +9,12 @@
         <div class="field">
             <label class="label" for="cinema">Bioscoop</label>
 
-            <div class="select">
+            <div class="select is-fullwidth">
                 <select name="cinema_id" id="cinema">
                     <option disabled selected>Kies een bioscoop...</option>
 
                     @foreach ($cinemas as $cinema)
-                        <option value="{{ $cinema->id }}">{{ $cinema->name }}</option>
+                        <option value="{{ $cinema->id }}" @if ($cinema->id == old('cinema_id')) selected @endif>{{ $cinema->name }}</option>
                     @endforeach
                 </select>
             </div>

@@ -2,6 +2,10 @@
     'title' => 'Films'
 ])
 
+@section('top-right')
+    <a class="button is-link is-light" href="{{ route('movies.create') }}">Nieuwe film</a>
+@endsection
+
 @section('content')
     <table>
         <thead>
@@ -22,10 +26,6 @@
             @endforeach
         </tbody>
     </table>
-
-    <div class="block">
-        <a href="{{ route('movies.create') }}">Nieuwe film</a>
-    </div>
 
     <div class="block">
         {{ $movies->links('vendor.pagination.bulma') }}

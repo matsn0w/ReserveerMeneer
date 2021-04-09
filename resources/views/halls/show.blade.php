@@ -22,7 +22,7 @@
         @foreach ($hall->filmevents as $filmevent)
             <div class="block">
                 <p>
-                    <strong>{{ $filmevent->movie->name }}</strong><br>
+                    <a href="{{ route('filmevents.show', $filmevent) }}">{{ $filmevent->movie->name }}</a><br>
                     <strong>Start:</strong> {{ date('d-m-Y H:i', strtotime($filmevent->start)) }}
                 </p>
             </div>

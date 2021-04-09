@@ -2,11 +2,11 @@
     'title' => 'Evenementen'
 ])
 
-@section('content')
-    <div class="block">
-        <a href="{{ route('events.create') }}">Nieuw evenement</a>
-    </div>
+@section('top-right')
+    <a class="button is-link is-light" href="{{ route('events.create') }}">Nieuw evenement</a>
+@endsection
 
+@section('content')
     @foreach($events->chunk(4) as $chunk)
         <div class="columns">
             @foreach($chunk as $event)
