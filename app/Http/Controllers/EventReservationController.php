@@ -54,8 +54,8 @@ class EventReservationController extends Controller
 
     public function store(Request $request)
     {
-        $validatedAddress = $request->session()->pull('address_data');
-        $validatedReservation = $request->session()->pull('reservation_data');
+        $validatedAddress = $request->session()->get('address_data');
+        $validatedReservation = $request->session()->get('reservation_data');
         $new_guests = [];
         $this->validateGuests($request);
         $files = [];
@@ -78,7 +78,7 @@ class EventReservationController extends Controller
             $file = $files[$i.'-'.$guest['name']];
             $extension = $file->extension();
             $name = $this->generateName($guest['name']); 
-            $file->move('uploads/file/', $name.".".$extension);
+            $file->storeAs('public', $name.".".$extension);
             $url = $name.".".$extension;
             $file = File::create([
                 'user_id' => auth()->user()->id,
@@ -94,8 +94,8 @@ class EventReservationController extends Controller
             ));
 
             $i++;
-            session()->flash('success', "Success!");
         }
+
 
         $validatedReservation['guests'] = $new_guests;
         $this->reservationRepository->create($validatedReservation, $validatedAddress,'event');

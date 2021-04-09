@@ -4,10 +4,13 @@ namespace App\Repositories;
 
 use App\Models\Address;
 use App\Models\EventReservation;
+use App\Models\EventGuest;
 use App\Models\MovieReservation;
 use App\Models\RestaurantReservation;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\DB;
+
+use function PHPUnit\Framework\isEmpty;
 
 class ReservationRepository extends BaseRepository
 {
@@ -21,6 +24,10 @@ class ReservationRepository extends BaseRepository
         $user_id = auth()->user()->id;
 
         // check if address with exact same values exists. Reduce redundant rows
+        if($validatedAddress == null || $validatedReservation == null) {
+            return;
+        }
+
         $address = DB::table('addresses')
             ->where('postal_code', '=', $validatedAddress['postal_code'])
             ->where('street_name', '=', $validatedAddress['street_name'])
@@ -65,6 +72,8 @@ class ReservationRepository extends BaseRepository
                 'related_id' => $reservation_related->id,
                 'related_type' => get_class($reservation_related)
             ]);
+
+            session()->flash('success', 'Filmavond is opgeslagen!');
         }
     }
 }

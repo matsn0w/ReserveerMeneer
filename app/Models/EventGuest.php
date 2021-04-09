@@ -9,9 +9,13 @@ class EventGuest extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'birthdate', 'file_id'];  
+    protected $fillable = ['name', 'event_reservation_id','birthdate', 'file_id'];  
 
     public function eventreservation() {
         return $this->belongsTo(EventReservation::class);
+    }
+
+    public function file() {
+        return $this->belongsTo(File::class);
     }
 }

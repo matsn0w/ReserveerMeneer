@@ -11,7 +11,7 @@ class File extends Model
 
     protected $fillable = ['user_id', 'name', 'url'];
 
-    public function eventreservations() {
-        return $this->hasMany(EventReservation::class);
+    public function eventguests() {
+        return $this->hasMany(EventGuest::class);
     }
 }
