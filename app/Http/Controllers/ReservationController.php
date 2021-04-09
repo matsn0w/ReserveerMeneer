@@ -38,7 +38,7 @@ class ReservationController extends Controller
         $data = json_encode($this->prepExportData($reservation)); 
         
         $file = time() . '_file.json';
-        $destinationPath=public_path()."/upload/json/";
+        $destinationPath=public_path()."/storage/json/";
         if (!is_dir($destinationPath)) {  mkdir($destinationPath,0777,true);  }
         File::put($destinationPath.$file,$data);
         return response()->download($destinationPath.$file);
