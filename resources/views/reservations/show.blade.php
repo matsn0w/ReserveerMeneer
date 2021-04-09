@@ -51,7 +51,7 @@
                             <strong>Geboortedatum: </strong>{{$guest->birthdate}}<br>
                             <strong>Pasfoto: </strong><br>
                             </p>
-                            <img class="" src="{{ url('storage/images/'.$guest->file->url) }}">
+                            <img class="guestimg" src="{{ url('storage/images/'.$guest->file->url) }}">
                         </div>
                     @endforeach
                 </div>
