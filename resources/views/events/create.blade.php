@@ -22,13 +22,13 @@
             <label class="label" for="description">Beschrijving</label>
 
             <div class="control">
-                <textarea 
+                <textarea
                     class="textarea"
-                    name="description" 
+                    name="description"
                     id="description"> {{ old('description') }} </textarea>
 
                 @error('description')
-                    <p class="help is-danger">{{$message}}</p>
+                    <p class="help is-danger">{{ $message }}</p>
                 @enderror
             </div>
         </div>

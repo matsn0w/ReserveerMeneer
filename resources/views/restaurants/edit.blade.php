@@ -27,7 +27,7 @@
                         </div>
 
                         @error('name')
-                            <p class="help is-danger">{{$message}}</p>
+                            <p class="help is-danger">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -47,7 +47,7 @@
                         </div>
 
                         @error('category_id')
-                            <p class="help is-danger">{{$message}}</p>
+                            <p class="help is-danger">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -59,7 +59,7 @@
                         </div>
 
                         @error('description')
-                            <p class="help is-danger">{{$message}}</p>
+                            <p class="help is-danger">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -71,7 +71,7 @@
                         </div>
 
                         @error('seats')
-                            <p class="help is-danger">{{$message}}</p>
+                            <p class="help is-danger">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>

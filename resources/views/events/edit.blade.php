@@ -36,7 +36,7 @@
             </div>
 
             @error('description')
-                <p class="help is-danger">{{$message}}</p>
+                <p class="help is-danger">{{ $message }}</p>
             @enderror
         </div>
 
@@ -48,7 +48,7 @@
             </div>
 
             @error('startdate')
-                <p class="help is-danger">{{$message}}</p>
+                <p class="help is-danger">{{ $message }}</p>
             @enderror
         </div>
 
@@ -60,7 +60,7 @@
             </div>
 
             @error('enddate')
-                <p class="help is-danger">{{$message}}</p>
+                <p class="help is-danger">{{ $message }}</p>
             @enderror
         </div>
 
@@ -72,7 +72,7 @@
             </div>
 
             @error('maxPerPerson')
-                <p class="help is-danger">{{$message}}</p>
+                <p class="help is-danger">{{ $message }}</p>
             @enderror
         </div>
 

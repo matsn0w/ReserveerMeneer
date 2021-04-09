@@ -7,7 +7,7 @@
     </div>
 
     @error('firstname')
-        <p class="help is-danger">{{$message}}</p>
+        <p class="help is-danger">{{ $message }}</p>
     @enderror
 </div>
 
@@ -19,9 +19,9 @@
     </div>
 
     @error('lastname')
-        <p class="help is-danger">{{$message}}</p>
+        <p class="help is-danger">{{ $message }}</p>
     @enderror
-</div>            
+</div>
 
 <div class="field">
     <label class="label" for="email">E-mail</label>
@@ -31,9 +31,9 @@
     </div>
 
     @error('email')
-        <p class="help is-danger">{{$message}}</p>
+        <p class="help is-danger">{{ $message }}</p>
     @enderror
-</div>            
+</div>
 
 <div class="field">
     <label class="label" for="phonenumber">Telefoon</label>
@@ -43,7 +43,7 @@
     </div>
 
     @error('phonenumber')
-        <p class="help is-danger">{{$message}}</p>
+        <p class="help is-danger">{{ $message }}</p>
     @enderror
 </div>   --}}
 
@@ -55,7 +55,7 @@
     </div>
 
     @error('postal_code')
-        <p class="help is-danger">{{$message}}</p>
+        <p class="help is-danger">{{ $message }}</p>
     @enderror
 </div>
 
@@ -67,7 +67,7 @@
     </div>
 
     @error('street_name')
-        <p class="help is-danger">{{$message}}</p>
+        <p class="help is-danger">{{ $message }}</p>
     @enderror
 </div>
 
@@ -91,7 +91,7 @@
     </div>
 
     @error('city')
-        <p class="help is-danger">{{$message}}</p>
+        <p class="help is-danger">{{ $message }}</p>
     @enderror
 </div>
 
@@ -103,6 +103,6 @@
     </div>
 
     @error('country')
-        <p class="help is-danger">{{$message}}</p>
+        <p class="help is-danger">{{ $message }}</p>
     @enderror
 </div>

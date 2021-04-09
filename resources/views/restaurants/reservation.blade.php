@@ -1,15 +1,12 @@
 @extends('layouts.base', [
-    'title' => 'Restaurant'
+    'title' => "$restaurant->name reserveren"
 ])
 
 @section('content')
     <div class="tile is-ancestor">
         <div class="tile is-parent">
             <div class="tile is-child box">
-                <h3>{{$restaurant->name}}</h3>
-
-                <p class="m-0">{{$restaurant->category->name}}</p>
-                <p class="m-0">{{$restaurant->seats}} Zitplaatsen</p>
+                <p>{{ $restaurant->category->name }}, {{ $restaurant->seats }} zitplaatsen</p>
 
                 <form method="POST" action="/restaurants/{{$restaurant->id}}/reserve">
                     @csrf
@@ -31,7 +28,7 @@
                                 </div>
 
                                 @error('date')
-                                    <p class="help is-danger">{{$message}}</p>
+                                    <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -51,7 +48,7 @@
                                 </div>
 
                                 @error('time')
-                                    <p class="help is-danger">{{$message}}</p>
+                                    <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -63,7 +60,7 @@
                                 </div>
 
                                 @error('groupsize')
-                                    <p class="help is-danger">{{$message}}</p>
+                                    <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -72,13 +69,12 @@
                     <div class="container mt-5">
                         <button type="submit" class="button is-primary">Plaats reservering</button>
                         <!-- Authorisatie en Authenticatie op bewerken -->
-                        <button class="button is-danger">Annuleer</button>
+                        <a class="button is-link is-light" href="{{ route('restaurants.show', $restaurant) }}">Annuleren</a>
                     </div>
                 </form>
-
-
             </div>
         </div>
+
         <div class="tile is-3 is-vertical is-parent">
             <div class="tile is-child box">
                 @include('restaurants.hours.show')

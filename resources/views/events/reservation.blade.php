@@ -71,7 +71,7 @@
                                 </div>
 
                                 @error('startdate')
-                                    <p class="help is-danger">{{$message}}</p>
+                                    <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -85,7 +85,7 @@
                                 </div>
 
                                 @error('enddate')
-                                    <p class="help is-danger">{{$message}}</p>
+                                    <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -97,7 +97,7 @@
                                 </div>
 
                                 @error('ticketamount')
-                                    <p class="help is-danger">{{$message}}</p>
+                                    <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -109,7 +109,7 @@
                                 </div>
 
                                 @error('image')
-                                    <p class="help is-danger">{{$message}}</p>
+                                    <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -117,7 +117,7 @@
 
                     <div class="container mt-5">
                         <button type="submit" class="button is-primary">Plaats reservering</button>
-                        <button class="button is-danger">Annuleer</button>     
+                        <button class="button is-danger">Annuleer</button>
                     </div>
                 </form>
             </div>
