@@ -35,7 +35,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/events/{id}/reserve', [EventReservationController::class, 'reserve'])
         ->name('eventreservations.reserve');
-    Route::put('/events/{id}/reserve', [EventReservationController::class, 'store'])
+    Route::post('/events/{id}/reserve', [EventReservationController::class, 'nextStep'])
+        ->name('eventreservations.next');
+    Route::put('/events/{id}/reserve/', [EventReservationController::class, 'store'])
         ->name('eventreservations.store');
 
     Route::get('/filmevents/{filmevent}/reserve', [FilmEventController::class, 'reserve'])
@@ -55,5 +57,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('filmevents', FilmEventController::class)->except(['index']);
     Route::get('/myreservations', [ReservationController::class, 'index'])->name('reservations.index');
     Route::get('/myreservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
-    Route::get('/myreservations/{reservation}/export', [ReservationController::class, 'export'])->name('reservations.export');
+    Route::get('/myreservations/{reservation}/export/CSV', [ReservationController::class, 'exportToCSV'])->name('reservations.exportCSV');
+    Route::get('/myreservations/{reservation}/export/JSON', [ReservationController::class, 'exportToJSON'])->name('reservations.exportJSON');
 });

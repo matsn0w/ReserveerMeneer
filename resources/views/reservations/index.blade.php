@@ -1,5 +1,5 @@
 @extends('layouts.base', [
-    'title' => 'Reserveringen'
+    'title' => 'Mijn reserveringen'
 ])
 
 @section('content')

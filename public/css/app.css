@@ -10269,3 +10269,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   background: #dbdbdb;
   color: rgba(0, 0, 0, 0.7);
 }
+
+.guestimg {
+  max-width: 300px;
+}

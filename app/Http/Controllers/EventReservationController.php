@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\EventReservation;
 use App\Models\Event;
+use App\Models\EventGuest;
 use App\Models\File;
 use App\Repositories\ReservationRepository;
 use App\Rules\MaxReservationsPerPerson;
@@ -34,41 +35,69 @@ class EventReservationController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
+    public function nextStep(Request $request) {
         $event = Event::find($request->get('event_id')) ?? abort(404, "Event not found");
 
         $validatedReservation = $this->validateReservation($request, $event);
         $validatedReservation['event_id'] = $event->id;
         $validatedAddress = $this->validateAddress($request);
+        
+        $request->session()->put('address_data', $validatedAddress);
+        $request->session()->put('reservation_data', $validatedReservation);
 
-        if($request->hasFile('image')) {
-            if($request->file('image')->isValid()) {
-                $this->validateFile($request);
-                $extension = $request->image->extension();
-                $name = $this->generateName(); 
-                $request->image->move('uploads/file/', $name.".".$extension);
-                $url = $name.".".$extension;
-                $file = File::create([
-                    'user_id' => auth()->user()->id,
-                    'name' => $name,
-                    'url' => $url
-                ]);
+        return view('events.guestinfo', [
+            'guestamount' => $validatedReservation['ticketamount'],
+            'event' => $event,
+        ]);
+    }
 
-                session()->flash('success', "Success!");
 
-                $validatedReservation['file_id'] = $file->id;
+    public function store(Request $request)
+    {
+        $validatedAddress = $request->session()->get('address_data');
+        $validatedReservation = $request->session()->get('reservation_data');
+        $new_guests = [];
+        $this->validateGuests($request);
+        $files = [];
+        
+        $i = 0;
+        foreach($request['guests'] as $guest) {
+            if($request->hasFile('guests.'.$i)) {
+                if($request->file('guests.'.$i)['image']->isValid()) {
+                    $file = $this->validateFile($request, $i)['guests'][$i]['image'];
+                    $files[$i.'-'.$guest['name']] = $file; 
+                }
+            } else {
+                abort(500, 'No image found');
             }
-        } else {
-            abort(500, 'could not upload image : (');
+            $i++;
+        }
+        
+        $i = 0;
+        foreach($request['guests'] as $guest) {
+            $file = $files[$i.'-'.$guest['name']];
+            $extension = $file->extension();
+            $name = $this->generateName($guest['name']); 
+            $file->storeAs('public', $name.".".$extension);
+            $url = $name.".".$extension;
+            $file = File::create([
+                'user_id' => auth()->user()->id,
+                'name' => $name,
+                'url' => $url
+            ]);
+            
+            
+            array_push($new_guests, array(
+                'name' => $guest['name'],
+                'birthdate' => $guest['birthdate'],
+                'file_id' => $file->id,
+            ));
+
+            $i++;
         }
 
+
+        $validatedReservation['guests'] = $new_guests;
         $this->reservationRepository->create($validatedReservation, $validatedAddress,'event');
 
         return redirect()->route('home');
@@ -93,19 +122,27 @@ class EventReservationController extends Controller
         ]);
     }
 
-    public function validateFile($request) {
+    public function validateFile(Request $request, $index) {
         return $request->validate([
-            'image' => ['mimes:jpeg,png, max:1014']
+            'guests.'.$index.'.image' => ['mimes:jpeg,png, max:1014']
         ]);
     }
 
-    public function generateName() {
+    public function generateName($name) {
         $user = auth()->user();
 
         $files = File::where('name', 'like', $user->id.'-'."%")->get();
 
-        return $user->id.'-'.$user->name.'-'.($files->count()+1);
+        return $user->id.'-'.$name.'-'.($files->count()+1);
     }
+
+    public function validateGuests(Request $request) {
+          
+        return $request->validate([
+            'guests.*.name' => ['required', 'min:3', 'max:80'],
+            'guests.*.birthdate' => ['required', 'before:today'],
+        ]); 
+    } 
 
 
 }

@@ -1,5 +1,5 @@
 @extends('layouts.base', [
-    'title' => 'Reservation'
+    'title' => 'Reservering'
 ])
 
 @section('content') 
@@ -29,11 +29,6 @@
                                     {{-- TODO --}}
                         @endif
                         <p>
-
-                        @if($reservation->related_type == 'App\Models\EventReservation')
-                            <strong>Pasfoto: </strong><br>
-                            <img class="mb-4" src="{{asset('uploads/file/' . $reservation->related->file->url)}}">
-                        @endif
                     </div>
 
                     <div class="column is-half p-0 pt-3">
@@ -48,7 +43,24 @@
                 </div>
 
                 @if($reservation->related_type == 'App\Models\EventReservation')
-                    <a class="button is-primary" href="{{route('reservations.export', $reservation)}}">Exporteren</a>
+                <div class="w-100 is-flex flex-wrap is-justify-content-flex-start my-5">
+                    @foreach($reservation->related->guests as $guest) 
+                        <div class="mr-4">
+                            <p>
+                            <strong>Naam: </strong>{{$guest->name}} <br><br>          
+                            <strong>Geboortedatum: </strong>{{$guest->birthdate}}<br>
+                            <strong>Pasfoto: </strong><br>
+                            </p>
+                            <img class="guestimg" src="{{ url('storage/images/'.$guest->file->url) }}">
+                        </div>
+                    @endforeach
+                </div>
+                @endif
+                
+
+                @if($reservation->related_type == 'App\Models\EventReservation')
+                    <a class="button is-primary" href="{{route('reservations.exportCSV', $reservation)}}">Exporteer naar CSV</a>
+                    <a class="button is-primary" href="{{route('reservations.exportJSON', $reservation)}}">Exporteer naar JSON</a>
                 @endif
                 <!-- Authorisatie en Authenticatie op bewerken -->
                 <a class="button is-warning" href="{{ route('reservations.index')}}">Terug</a>     

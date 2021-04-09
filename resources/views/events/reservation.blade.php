@@ -19,9 +19,8 @@
                     <strong>Maximaal aantal tickets per persoon:</strong> {{ $event->maxPerPerson }}</a>
                 </p>
 
-                <form method="POST" action="/events/{{$event->id}}/reserve" enctype="multipart/form-data">
+                <form method="POST" action="/events/{{$event->id}}/reserve">
                     @csrf
-                    @method('PUT')
 
                     <input type="hidden" name="event_id" for="event_id" value="{{$event->id}}">
 
@@ -91,23 +90,11 @@
                                     <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-
-                            <div class="field">
-                                <label class="label" for="image">Afbeelding</label>
-
-                                <div class="control">
-                                    <input id="image" type="file" name="image" required>
-                                </div>
-
-                                @error('image')
-                                    <p class="help is-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
                         </div>
                     </div>
 
                     <div class="container mt-5">
-                        <button type="submit" class="button is-primary">Plaats reservering</button>
+                        <button type="submit" class="button is-primary">Volgende</button>
                         <button class="button is-danger">Annuleer</button>
                     </div>
                 </form>
