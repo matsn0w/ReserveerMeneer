@@ -57,5 +57,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('filmevents', FilmEventController::class)->except(['index']);
     Route::get('/myreservations', [ReservationController::class, 'index'])->name('reservations.index');
     Route::get('/myreservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
-    Route::get('/myreservations/{reservation}/export', [ReservationController::class, 'export'])->name('reservations.export');
+    Route::get('/myreservations/{reservation}/export/CSV', [ReservationController::class, 'exportToCSV'])->name('reservations.exportCSV');
+    Route::get('/myreservations/{reservation}/export/JSON', [ReservationController::class, 'exportToJSON'])->name('reservations.exportJSON');
 });

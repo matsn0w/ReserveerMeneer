@@ -1,5 +1,5 @@
 @extends('layouts.base', [
-    'title' => 'Reservation'
+    'title' => 'Reservering'
 ])
 
 @section('content') 
@@ -59,7 +59,8 @@
                 
 
                 @if($reservation->related_type == 'App\Models\EventReservation')
-                    <a class="button is-primary" href="{{route('reservations.export', $reservation)}}">Exporteren</a>
+                    <a class="button is-primary" href="{{route('reservations.exportCSV', $reservation)}}">Exporteer naar CSV</a>
+                    <a class="button is-primary" href="{{route('reservations.exportJSON', $reservation)}}">Exporteer naar JSON</a>
                 @endif
                 <!-- Authorisatie en Authenticatie op bewerken -->
                 <a class="button is-warning" href="{{ route('reservations.index')}}">Terug</a>     
