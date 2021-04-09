@@ -1,5 +1,5 @@
 @extends('layouts.base', [
-'title' => 'Home'
+    'title' => 'Home'
 ])
 
 @section('content')
@@ -23,6 +23,37 @@
             </nav>
         </div>
     </div>
+
+    <div class="level">
+        <div class="level-left">
+            <h2>Komende evenementen</h2>
+        </div>
+
+        <div class="level-right">
+            <a class="button is-link is-light" href="{{ route('home.events') }}">Alle evenementen</a>
+        </div>
+    </div>
+
+    @foreach ($events->chunk(2) as $chunk)
+        <div class="columns">
+            @foreach ($chunk as $event)
+                <div class="column">
+                    <div class="block">
+                        @if ($event instanceof App\Models\Event)
+                            <h3>Evenement: {{ $event->name }}</h3>
+                            <strong>Start: </strong> {{ date('d-m-Y', strtotime($event->startdate)) }}<br>
+                            <strong>Eind: </strong> {{ date('d-m-Y', strtotime($event->enddate)) }}<br>
+                            <a href="{{ route('events.show', $event) }}">Bekijk info</a>
+                            @else
+                            <h3>Film: {{ $event->movie->name }}</h3>
+                            <strong>Start: </strong> {{ date('d-m-Y \o\m H:i', strtotime($event->start)) }}<br>
+                            <a href="{{ route('filmevents.show', $event) }}">Bekijk info</a>
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @endforeach
 
     <x-logoutform />
 @endsection

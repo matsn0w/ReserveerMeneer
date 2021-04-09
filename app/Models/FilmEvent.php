@@ -28,4 +28,9 @@ class FilmEvent extends Model
     {
         return $this->belongsTo(Movie::class);
     }
+
+    public function unified_date()
+    {
+        return date('Y-m-d', strtotime($this->start));
+    }
 }
