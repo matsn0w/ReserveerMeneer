@@ -53,13 +53,6 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function users()
-    {
-        return $this
-            ->belongsToMany(User::class)
-            ->withTimestamps();
-    }
-
     public function authorizeRoles($roles)
     {
       if ($this->hasAnyRole($roles)) {
