@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\FilmEvent;
 use Illuminate\Http\Request;
+use App\Http\Requests\EventRequest;
 
 class EventController extends Controller
 {
@@ -37,12 +38,12 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  EventRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EventRequest $request)
     {
-        $validatedAttributes = $this->validateEvent($request);
+        $validatedAttributes = $request->validated();
         $event = Event::create($validatedAttributes);
 
         return redirect(Route('event.show', $event));
@@ -73,13 +74,13 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  EventRequest  $request
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(EventRequest $request, Event $event)
     {
-        $validatedAttributes = $this->validateEvent($request);
+        $validatedAttributes = $request->validated();
         $event->update($validatedAttributes);
 
         return redirect(Route('events.show', $event));
@@ -98,15 +99,5 @@ class EventController extends Controller
         session()->flash('success', 'Evenement verwijderd!');
 
         return redirect()->route('events.index');
-    }
-
-    public function validateEvent(Request $request) {
-        return $request->validate([
-            'name' => ['required', 'min:3', 'max:100'],
-            'description' => ['required', 'min:1', 'max:1000'],
-            'startdate' => ['required'],
-            'endate' => ['required', 'after:'.$request->get('startdate')],
-            'personMax' => ['required', 'numeric', 'min:1'],
-        ]);
     }
 }

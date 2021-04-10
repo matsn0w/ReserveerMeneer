@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use DateTime;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use App\Rules\ContainsCategory;
 use App\Models\RestaurantCategory;
 use Illuminate\Support\Facades\DB;
 use App\Models\RestaurantOpeninghours;
-use App\Rules\ContainsCategory;
+use App\Http\Requests\RestaurantRequest;
 use Symfony\Component\Console\Input\Input;
 
 class RestaurantController extends Controller
@@ -59,13 +60,13 @@ class RestaurantController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  RestaurantRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RestaurantRequest $request)
     {
         // validate the request
-        $validatedAttributes = $this->validateRestaurant($request);
+        $validatedAttributes = $request->validated();
 
         // create the restaurant
         $restaurant = Restaurant::create($validatedAttributes);
@@ -111,14 +112,14 @@ class RestaurantController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  RestaurantRequest  $request
      * @param  \App\Models\Restaurant  $restaurant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Restaurant $restaurant)
+    public function update(RestaurantRequest $request, Restaurant $restaurant)
     {
         // validate the request
-        $validatedAttributes = $this->validateRestaurant($request);
+        $validatedAttributes = $request->validated();
 
         // update the restaurant
         $restaurant->update($validatedAttributes);
@@ -141,15 +142,6 @@ class RestaurantController extends Controller
         session()->flash('success', 'Restaurant is verwijderd!');
 
         return redirect('restaurants');
-    }
-
-    public function validateRestaurant(Request $request) {
-        return $request->validate([
-            'name' => ['required', 'min:3', 'max:100'],
-            'description' => ['required', 'min:1', 'max:1000'],
-            'category_id' => ['required', 'exists:restaurant_categories,id'],
-            'seats' => ['required', 'integer', 'min:1', 'max:1000']
-        ]);
     }
 
     public function applyCategoryFilter($request) {
