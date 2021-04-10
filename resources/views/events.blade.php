@@ -5,7 +5,7 @@
 @section('content')
     <div class="columns">
         <div class="column is-three-quarters">
-            @foreach ($events->chunk(2) as $chunk)
+            @forelse ($events->chunk(2) as $chunk)
                 <div class="columns">
                     @foreach ($chunk as $event)
                         <div class="column">
@@ -24,30 +24,60 @@
                         </div>
                     @endforeach
                 </div>
-            @endforeach
+            @empty
+                <p>Er zijn geen evenementen gepland!</p>
+            @endforelse
         </div>
 
         <div class="column is-one-quarter">
-            <form action="{{ route('home.events') }}" method="get">
-                <div class="field has-addons">
-                    <div class="control is-expanded">
-                        <div class="select is-fullwidth">
-                            <select name="sort">
-                                <option value="date-asc" @if (request()->sort == 'date-asc') selected @endif>Datum (oplopend)</option>
-                                <option value="date-desc" @if (request()->sort == 'date-desc') selected @endif>Datum (aflopend)</option>
-                                <option value="name-asc" @if (request()->sort == 'name-asc') selected @endif>Naam (oplopend)</option>
-                                <option value="name-desc" @if (request()->sort == 'name-desc') selected @endif>Naam (aflopend)</option>
-                            </select>
+            <nav class="panel">
+                <p class="panel-heading">Filters</p>
+
+                <form action="{{ route('home.events') }}" method="get">
+                    <div class="panel-block">
+                        <div class="field">
+                            <label class="label" for="sort">Sorteren</label>
+
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select name="sort">
+                                        <option value="date-asc" @if (request()->sort == 'date-asc') selected @endif>Datum (oplopend)</option>
+                                        <option value="date-desc" @if (request()->sort == 'date-desc') selected @endif>Datum (aflopend)</option>
+                                        <option value="name-asc" @if (request()->sort == 'name-asc') selected @endif>Naam (oplopend)</option>
+                                        <option value="name-desc" @if (request()->sort == 'name-desc') selected @endif>Naam (aflopend)</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="control">
-                        <button type="submit" class="button is-link is-inverted">Sorteren</button>
-                    </div>
-                </div>
-            </form>
+                    <div class="panel-block">
+                        <div class="field">
+                            <label class="label" for="dateFrom">Van</label>
 
-            <h3>Filters</h3>
+                            <div class="control">
+                                <input class="input" type="date" name="dateFrom" id="dateFrom" @if (request()->filled('dateFrom')) value="{{ request()->dateFrom }}" @endif>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-block">
+                        <div class="field">
+                            <label class="label" for="dateTill">Tot</label>
+
+                            <div class="control">
+                                <input class="input" type="date" name="dateTill" id="dateTill" @if (request()->filled('dateTill')) value="{{ request()->dateTill }}" @endif>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a class="panel-block">Locatie</a>
+
+                    <div class="panel-block">
+                        <button class="button is-link is-outlined is-fullwidth">Filteren</button>
+                    </div>
+                </form>
+            </nav>
         </div>
     </div>
 @endsection

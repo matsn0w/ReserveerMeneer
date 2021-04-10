@@ -14,55 +14,69 @@ class HomeController extends Controller
         $events = Event::take(5)->get();
         $filmevents = FilmEvent::take(5)->get();
 
-        $collection = $this->combineEvents($events, $filmevents);
+        $collection = $events->concat($filmevents);
+        $collection = $collection->sortBy(function($item) {
+            return $item->unified_date();
+        });
 
         return view('home', [
             'events' => $collection
         ]);
     }
 
-    public function events($sort = null)
+    public function events($sort = null, $dateFrom = null, $dateTill = null)
     {
+        // get all events
+        $events = Event::all();
+        $filmevents = FilmEvent::all();
+
+        // combine
+        $collection = $events->concat($filmevents);
+
+        // handle sorting
         switch (request()->sort) {
             default:
             case 'date-asc':
-                $events = Event::all()->sortBy('startdate');
-                $filmevents = FilmEvent::all()->sortBy('start');
+                $collection = $collection->sortBy(function($event) {
+                    return $event->unified_date();
+                });
                 break;
 
             case 'date-desc':
-                $events = Event::all()->sortByDesc('startdate');
-                $filmevents = FilmEvent::all()->sortBy('start');
+                $collection = $collection->sortByDesc(function($event) {
+                    return $event->unified_date();
+                });
                 break;
 
             case 'name-asc':
-                $events = Event::all()->sortBy('name');
-                $filmevents = FilmEvent::all()->sortBy('name');
+                $collection = $collection->sortBy(function($event) {
+                    return $event->name ?? $event->movie->name;
+                }, SORT_NATURAL | SORT_FLAG_CASE); // sort case-insensitive
                 break;
 
             case 'name-desc':
-                $events = Event::all()->sortByDesc('name');
-                $filmevents = FilmEvent::all()->sortByDesc('name');
+                $collection = $collection->sortByDesc(function($event) {
+                    return $event->name ?? $event->movie->name;
+                }, SORT_NATURAL | SORT_FLAG_CASE); // sort case-insensitive
                 break;
         }
 
-        $collection = $this->combineEvents($events, $filmevents);
+        // handle date ranges
+        if (request()->filled('dateFrom')) {
+            $collection = $collection->filter(function($event) {
+                return $event->startdate >= request()->dateFrom ||
+                       $event->start >= request()->dateFrom;
+            });
+        }
+
+        if (request()->filled('dateTill')) {
+            $collection = $collection->filter(function($event) {
+                return $event->enddate < request()->dateTill;
+            });
+        }
 
         return view('events', [
-            'events' => $events
+            'events' => $collection
         ]);
-    }
-
-    private function combineEvents($collectionA, $collectionB)
-    {
-        // merge the two collections
-        $collection = $collectionA->concat($collectionB);
-
-        // sort by date (not by time)
-        $collection = $collection->sortBy(function($item) {
-            return $item->unified_date();
-        });
-
-        return $collection;
     }
 }
