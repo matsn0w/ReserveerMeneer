@@ -14,10 +14,13 @@ class HomeController extends Controller
         $events = Event::take(5)->get();
         $filmevents = FilmEvent::take(5)->get();
 
-        $collection = $events->concat($filmevents);
-        $collection = $collection->sortBy(function($item) {
-            return $item->unified_date();
-        });
+        $collection = $events->concat($filmevents)
+            ->filter(function($event) {
+                return $event->unified_date() >= date('Y-m-d');
+            })
+            ->sortBy(function($event) {
+                return $event->unified_date();
+            });
 
         return view('home', [
             'events' => $collection
@@ -31,7 +34,23 @@ class HomeController extends Controller
         $filmevents = FilmEvent::all();
 
         // combine
-        $collection = $events->concat($filmevents);
+        $collection = $events->concat($filmevents)
+            ->filter(function($event) {
+                return $event->unified_date() >= date('Y-m-d');
+            });
+
+        // handle date ranges
+        if (request()->filled('dateFrom')) {
+            $collection = $collection->filter(function($event) {
+                return $event->unified_date() >= request()->dateFrom;
+            });
+        }
+
+        if (request()->filled('dateTill')) {
+            $collection = $collection->filter(function($event) {
+                return $event->start < request()->dateTill && $event->enddate < request()->dateTill;
+            });
+        }
 
         // handle sorting
         switch (request()->sort) {
@@ -59,20 +78,6 @@ class HomeController extends Controller
                     return $event->name ?? $event->movie->name;
                 }, SORT_NATURAL | SORT_FLAG_CASE); // sort case-insensitive
                 break;
-        }
-
-        // handle date ranges
-        if (request()->filled('dateFrom')) {
-            $collection = $collection->filter(function($event) {
-                return $event->startdate >= request()->dateFrom ||
-                       $event->start >= request()->dateFrom;
-            });
-        }
-
-        if (request()->filled('dateTill')) {
-            $collection = $collection->filter(function($event) {
-                return $event->enddate < request()->dateTill;
-            });
         }
 
         return view('events', [
