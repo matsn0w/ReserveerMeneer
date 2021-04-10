@@ -18,6 +18,7 @@
                                 @else
                                     <h3>Film: {{ $event->movie->name }}</h3>
                                     <strong>Start: </strong> {{ date('d-m-Y \o\m H:i', strtotime($event->start)) }}<br>
+                                    <strong>Bioscoop: </strong> {{ $event->hall->cinema->name }}<br>
                                     <a href="{{ route('filmevents.show', $event) }}">Bekijk info</a>
                                 @endif
                             </div>
@@ -71,7 +72,27 @@
                         </div>
                     </div>
 
-                    <a class="panel-block">Locatie</a>
+                    <div class="panel-block">
+                        <div class="field">
+                            <label class="label">Locatie</label>
+
+                            @foreach ($locations as $location)
+                                @php
+                                    $selected = false;
+
+                                    if (request()->filled('location')) {
+                                        $selected = in_array($location->id, request()->location);
+                                    }
+                                @endphp
+
+                                <div class="control">
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="location[]" value="{{ $location->id }}" @if ($selected) checked @endif>{{ $location->name }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
 
                     <div class="panel-block">
                         <button class="button is-link is-outlined is-fullwidth">Filteren</button>

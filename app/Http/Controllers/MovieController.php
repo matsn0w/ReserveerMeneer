@@ -40,7 +40,8 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => ['required', 'min:2']
+            'name' => ['required', 'min:2'],
+            'duration' => ['required', 'min:1']
         ]);
 
         $movie = Movie::create($validated);
@@ -86,7 +87,8 @@ class MovieController extends Controller
     public function update(Request $request, Movie $movie)
     {
         $validated = $request->validate([
-            'name' => ['required', 'min:2']
+            'name' => ['required', 'min:2'],
+            'duration' => ['required', 'min:1']
         ]);
 
         $movie->update($validated);

@@ -11,6 +11,7 @@
         <thead>
             <tr>
                 <th>Naam</th>
+                <th>Duur</th>
                 <th></th>
             </tr>
         </thead>
@@ -19,6 +20,7 @@
             @foreach ($movies as $movie)
                 <tr>
                     <td>{{ $movie->name }}</td>
+                    <td>{{ $movie->duration }} min.</td>
                     <td>
                         <a href="{{ route('movies.show', $movie) }}">Bekijken</a>
                     </td>

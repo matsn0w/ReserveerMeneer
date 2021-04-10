@@ -3,6 +3,8 @@
 ])
 
 @section('content')
+    <p>Duur: {{ $movie->duration }} minuten</p>
+
     <div class="block">
         <h2>Aankomende filmavonden</h2>
 
