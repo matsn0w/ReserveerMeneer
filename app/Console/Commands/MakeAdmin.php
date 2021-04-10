@@ -58,6 +58,7 @@ class MakeAdmin extends Command
         $user = User::make();
         $user->name = $answers['name'];
         $user->email = $answers['email'];
+        $user->phonenumber = $answers['phone'];
         $user->password = Hash::make($answers['password']);
         $user->save();
 
@@ -69,11 +70,13 @@ class MakeAdmin extends Command
     private function askQuestions() {
         $name = $this->ask('Enter a name:');
         $email = $this->ask('Enter an email address:');
+        $phone = $this->ask('Enter a phone number');
         $password = $this->secret('Enter a password:');
 
         $answers = [
             'name' => $name,
             'email' => $email,
+            'phone' => $phone,
             'password' => $password
         ];
 
@@ -84,6 +87,7 @@ class MakeAdmin extends Command
     {
         $this->info("Username: {$user['name']}");
         $this->info("Email: {$user['email']}");
+        $this->info("Phone: {$user['phone']}");
         $this->info("Password: {$user['password']}");
 
         return $this->confirm('Is this correct?', true);
