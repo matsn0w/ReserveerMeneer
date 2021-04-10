@@ -2,6 +2,10 @@
     'title' => $event->movie->name . ' reserveren'
 ])
 
+@push('scripts')
+    <script src="{{ asset('js/filmeventreservation.js') }}" defer></script>
+@endpush
+
 @section('content')
     <div class="tile is-ancestor">
         <div class="tile is-parent">
@@ -13,9 +17,13 @@
                     <strong>Zaal:</strong> {{ $event->hall->name }}<br>
                 </p>
 
-                <form method="POST" action="{{ route('filmevents.reserve', $event) }}">
+                <form id="resForm" method="POST" action="{{ route('filmevents.reserve', $event) }}">
                     @csrf
                     @method('PUT')
+
+                    <input type="hidden" name="seats">
+
+                    <x-seats :hall="$event->hall" />
 
                     <div class="is-flex is-justify-content-space-between">
                         <div class="column is-two-fifths p-0 pt-3">

@@ -10261,6 +10261,9 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   color: #fff;
   cursor: pointer;
 }
+.seats .row .seat.selected {
+  border: solid 3px black;
+}
 .seats .row:nth-child(odd) .seat {
   background: #b5b5b5;
   color: #fff;

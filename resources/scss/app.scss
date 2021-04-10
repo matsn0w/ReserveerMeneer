@@ -38,6 +38,10 @@
                 color: findColorInvert($grey-light);
                 cursor: pointer;
             }
+
+            &.selected {
+                border: solid 3px black;
+            }
         }
 
         &:nth-child(odd) {
@@ -56,5 +60,5 @@
 
 .guestimg {
     max-width: 300px;
-    
+
 }
