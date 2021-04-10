@@ -3,28 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\FilmEvent;
-use Illuminate\Http\Request;
+use App\Repositories\ReservationRepository;
 
 class FilmEventReservationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private $reservationRepository;
+
+    public function __construct()
     {
-        //
+        $this->reservationRepository = new ReservationRepository;
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display the specified resource.
      *
+     * @param  FilmEvent  $filmevent
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function reserve(FilmEvent $filmevent)
     {
-        //
+        return view('filmevents.reservation', [
+            'event' => $filmevent
+        ]);
     }
 
     /**
@@ -33,53 +33,23 @@ class FilmEventReservationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, FilmEvent $filmevent)
     {
-        //
+        $validatedAddress = $this->validateAddress($request);
+
+        $this->reservationRepository->create($validatedAddress, 'filmevent');
+
+        return redirect()->route('home');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\FilmEventReservation  $filmEventReservation
-     * @return \Illuminate\Http\Response
-     */
-    public function show(FilmEventReservation $filmEventReservation)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\FilmEventReservation  $filmEventReservation
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(FilmEventReservation $filmEventReservation)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\FilmEventReservation  $filmEventReservation
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, FilmEventReservation $filmEventReservation)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\FilmEventReservation  $filmEventReservation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(FilmEventReservation $filmEventReservation)
-    {
-        //
+    // TODO: move to common location
+    public function validateAddress(Request $request) {
+        return $request->validate([
+            'postal_code' => ['required'],
+            'street_name' => ['required'],
+            'house_number' => ['required', 'regex:/^\d+[a-zA-Z]*$/'],
+            'city' => ['required'],
+            'country' => ['required']
+        ]);
     }
 }

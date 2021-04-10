@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use DateTime;
+use DateInterval;
 use App\Models\Hall;
 use App\Models\Movie;
 use App\Models\Cinema;
@@ -30,5 +32,13 @@ class FilmEvent extends Model
 
     public function unified_date() {
         return date('Y-m-d', strtotime($this->start));
+    }
+
+    public function endTime()
+    {
+        $start = new DateTime($this->start);
+        $start->add(new DateInterval('PT' . $this->movie->duration . 'M'));
+
+        return $start->format('d-m-Y H:i');
     }
 }

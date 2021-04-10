@@ -125,17 +125,10 @@ class FilmEventController extends Controller
      */
     public function destroy(FilmEvent $filmevent)
     {
-        //
-    }
+        $filmevent->delete();
 
-    /**
-     * Reserve the specified resource.
-     *
-     * @param  FilmEvent  $filmevent
-     * @return \Illuminate\Http\Response
-     */
-    public function reserve(FilmEvent $filmevent)
-    {
-        //
+        session()->flash('success', 'Filmavond is verwijderd!');
+
+        return redirect()->route('filmevents.index');
     }
 }

@@ -9,11 +9,10 @@ use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FilmEventController;
 use App\Http\Controllers\RestaurantController;
-use App\Http\Controllers\EventReservationController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\EventReservationController;
+use App\Http\Controllers\FilmEventReservationController;
 use App\Http\Controllers\RestaurantReservationController;
-use App\Models\EventReservation;
-use App\Models\Reservation;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,8 +37,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/events/{id}/reserve/{locale?}', [EventReservationController::class, 'nextStep'])->name('eventreservations.next');
     Route::put('/events/{id}/reserve', [EventReservationController::class, 'store'])->name('eventreservations.store');
 
-    Route::get('/filmevents/{filmevent}/reserve', [FilmEventController::class, 'reserve'])->name('filmevents.reserve');
-    Route::put('/filmevents/{filmevent}/reserve', [FilmEventController::class, 'store'])->name('filmevents.store');
+    Route::get('/filmevents/{filmevent}/reserve', [FilmEventReservationController::class, 'reserve'])->name('filmevents.reserve');
+    Route::put('/filmevents/{filmevent}/reserve', [FilmEventReservationController::class, 'store'])->name('filmevents.store');
 
     Route::resources([
         'restaurants' => RestaurantController::class,

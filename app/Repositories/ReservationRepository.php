@@ -24,7 +24,7 @@ class ReservationRepository extends BaseRepository
         $user_id = auth()->user()->id;
 
         // check if address with exact same values exists. Reduce redundant rows
-        if($validatedAddress == null || $validatedReservation == null) {
+        if ($validatedAddress == null || $validatedReservation == null) {
             return;
         }
 
@@ -48,7 +48,7 @@ class ReservationRepository extends BaseRepository
                 break;
             case 'event':
                 $guests = $validatedReservation['guests'];
-                unset($validatedReservation['guests']); 
+                unset($validatedReservation['guests']);
                 $reservation_related = EventReservation::create($validatedReservation);
 
                 foreach($guests as $guest) {
@@ -60,7 +60,7 @@ class ReservationRepository extends BaseRepository
                     ]);
                 }
                 break;
-            case 'movie':
+            case 'filmevent':
                 $reservation_related = MovieReservation::create($validatedReservation);
                 break;
         }

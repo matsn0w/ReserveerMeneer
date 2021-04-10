@@ -6,12 +6,12 @@ use App\Models\FilmEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class MovieReserrvation extends Model
+class MovieReservation extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'filmevent_id'
+        'filmevent_id',
     ];
 
     public function reservation() {
@@ -19,6 +19,6 @@ class MovieReserrvation extends Model
     }
 
     public function filmevent() {
-        return $this->belongsTo(FilmEvenót::class);
+        return $this->belongsTo(FilmEvent::class);
     }
 }
