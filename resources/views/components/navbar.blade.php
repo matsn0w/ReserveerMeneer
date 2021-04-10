@@ -41,6 +41,7 @@
 
                         @guest
                             <a class="button is-link" href="{{ route('login') }}">Log in</a>
+                            <a class="button is-link" href="{{ route('register') }}">Register</a>
                         @endguest
                     </div>
                 </div>
