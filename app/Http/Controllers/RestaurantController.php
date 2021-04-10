@@ -157,7 +157,10 @@ class RestaurantController extends Controller
             'filter' => ['nullable', 'exists:restaurant_categories,id']
         ]);
 
-        $filter = $validated['filter'];
+        $filter = null;
+        if(request()->filled('filter')) {
+            $filter = $validated['filter'];
+        }
 
         $values = array('restaurants' => "", 'filter' => "");
 
