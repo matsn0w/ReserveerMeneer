@@ -20,6 +20,8 @@
                 <a class="panel-block" href="{{ route('movies.index') }}">Films</a>
                 <a class="panel-block" href="{{ route('events.index') }}">Evenementen</a>
                 <a class="panel-block" href="{{ route('filmevents.index') }}">Filmavonden</a>
+                <a class="panel-block" href="{{ route('dashboard.index') }}">Dashboard</a>
+                <a class="panel-block" href="{{ route('reservations.index') }}">Mijn Reserveringen</a>
             </nav>
         </div>
     </div>

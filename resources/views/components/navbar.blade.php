@@ -23,6 +23,11 @@
             </div>
 
             <div class="navbar-end">
+
+                {{-- TODO: Check for roles --}}
+                <a class="navbar-item" href="{{ route('dashboard.index') }}">Dashboard</a>
+                <a class="navbar-item" href="{{ route('reservations.index') }}">Mijn Reserveringen</a>
+
                 <div class="navbar-item">
                     <div class="buttons">
                         @auth
