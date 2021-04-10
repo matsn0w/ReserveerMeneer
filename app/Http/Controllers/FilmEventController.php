@@ -6,6 +6,7 @@ use App\Models\Hall;
 use App\Models\Movie;
 use App\Models\FilmEvent;
 use Illuminate\Http\Request;
+use App\Http\Requests\FilmEventRequest;
 
 class FilmEventController extends Controller
 {
@@ -42,17 +43,12 @@ class FilmEventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  FilmEventRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FilmEventRequest $request)
     {
-        $validated = $request->validate([
-            'hall_id' => ['required'],
-            'movie_id' => ['required'],
-            'start' => ['required'],
-            // TODO: check for uniqeness
-        ]);
+        $validated = $request->validated();
 
         $filmevent = FilmEvent::create($validated);
 
@@ -95,18 +91,13 @@ class FilmEventController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  FilmEventRequest  $request
      * @param  FilmEvent  $filmevent
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FilmEvent $filmevent)
+    public function update(FilmEventRequest $request, FilmEvent $filmevent)
     {
-        $validated = $request->validate([
-            'hall_id' => ['required'],
-            'movie_id' => ['required'],
-            'start' => ['required'],
-            // TODO: check for uniqeness
-        ]);
+        $validated = $request->validated();
 
         $filmevent->update($validated);
 

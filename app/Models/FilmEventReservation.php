@@ -2,23 +2,30 @@
 
 namespace App\Models;
 
+use App\Models\Seat;
+use App\Models\Address;
 use App\Models\FilmEvent;
+use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class MovieReservation extends Model
+class FilmEventReservation extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'filmevent_id',
-    ];
+    public function addresses() {
+        return $this->belongsTo(Address::class);
+    }
 
     public function reservation() {
         return $this->morphOne(Reservation::class, 'related', 'reservations');
     }
 
     public function filmevent() {
-        return $this->belongsTo(FilmEvent::class);
+        return $this->hasOne(FilmEvent::class);
+    }
+
+    public function seats() {
+        return $this->hasMany(Seat::class);
     }
 }
