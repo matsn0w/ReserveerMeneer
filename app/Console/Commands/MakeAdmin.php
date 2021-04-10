@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class MakeAdmin extends Command
 {
@@ -45,7 +47,7 @@ class MakeAdmin extends Command
     {
         // ask for details
         $answers = $this->askQuestions();
-
+        
         // ask if the info is correct
         if (!$this->confirmUser($answers)) {
             $this->info('Aborted.');
@@ -54,6 +56,14 @@ class MakeAdmin extends Command
 
         $this->info("Creating admin account for user '{$answers['name']}'...");
 
+        if(Role::where('name', '=', 'ADMIN')->count() == 0) {
+            $role = Role::make();
+            $role->name = 'ADMIN';
+            $role->description = 'Acts as platform owner';
+            $role->save();
+        }
+        $role_id = Role::where('name', '=', 'ADMIN')->first()->id;
+
         // create the user account
         $user = User::make();
         $user->name = $answers['name'];
@@ -61,6 +71,11 @@ class MakeAdmin extends Command
         $user->phonenumber = $answers['phone'];
         $user->password = Hash::make($answers['password']);
         $user->save();
+
+        DB::table('role_user')->insert([
+            'role_id' => $role_id,
+            'user_id' => $user->id
+        ]);
 
         $this->info('User successfully created!');
 

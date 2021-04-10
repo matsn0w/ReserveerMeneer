@@ -56,6 +56,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/myreservations/{reservation}/export/CSV', [ReservationController::class, 'exportToCSV'])->name('reservations.exportCSV');
     Route::get('/myreservations/{reservation}/export/JSON', [ReservationController::class, 'exportToJSON'])->name('reservations.exportJSON');
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-    Route::get('/dashboard/filter', [DashboardController::class, 'filter'])->name('dashboard.filter');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->middleware('role:ADMIN');
+    Route::get('/dashboard/filter', [DashboardController::class, 'filter'])->name('dashboard.filter')->middleware('role:ADMIN');;
 });

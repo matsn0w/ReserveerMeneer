@@ -25,8 +25,11 @@
             <div class="navbar-end">
 
                 {{-- TODO: Check for roles --}}
+                @if(auth()->user()->hasRole('ADMIN'))
                 <a class="navbar-item" href="{{ route('dashboard.index') }}">Dashboard</a>
+                @endif
                 <a class="navbar-item" href="{{ route('reservations.index') }}">Mijn Reserveringen</a>
+
 
                 <div class="navbar-item">
                     <div class="buttons">
