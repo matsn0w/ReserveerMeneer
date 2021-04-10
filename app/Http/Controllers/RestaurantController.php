@@ -29,9 +29,6 @@ class RestaurantController extends Controller
     {
         $availableCategories = RestaurantCategory::all();
 
-        // we assume there is no filter set
-        $request['filter'] = null;
-
         $values = $this->applyCategoryFilter($request);
 
         return view('restaurants.index', [
