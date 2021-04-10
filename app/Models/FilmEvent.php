@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Hall;
 use App\Models\Movie;
+use App\Models\Cinema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -19,18 +20,15 @@ class FilmEvent extends Model
         'start'
     ];
 
-    public function hall()
-    {
+    public function hall() {
         return $this->belongsTo(Hall::class);
     }
 
-    public function movie()
-    {
+    public function movie() {
         return $this->belongsTo(Movie::class);
     }
 
-    public function unified_date()
-    {
+    public function unified_date() {
         return date('Y-m-d', strtotime($this->start));
     }
 }

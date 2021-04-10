@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hall;
 use App\Models\Event;
 use App\Models\FilmEvent;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function events($sort = null, $dateFrom = null, $dateTill = null)
+    public function events($sort = null, $dateFrom = null, $dateTill = null, $locations = null)
     {
         // get all events
         $events = Event::all();
@@ -49,6 +50,13 @@ class HomeController extends Controller
         if (request()->filled('dateTill')) {
             $collection = $collection->filter(function($event) {
                 return $event->start < request()->dateTill && $event->enddate < request()->dateTill;
+            });
+        }
+
+        // handle locations
+        if (request()->filled('location')) {
+            $collection = $collection->filter(function($event) {
+                return in_array($event->hall->cinema->id ?? -1, request()->location);
             });
         }
 
@@ -80,8 +88,14 @@ class HomeController extends Controller
                 break;
         }
 
+        // get all locations
+        $locations = $filmevents->map(function($event) {
+            return $event->hall->cinema;
+        })->unique();
+
         return view('events', [
-            'events' => $collection
+            'events' => $collection,
+            'locations' => $locations
         ]);
     }
 }
