@@ -18,6 +18,7 @@ class MakeAdmin extends Command
     protected $signature = 'auth:admin
         {username=admin : The user\'s name}
         {email=admin@localhost : The user\'s email address}
+        {phonenumber=0612345678 : the user\'s phone number}
         {password=admin : The user\'s password}
     ';
 
