@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\CinemaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FilmEventController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\EventReservationController;
@@ -59,4 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/myreservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
     Route::get('/myreservations/{reservation}/export/CSV', [ReservationController::class, 'exportToCSV'])->name('reservations.exportCSV');
     Route::get('/myreservations/{reservation}/export/JSON', [ReservationController::class, 'exportToJSON'])->name('reservations.exportJSON');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard/filter', [DashboardController::class, 'filter'])->name('dashboard.filter');
 });
