@@ -12,6 +12,7 @@ use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\EventReservationController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RestaurantReservationController;
+use App\Models\EventReservation;
 use App\Models\Reservation;
 
 /*
@@ -29,22 +30,16 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/events-overview/{sort?}{dateFrom?}{dateTill?}', [HomeController::class, 'events'])->name('home.events');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/restaurants/{id}/reserve', [RestaurantReservationController::class, 'reserve'])
-        ->name('restaurantreservations.reserve');
-    Route::put('/restaurants/{id}/reserve', [RestaurantReservationController::class, 'store'])
-        ->name('restaurantreservations.store');
+    Route::get('/restaurants/{id}/reserve', [RestaurantReservationController::class, 'reserve'])->name('restaurantreservations.reserve');
+    Route::put('/restaurants/{id}/reserve', [RestaurantReservationController::class, 'store'])->name('restaurantreservations.store');
 
-    Route::get('/events/{id}/reserve', [EventReservationController::class, 'reserve'])
-        ->name('eventreservations.reserve');
-    Route::post('/events/{id}/reserve', [EventReservationController::class, 'nextStep'])
-        ->name('eventreservations.next');
-    Route::put('/events/{id}/reserve/', [EventReservationController::class, 'store'])
-        ->name('eventreservations.store');
+    Route::get('/events/{id}/reserve/{locale?}', [EventReservationController::class, 'reserve'])->name('eventreservations.reserve');
+    Route::get('/events/{id}/reserve/{locale}', [EventReservationController::class, 'setLocale'])->name('eventreservations.locale');
+    Route::post('/events/{id}/reserve/{locale?}', [EventReservationController::class, 'nextStep'])->name('eventreservations.next');
+    Route::put('/events/{id}/reserve', [EventReservationController::class, 'store'])->name('eventreservations.store');
 
-    Route::get('/filmevents/{filmevent}/reserve', [FilmEventController::class, 'reserve'])
-        ->name('filmevents.reserve');
-    Route::put('/filmevents/{filmevent}/reserve', [FilmEventController::class, 'store'])
-        ->name('filmevents.store');
+    Route::get('/filmevents/{filmevent}/reserve', [FilmEventController::class, 'reserve'])->name('filmevents.reserve');
+    Route::put('/filmevents/{filmevent}/reserve', [FilmEventController::class, 'store'])->name('filmevents.store');
 
     Route::resources([
         'restaurants' => RestaurantController::class,

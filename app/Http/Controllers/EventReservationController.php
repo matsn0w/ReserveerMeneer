@@ -12,6 +12,7 @@ use App\Rules\ValidEventDateDifference;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
+use App;
 
 class EventReservationController extends Controller
 {
@@ -22,8 +23,14 @@ class EventReservationController extends Controller
         $this->reservationRepository = new ReservationRepository;
     }
 
-    public function reserve($id)
+    public function reserve($id, $locale = null)
     {
+        if(in_array($locale, ['en', 'nl'])) {
+            app()->setlocale($locale);
+        }
+
+        $locale = app()->getLocale();
+
         $event = Event::find($id);
 
         if($event == null) {
@@ -32,11 +39,27 @@ class EventReservationController extends Controller
 
         return view('events.reservation', [
             'event' => $event,
+            'locale' => $locale,
         ]);
     }
 
-    public function nextStep(Request $request) {
-        $event = Event::find($request->get('event_id')) ?? abort(404, "Event not found");
+    public function setLocale($id, $locale) {
+        
+        if(in_array($locale, ['en', 'nl'])) {
+            app()->setlocale($locale);
+        }
+
+        return redirect()->route('eventreservations.reserve', [$id, $locale]);
+    } 
+
+    public function nextStep(Request $request, $event_id, $locale = null) {
+        if(in_array($locale, ['en', 'nl'])) {
+            app()->setlocale($locale);
+        }
+
+        $locale = app()->getLocale();
+
+        $event = Event::find($event_id) ?? abort(404, "Event not found");
 
         $validatedReservation = $this->validateReservation($request, $event);
         $validatedReservation['event_id'] = $event->id;
@@ -48,12 +71,14 @@ class EventReservationController extends Controller
         return view('events.guestinfo', [
             'guestamount' => $validatedReservation['ticketamount'],
             'event' => $event,
+            'locale' => $locale,
         ]);
     }
 
 
     public function store(Request $request)
     {
+
         $validatedAddress = $request->session()->get('address_data');
         $validatedReservation = $request->session()->get('reservation_data');
         $new_guests = [];
@@ -78,7 +103,7 @@ class EventReservationController extends Controller
             $file = $files[$i.'-'.$guest['name']];
             $extension = $file->extension();
             $name = $this->generateName($guest['name']); 
-            $file->storeAs('public', $name.".".$extension);
+            $file->storeAs('public/images', $name.".".$extension);
             $url = $name.".".$extension;
             $file = File::create([
                 'user_id' => auth()->user()->id,

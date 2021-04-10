@@ -1,5 +1,5 @@
-@extends('layouts.base', [
-    'title' => 'Evenement'
+@extends('layouts.base', [  
+    'title' => $title = __('eventreservation.event'),
 ])
 
 @push('scripts')
@@ -7,22 +7,26 @@
 @endpush
 
 @section('content')
+
+    <div class="container mt-5">
+        <a href="{{ route('eventreservations.locale', [$event->id, 'en']) }}" class="button is-primary mt-2">{{__('eventreservation.english')}}</a>
+        <a href="{{ route('eventreservations.locale', [$event->id, 'nl']) }}" class="button is-primary mt-2">{{__('eventreservation.dutch')}}</a>
+    </div>
+
     <div class="tile is-ancestor">
         <div class="tile is-parent">
             <div class="tile is-child box">
                 <h3>{{$event->name}}</h3>
 
                 <p>
-                    <strong>Beschrijving:</strong> {{ $event->description }}<br>
-                    <strong>Start datum:</strong> {{ $event->startdate }}<br>
-                    <strong>Eind datum:</strong> {{ $event->enddate }}<br>
-                    <strong>Maximaal aantal tickets per persoon:</strong> {{ $event->maxPerPerson }}</a>
+                    <strong>{{__('eventreservation.description')}}:</strong> {{ $event->description }}<br>
+                    <strong>{{__('eventreservation.startdate')}}:</strong> {{ $event->startdate }}<br>
+                    <strong>{{__('eventreservation.enddate')}}:</strong> {{ $event->enddate }}<br>
+                    <strong>{{__('eventreservation.maxPerPerson')}}:</strong> {{ $event->maxPerPerson }}</a>
                 </p>
 
-                <form method="POST" action="/events/{{$event->id}}/reserve">
+                <form method="POST" action="/events/{{$event->id}}/reserve/{{$locale}}">
                     @csrf
-
-                    <input type="hidden" name="event_id" for="event_id" value="{{$event->id}}">
 
                     <div class="columns">
                         <div class="column">
@@ -32,7 +36,7 @@
 
                         <div class="column">
                             <div class="field">
-                                <label class="label" for="tickettype">Tickettype</label>
+                                <label class="label" for="tickettype">{{__('eventreservation.tickettype')}}</label>
 
                                 <div class="control">
                                     <div class="select is-fullwidth">
@@ -46,7 +50,7 @@
                             </div>
 
                             <div class="field">
-                                <label class="label" for="startdate">Begindatum</label>
+                                <label class="label" for="startdate">{{__('eventreservation.begindate')}}</label>
 
                                 <div class="control">
                                     <input class="input"
@@ -66,7 +70,7 @@
                             </div>
 
                             <div class="field">
-                                <label class="label" for="enddate">Einddatum</label>
+                                <label class="label" for="enddate">{{__('eventreservation.enddate')}}</label>
 
 
                                 <div class="control">
@@ -80,7 +84,7 @@
                             </div>
 
                             <div class="field">
-                                <label class="label" for="ticketamount">Aantal tickets</label>
+                                <label class="label" for="ticketamount">{{__('eventreservation.ticketamount')}}</label>
 
                                 <div class="control">
                                     <input class="input" min="1" max="" type="number" name="ticketamount" id="ticketamount" value="{{old('ticketamount')}}" required>
@@ -94,8 +98,8 @@
                     </div>
 
                     <div class="container mt-5">
-                        <button type="submit" class="button is-primary">Volgende</button>
-                        <button class="button is-danger">Annuleer</button>
+                        <button type="submit" class="button is-primary">{{__('eventreservation.next')}}</button>
+                        <button class="button is-danger">{{__('eventreservation.cancel')}}</button>
                     </div>
                 </form>
             </div>

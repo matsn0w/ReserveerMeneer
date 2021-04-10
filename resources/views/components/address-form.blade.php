@@ -48,7 +48,7 @@
 </div>   --}}
 
 <div class="field">
-    <label class="label" for="postal_code">Postcode</label>
+    <label class="label" for="postal_code">{{__('eventreservation.postal_code')}}</label>
 
     <div class="control">
         <input class="input" type="text" name="postal_code" id="postal_code" value="" required>
@@ -60,7 +60,7 @@
 </div>
 
 <div class="field">
-    <label class="label" for="street_name">Straatnaam</label>
+    <label class="label" for="street_name">{{__('eventreservation.street_name')}}</label>
 
     <div class="control">
         <input class="input" type="text" name="street_name" id="street_name" value="" required>
@@ -72,7 +72,7 @@
 </div>
 
 <div class="field">
-    <label class="label" for="house_number">Huisnummer</label>
+    <label class="label" for="house_number">{{__('eventreservation.house_number')}}</label>
 
     <div class="control">
         <input class="input" type="text" name="house_number" id="house_number" value="" required>
@@ -84,7 +84,7 @@
 </div>
 
 <div class="field">
-    <label class="label" for="city">Plaatsnaam</label>
+    <label class="label" for="city">{{__('eventreservation.city')}}</label>
 
     <div class="control">
         <input class="input" type="text" name="city" id="city" value="" required>
@@ -96,7 +96,7 @@
 </div>
 
 <div class="field">
-    <label class="label" for="country">Land</label>
+    <label class="label" for="country">{{__('eventreservation.country')}}</label>
 
     <div class="control">
         <input class="input" type="text" name="country" id="country" value="" required>
