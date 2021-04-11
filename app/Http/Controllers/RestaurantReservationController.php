@@ -51,16 +51,39 @@ class RestaurantReservationController extends Controller
 
         $validatedAddress = $this->validateAddress($request);
 
+        if($this->checkTimeSlot($request) == false) {
+            session()->flash('error', 'Tijd slot vol, je bent in de wachtrij geplaatst! een telefoontje zal volgen wanneer deze vrijkomt');
+            return redirect()->route('home');
+        }
+
         $this->reservationRepository->create($validatedReservation, $validatedAddress, 'restaurant');
 
         return redirect()->route('home');
+    }
+
+    public function checkTimeSlot($validatedReservation) {
+        $rule = new MaxReservationsByTime($validatedReservation['date']);
+
+        if($rule->passes('date' ,$validatedReservation['date']) == false) { // 
+            return false;
+        }
+
+        DB::table('restaurant_queues')->insert([
+            'user_id' => auth()->user()->id,
+            'restaurant_id' => $validatedReservation['restaurant_id'],
+            'date' => $validatedReservation['date'],
+            'time' => $validatedReservation['time'],
+            'groupsize' =>  $validatedReservation['groupsize'],
+        ]);
+
+        return true;
     }
 
     // TODO: move to common location
     public function validateReservation(Request $request, Restaurant $restaurant) {
         return $request->validate([
             'date' => ['required', 'date' ,'after:yesterday'],
-            'time' => ['required', new MaxReservationsByTime($request->get('date'))],
+            'time' => ['required'],
             'groupsize' => ['required', 'integer', 'min:1', 'max:'.$restaurant->seats],
             // check if id's exist
             // check if there is still space for the groupsize
