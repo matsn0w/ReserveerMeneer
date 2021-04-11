@@ -8,14 +8,17 @@ class Seats extends Component
 {
     public $hall;
 
+    public $reserved;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($hall)
+    public function __construct($hall, $reserved = [])
     {
         $this->hall = $hall;
+        $this->reserved = $reserved;
     }
 
     /**

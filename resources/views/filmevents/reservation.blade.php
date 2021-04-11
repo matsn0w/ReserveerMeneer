@@ -23,7 +23,7 @@
 
                     <input type="hidden" name="seats">
 
-                    <x-seats :hall="$event->hall" />
+                    <x-seats :hall="$event->hall" :reserved="[370, 380]" />
 
                     @error('seats')
                         <p class="help is-danger">{{ $message }}</p>
