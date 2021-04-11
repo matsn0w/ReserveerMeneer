@@ -2,6 +2,10 @@
 
 namespace App\Http\Requests;
 
+use DateTime;
+use DateInterval;
+use App\Models\Movie;
+use Illuminate\Validation\Rule;
 use App\Rules\MaxMoviesPerHallPerDay;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -27,8 +31,15 @@ class FilmEventRequest extends FormRequest
         return [
             'hall_id' => ['required'],
             'movie_id' => ['required'],
-            'start' => ['required', new MaxMoviesPerHallPerDay($this->get('hall_id'))],
-            // TODO: check for uniqeness
+            'start' => [
+                'required',
+                new MaxMoviesPerHallPerDay($this->get('hall_id')),
+                Rule::unique('filmevents')->where(function ($query) {
+                    return $query->where('hall_id', $this->hall_id)
+                       ->where('movie_id', $this->movie_id)
+                       ->where('start', $this->start);
+                 }),
+            ],
         ];
     }
 
@@ -36,6 +47,7 @@ class FilmEventRequest extends FormRequest
     {
         return [
             'required' => '::attribute is verplicht.',
+            'unique' => ':attribute is al bezet!'
         ];
     }
 

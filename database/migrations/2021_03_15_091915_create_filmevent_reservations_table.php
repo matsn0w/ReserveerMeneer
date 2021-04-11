@@ -15,7 +15,7 @@ class CreateFilmEventReservationsTable extends Migration
     {
         Schema::create('filmevent_reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('filmevent_id')->constrained();
+            $table->foreignId('filmevent_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -85,19 +85,16 @@ class RestaurantReservationController extends Controller
             'date' => ['required', 'date' ,'after:yesterday'],
             'time' => ['required'],
             'groupsize' => ['required', 'integer', 'min:1', 'max:'.$restaurant->seats],
-            // check if id's exist
-            // check if there is still space for the groupsize
         ]);
     }
 
-    // TODO: move to common location
     public function validateAddress(Request $request) {
         return $request->validate([
             'postal_code' => ['required'],
             'street_name' => ['required'],
             'house_number' => ['required', 'regex:/^\d+[a-zA-Z]*$/'],
             'city' => ['required'],
-            'country' => ['required']
+            'country' => ['required'],
         ]);
     }
 }

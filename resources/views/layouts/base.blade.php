@@ -7,6 +7,8 @@
 
     <title>{{ $title }} | {{ env('APP_NAME') }}</title>
 
+    <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}" type="image/png">
+
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @stack('styles')
 

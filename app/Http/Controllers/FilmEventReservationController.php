@@ -30,13 +30,13 @@ class FilmEventReservationController extends Controller
         $seat_ids =[];
 
         foreach($filmreservations as $filmreservation) {
-            if($filmreservation->reservation != null) { 
+            if($filmreservation->reservation != null) {
                 foreach($filmreservation->seats as $seat) {
                     array_push($seat_ids, $seat->id);
                 }
-            }   
+            }
         }
-        
+
         return view('filmevents.reservation', [
             'event' => $filmevent,
             'lockedSeats' => $seat_ids
@@ -91,14 +91,13 @@ class FilmEventReservationController extends Controller
                         'seats' => ['This seat has already been reserved.'],
                     ]);
                     throw $error;
-                } 
+                }
             }
         }
-        
-        return $seats;
-    } 
 
-    // TODO: move to common location
+        return $seats;
+    }
+
     public function validateAddress(Request $request) {
         return $request->validate([
             'postal_code' => ['required'],

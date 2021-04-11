@@ -22,7 +22,11 @@ class AddressFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'postal_code' => $this->faker->postcode(),
+            'street_name' => $this->faker->streetName(),
+            'house_number' => $this->faker->buildingNumber(),
+            'city' => $this->faker->city(),
+            'country' => 'Nederland',
         ];
     }
 }

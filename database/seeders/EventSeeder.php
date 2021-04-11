@@ -17,7 +17,7 @@ class EventSeeder extends Seeder
         Event::whereNotNull('id')->delete();
 
         Event::factory()
-            -> count(15)
-            -> create();
+            ->count(15)
+            ->create();
     }
 }

@@ -2,11 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\RestaurantOpeninghours;
 use Illuminate\Database\Seeder;
+use Database\Seeders\RoleSeeder;
 use Database\Seeders\MovieSeeder;
 use Database\Seeders\CinemaSeeder;
+use Database\Seeders\AddressSeeder;
 use Database\Seeders\FilmEventSeeder;
+use App\Models\RestaurantOpeninghours;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,6 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->call(MovieSeeder::class);
         $this->call(FilmEventSeeder::class);
         $this->call(EventSeeder::class);
+        $this->call(AddressSeeder::class);
         $this->call(ReservationSeeder::class);
+        $this->call(RoleSeeder::class);
     }
 }

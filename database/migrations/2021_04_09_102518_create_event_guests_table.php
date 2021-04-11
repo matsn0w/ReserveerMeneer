@@ -15,10 +15,10 @@ class CreateEventGuestsTable extends Migration
     {
         Schema::create('event_guests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('event_reservation_id')->constrained();
+            $table->foreignId('event_reservation_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->date('birthdate');
-            $table->foreignId('file_id')->constrained('files');
+            $table->foreignId('file_id')->constrained('files')->onDelete('cascade');
             $table->timestamps();
         });
     }
