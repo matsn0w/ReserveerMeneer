@@ -1,0 +1,60 @@
+// variables
+@import 'vars';
+
+// Bulma
+@import 'bulma/bulma';
+
+.seats {
+    border: solid 1px $grey;
+    padding: 1em;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+
+    .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        p {
+            margin: 0;
+            font-weight: bold;
+            margin-right: 1em;
+        }
+
+        .seat {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: .3em;
+            width: 50px;
+            height: 50px;
+            background: $grey-light;
+            color: findColorInvert($grey-light);
+            overflow: hidden;
+
+            &:hover {
+                background: $grey;
+                color: findColorInvert($grey);
+                cursor: pointer;
+            }
+
+            &.selected {
+                background: $primary;
+            }
+
+            &.disabled, &.reserved {
+                opacity: 50%;
+                cursor: not-allowed;
+            }
+
+            &.reserved {
+                background: $primary;
+            }
+        }
+    }
+}
+
+.guestimg {
+    max-width: 300px;
+}

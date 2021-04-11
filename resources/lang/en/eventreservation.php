@@ -1,0 +1,26 @@
+<?php 
+
+return [
+    'postal_code' => "Postal code",
+    'street_name' => "Streetname",
+    'house_number' => "Housenumber",
+    'city' => "City/Town",
+    'country' => "Country",
+    'tickettype' => 'Ticket type',
+    'begindate' => 'Beginning date',
+    'enddate' => 'End date',
+    'ticketamount' => 'Amount of tickets',
+    'description' => 'Description',
+    'startdate' => 'Starting date',
+    'maxPerPerson' => 'Maximum amount of tickets per visitor',
+    'event' => 'Event',
+    'english' => 'English',
+    'dutch' => 'Dutch',
+    'next' => 'Next',
+    'cancel' => 'Cancel',
+    'guest' => 'Guest',
+    'fullname' => 'Full name',
+    'birthdate' => 'Date of birth',
+    'image' => 'Image',
+    'choose_file' => 'Choose file',
+];
