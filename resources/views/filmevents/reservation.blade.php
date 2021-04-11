@@ -29,6 +29,10 @@
                         <p class="help is-danger">{{ $message }}</p>
                     @enderror
 
+                    @error('filmevent_id')
+                        <p class="help is-danger">{{ $message }}</p>
+                    @enderror
+
                     <div class="is-flex is-justify-content-space-between">
                         <div class="column is-two-fifths p-0 pt-3">
                             @include('components.address-form')
