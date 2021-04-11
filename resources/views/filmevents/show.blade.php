@@ -12,7 +12,7 @@
     <x-seats :hall="$filmevent->hall" />
 
     <div class="block">
-        <a href="{{ route('filmevents.reserve', $filmevent) }}">Reserveren</a> |
+        <a href="{{ route('filmeventreservations.reserve', $filmevent) }}">Reserveren</a> |
         <a href="{{ route('filmevents.edit', $filmevent) }}">Bewerken</a> |
         <a href="{{ route('filmevents.index') }}">Terug naar overzicht</a>
     </div>

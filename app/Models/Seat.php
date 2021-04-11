@@ -14,4 +14,8 @@ class Seat extends Model
     {
         return $this->belongsTo(Hall::class);
     }
+
+    public function filmeventreservations() {
+        return $this->belongsToMany(FilmEventReservation::class, 'filmevent_reservation_seat', 'seat_id', 'filmevent_reservation_id');
+    }
 }

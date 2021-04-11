@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\FilmEvent;
+use App\Models\Seat;
+use App\Models\FilmEventReservation;
+use Illuminate\Http\Request;
 use App\Repositories\ReservationRepository;
 
 class FilmEventReservationController extends Controller
@@ -35,12 +38,42 @@ class FilmEventReservationController extends Controller
      */
     public function store(Request $request, FilmEvent $filmevent)
     {
+        
+        $seats = $this->validateSeats($request, $filmevent->id);
+
+        $validatedReservation['filmevent_id'] = $filmevent->id;
+        $validatedReservation['seats'] = $seats;
         $validatedAddress = $this->validateAddress($request);
 
-        $this->reservationRepository->create($validatedAddress, 'filmevent');
+        $this->reservationRepository->create($validatedReservation, $validatedAddress, 'filmevent');
 
         return redirect()->route('home');
     }
+
+    public function validateSeats($request, $filmevent_id) {
+        if($request['seats'] == null) {
+            $error = \Illuminate\Validation\ValidationException::withMessages([
+                'seats' => ['There are no seats selected.'],
+            ]);
+            throw $error;
+        }
+
+        $seats = explode(',', $request['seats']);
+
+        foreach($seats as $seat) {
+            $seat = Seat::find(intval($seat));
+            if($seat != null) {
+                if($seat->filmeventreservations()->where('filmevent_id', '=', $filmevent_id)->first() != null) {//If already a reservation for this event on this seat;
+                    $error = \Illuminate\Validation\ValidationException::withMessages([
+                        'seats' => ['This seat has already been reserved.'],
+                    ]);
+                    throw $error;
+                } 
+            }
+        }
+        
+        return $seats;
+    } 
 
     // TODO: move to common location
     public function validateAddress(Request $request) {

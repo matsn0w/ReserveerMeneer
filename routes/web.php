@@ -37,8 +37,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/events/{id}/reserve/{locale?}', [EventReservationController::class, 'nextStep'])->name('eventreservations.next');
     Route::put('/events/{id}/reserve', [EventReservationController::class, 'store'])->name('eventreservations.store');
 
-    Route::get('/filmevents/{filmevent}/reserve', [FilmEventReservationController::class, 'reserve'])->name('filmevents.reserve');
-    Route::put('/filmevents/{filmevent}/reserve', [FilmEventReservationController::class, 'store'])->name('filmevents.store');
+    Route::get('/filmevents/{filmevent}/reserve', [FilmEventReservationController::class, 'reserve'])->name('filmeventreservations.reserve');
+    Route::put('/filmevents/{filmevent}/reserve', [FilmEventReservationController::class, 'store'])->name('filmeventreservations.store');
 
     Route::resources([
         'restaurants' => RestaurantController::class,

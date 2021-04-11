@@ -17,13 +17,17 @@
                     <strong>Zaal:</strong> {{ $event->hall->name }}<br>
                 </p>
 
-                <form id="resForm" method="POST" action="{{ route('filmevents.reserve', $event) }}">
+                <form id="resForm" method="POST" action="{{ route('filmeventreservations.reserve', $event) }}">
                     @csrf
                     @method('PUT')
 
                     <input type="hidden" name="seats">
 
                     <x-seats :hall="$event->hall" />
+
+                    @error('seats')
+                        <p class="help is-danger">{{ $message }}</p>
+                    @enderror
 
                     <div class="is-flex is-justify-content-space-between">
                         <div class="column is-two-fifths p-0 pt-3">

@@ -13,6 +13,9 @@ class FilmEventReservation extends Model
 {
     use HasFactory;
 
+    protected $table = 'filmevent_reservations';
+    protected $fillable = ['filmevent_id']; 
+
     public function addresses() {
         return $this->belongsTo(Address::class);
     }
@@ -26,6 +29,6 @@ class FilmEventReservation extends Model
     }
 
     public function seats() {
-        return $this->hasMany(Seat::class);
+        return $this->belongsToMany(Seat::class, 'filmevent_reservation_seat', 'filmevent_reservation_id', 'seat_id');
     }
 }

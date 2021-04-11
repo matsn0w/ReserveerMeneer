@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Address;
 use App\Models\EventReservation;
 use App\Models\EventGuest;
-use App\Models\MovieReservation;
+use App\Models\FilmEventReservation;
 use App\Models\RestaurantReservation;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\DB;
@@ -61,7 +61,16 @@ class ReservationRepository extends BaseRepository
                 }
                 break;
             case 'filmevent':
-                $reservation_related = MovieReservation::create($validatedReservation);
+                $seats = $validatedReservation['seats'];
+                unset($validatedReservation['seats']);
+                $reservation_related = FilmEventReservation::create($validatedReservation);
+
+                foreach($seats as $seat) {
+                    DB::table('filmevent_reservation_seat')->insert([
+                        'filmevent_reservation_id' => $reservation_related->id,
+                        'seat_id' => $seat
+                    ]);
+                }
                 break;
         }
 
@@ -73,7 +82,7 @@ class ReservationRepository extends BaseRepository
                 'related_type' => get_class($reservation_related)
             ]);
 
-            session()->flash('success', 'Filmavond is opgeslagen!');
+            session()->flash('success', 'Reservering is opgeslagen!');
         }
     }
 }
