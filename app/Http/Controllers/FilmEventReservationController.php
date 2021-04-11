@@ -26,13 +26,15 @@ class FilmEventReservationController extends Controller
      */
     public function reserve(FilmEvent $filmevent)
     {
-        $seatsArray = $filmevent->filmeventreservations->pluck('seats');
+        $filmreservations = $filmevent->filmeventreservations;
         $seat_ids =[];
 
-        foreach($seatsArray as $arr) {
-            foreach($arr as $seat) {
-                array_push($seat_ids, $seat->id);
-            }
+        foreach($filmreservations as $filmreservation) {
+            if($filmreservation->reservation != null) { 
+                foreach($filmreservation->seats as $seat) {
+                    array_push($seat_ids, $seat->id);
+                }
+            }   
         }
         
         return view('filmevents.reservation', [

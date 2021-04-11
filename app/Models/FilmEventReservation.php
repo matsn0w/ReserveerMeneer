@@ -21,7 +21,7 @@ class FilmEventReservation extends Model
     }
 
     public function reservation() {
-        return $this->morphOne(Reservation::class, 'related', 'reservations');
+        return $this->morphOne(Reservation::class, 'related');
     }
 
     public function filmevent() {
