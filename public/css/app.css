@@ -10252,25 +10252,21 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   margin: 0.3em;
   width: 50px;
   height: 50px;
-  background: #dbdbdb;
-  color: rgba(0, 0, 0, 0.7);
+  background: #b5b5b5;
+  color: #fff;
   overflow: hidden;
 }
 .seats .row .seat:hover {
-  background: #b5b5b5;
+  background: #7a7a7a;
   color: #fff;
   cursor: pointer;
 }
 .seats .row .seat.selected {
-  border: solid 3px black;
+  background: #852fbe;
 }
-.seats .row:nth-child(odd) .seat {
-  background: #b5b5b5;
-  color: #fff;
-}
-.seats .row:nth-child(odd) .seat:hover {
-  background: #dbdbdb;
-  color: rgba(0, 0, 0, 0.7);
+.seats .row .seat.disabled {
+  opacity: 50%;
+  cursor: not-allowed;
 }
 
 .guestimg {

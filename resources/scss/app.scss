@@ -29,30 +29,23 @@
             margin: .3em;
             width: 50px;
             height: 50px;
-            background: $grey-lighter;
-            color: findColorInvert($grey-lighter);
+            background: $grey-light;
+            color: findColorInvert($grey-light);
             overflow: hidden;
 
             &:hover {
-                background: $grey-light;
-                color: findColorInvert($grey-light);
+                background: $grey;
+                color: findColorInvert($grey);
                 cursor: pointer;
             }
 
             &.selected {
-                border: solid 3px black;
+                background: $primary;
             }
-        }
 
-        &:nth-child(odd) {
-            .seat {
-                background: $grey-light;
-                color: findColorInvert($grey-light);
-
-                &:hover {
-                    background: $grey-lighter;
-                    color: findColorInvert($grey-lighter);
-                }
+            &.disabled {
+                opacity: 50%;
+                cursor: not-allowed;
             }
         }
     }
