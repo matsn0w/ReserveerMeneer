@@ -28,6 +28,7 @@ class AuthTest extends DuskTestCase
     /**
      * Tests if a user is abled to register.
      *
+     * @group auth
      * @return void
      */
     public function test_register()
@@ -49,6 +50,7 @@ class AuthTest extends DuskTestCase
     /**
      * Tests if a user is abled to log in.
      *
+     * @group auth
      * @return void
      */
     public function test_login()
@@ -70,16 +72,17 @@ class AuthTest extends DuskTestCase
     /**
      * Tests if a user is abled to log out.
      *
+     * @group auth
      * @return void
      */
     public function test_logout()
     {
-        $this->browse(function (Browser $browser) {
-            $user = User::factory([
-                'name' => 'Teddie',
-                'email' => 'teddie@hotmail.nl',
-            ])->create();
+        User::factory([
+            'name' => 'Teddie',
+            'email' => 'teddie@hotmail.nl',
+        ])->create();
 
+        $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
                 ->visitRoute('home')
                 ->assertSee('Log uit')
@@ -91,6 +94,7 @@ class AuthTest extends DuskTestCase
     /**
      * Tests if a user is denied to see all movies.
      *
+     * @group auth
      * @return void
      */
     public function test_access_denied()
@@ -105,11 +109,12 @@ class AuthTest extends DuskTestCase
     /**
      * Tests if a user is allowed to see all film events.
      *
+     * @group auth
      * @return void
      */
     public function test_access_granted()
     {
-        $user = User::factory([
+        User::factory([
             'name' => 'Teddie',
             'email' => 'teddie@hotmail.nl',
         ])->create();
