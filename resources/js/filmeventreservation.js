@@ -42,6 +42,13 @@
             return;
         }
 
+        // check if the left seat is disabled because of a selected or reserved seat
+        leftLeftSeat = getLeftSeat(leftSeat);
+
+        if (leftLeftSeat?.classList.contains('selected') || leftLeftSeat?.classList.contains('reserved')) {
+            return;
+        }
+
         // disable or enable the seat
         leftSeat.disabled = !leftSeat.disabled;
         leftSeat.classList.toggle('disabled');
@@ -56,6 +63,13 @@
 
         // check if the right seat is not in the same row
         if (rightSeat.parentElement !== seat.parentElement) {
+            return;
+        }
+
+        // check if the right seat is disabled because of a selected or reserved seat
+        rightRightSeat = getRightSeat(rightSeat);
+
+        if (rightRightSeat?.classList.contains('selected') || rightRightSeat?.classList.contains('reserved')) {
             return;
         }
 
@@ -82,8 +96,8 @@
         }
 
         seat.addEventListener('click', (e) => {
-            // check if the seat or a seat next to the seat is disabled
-            if (!seat.classList.contains('selected') && (seat.disabled || getLeftSeat(seat).disabled || getRightSeat(seat).disabled)) {
+            // check if the seat is disabled
+            if (!seat.classList.contains('selected') && seat.disabled) {
                 return;
             }
 

@@ -33,6 +33,8 @@ var __webpack_exports__ = {};
   };
 
   var toggleLeftSeat = function toggleLeftSeat(seat) {
+    var _leftLeftSeat, _leftLeftSeat2;
+
     var leftSeat = getLeftSeat(seat);
 
     if (leftSeat == null) {
@@ -42,6 +44,13 @@ var __webpack_exports__ = {};
 
     if (leftSeat.parentElement !== seat.parentElement) {
       return;
+    } // check if the left seat is disabled because of a selected or reserved seat
+
+
+    leftLeftSeat = getLeftSeat(leftSeat);
+
+    if ((_leftLeftSeat = leftLeftSeat) !== null && _leftLeftSeat !== void 0 && _leftLeftSeat.classList.contains('selected') || (_leftLeftSeat2 = leftLeftSeat) !== null && _leftLeftSeat2 !== void 0 && _leftLeftSeat2.classList.contains('reserved')) {
+      return;
     } // disable or enable the seat
 
 
@@ -50,6 +59,8 @@ var __webpack_exports__ = {};
   };
 
   var toggleRightSeat = function toggleRightSeat(seat) {
+    var _rightRightSeat, _rightRightSeat2;
+
     var rightSeat = getRightSeat(seat);
 
     if (rightSeat == null) {
@@ -58,6 +69,13 @@ var __webpack_exports__ = {};
 
 
     if (rightSeat.parentElement !== seat.parentElement) {
+      return;
+    } // check if the right seat is disabled because of a selected or reserved seat
+
+
+    rightRightSeat = getRightSeat(rightSeat);
+
+    if ((_rightRightSeat = rightRightSeat) !== null && _rightRightSeat !== void 0 && _rightRightSeat.classList.contains('selected') || (_rightRightSeat2 = rightRightSeat) !== null && _rightRightSeat2 !== void 0 && _rightRightSeat2.classList.contains('reserved')) {
       return;
     } // disable or enable the seat
 
@@ -83,8 +101,8 @@ var __webpack_exports__ = {};
     }
 
     seat.addEventListener('click', function (e) {
-      // check if the seat or a seat next to the seat is disabled
-      if (!seat.classList.contains('selected') && (seat.disabled || getLeftSeat(seat).disabled || getRightSeat(seat).disabled)) {
+      // check if the seat is disabled
+      if (!seat.classList.contains('selected') && seat.disabled) {
         return;
       }
 
