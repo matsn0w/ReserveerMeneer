@@ -7,6 +7,7 @@ use App\Models\Seat;
 use App\Models\FilmEventReservation;
 use Illuminate\Http\Request;
 use App\Repositories\ReservationRepository;
+use App\Rules\OverlappingFilmReservation;
 
 class FilmEventReservationController extends Controller
 {
@@ -38,7 +39,7 @@ class FilmEventReservationController extends Controller
      */
     public function store(Request $request, FilmEvent $filmevent)
     {
-        
+        $this->validateReservation($filmevent);
         $seats = $this->validateSeats($request, $filmevent->id);
 
         $validatedReservation['filmevent_id'] = $filmevent->id;
@@ -48,6 +49,16 @@ class FilmEventReservationController extends Controller
         $this->reservationRepository->create($validatedReservation, $validatedAddress, 'filmevent');
 
         return redirect()->route('home');
+    }
+
+    public function validateReservation($filmevent) {
+        $rule = new OverlappingFilmReservation($filmevent->id);
+        if($rule->passes('filmevent_id', $filmevent->id) == false) {
+            $error = \Illuminate\Validation\ValidationException::withMessages([
+                'filmevent_id' => [$rule->message()],
+            ]);
+            throw $error;
+        }
     }
 
     public function validateSeats($request, $filmevent_id) {
