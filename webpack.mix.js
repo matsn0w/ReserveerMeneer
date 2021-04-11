@@ -14,4 +14,5 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/eventreservation.js', 'public/js')
     .js('resources/js/filmeventreservation.js', 'public/js')
-    .sass('resources/scss/app.scss', 'public/css');
+    .sass('resources/scss/app.scss', 'public/css')
+    .copyDirectory('resources/img', 'public/img');
