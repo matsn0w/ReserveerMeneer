@@ -30,7 +30,12 @@
                                         <strong>Groepomvang: </strong>{{$reservation->related->groupsize}}
                                     </p>
                                 @elseif($reservation->related_type == 'App\Models\FilmEventReservation')
-                                    {{-- TODO --}}
+                                <p> 
+                                    <strong>Film: {{$reservation->related->filmevent->movie->name}}</strong> <br><br>          
+                                    <strong>Bioscoop: </strong>{{$reservation->related->filmevent->hall->cinema->name}}<br>
+                                    <strong>Datum/Tijd: </strong>{{$reservation->related->filmevent->start}}<br>
+                                    <strong>Groepomvang: </strong>{{count($reservation->related->seats)}}
+                                </p>
                                 @endif
                             </div>
                         </div>

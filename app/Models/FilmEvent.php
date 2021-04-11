@@ -34,6 +34,10 @@ class FilmEvent extends Model
         return date('Y-m-d', strtotime($this->start));
     }
 
+    public function filmeventreservations() {
+        return $this->hasMany(FilmEventReservation::class);
+    }
+
     public function endTime()
     {
         $start = new DateTime($this->start);

@@ -26,12 +26,23 @@
                             <strong>Groepomvang: </strong>{{$reservation->related->groupsize}}
                             
                         @elseif($reservation->related_type == 'App\Models\FilmEventReservation')
-                                    {{-- TODO --}}
+                            <strong>Film: {{$reservation->related->filmevent->movie->name}}</strong> <br><br>
+                            <strong>Datum/Tijd: </strong>{{$reservation->related->filmevent->start}}<br>          
+                            <strong>Bioscoop: </strong>{{$reservation->related->filmevent->hall->cinema->name}}<br>
+                            <strong>Hall: </strong>{{$reservation->related->filmevent->hall->name}}<br>
+                            <strong>Groepomvang: </strong>{{count($reservation->related->seats)}}
                         @endif
                         <p>
                     </div>
 
                     <div class="column is-half p-0 pt-3">
+                        <p class="is-size-4">
+                            <strong>Gereserveerd door:</strong><br>
+                            <strong>Naam: </strong>{{$reservation->user->name}}<br>
+                            <strong>Email: </strong>{{$reservation->user->email}}<br>
+                            <strong>Telefoonnummer: </strong>{{$reservation->user->phonenumber}}<br>
+                        </p>
+
                         <p class="is-size-4">
                             <strong>Postcode: </strong>{{$reservation->address->postal_code}}<br>
                             <strong>Straatnaam: </strong>{{$reservation->address->street_name}}<br>
@@ -52,6 +63,20 @@
                             <strong>Pasfoto: </strong><br>
                             </p>
                             <img class="guestimg" src="{{ url('storage/images/'.$guest->file->url) }}">
+                        </div>
+                    @endforeach
+                </div>
+                @endif
+
+                @if($reservation->related_type == 'App\Models\FilmEventReservation')
+                <h2>Stoelen</h2>
+                <div class="w-100 is-flex flex-wrap is-justify-content-flex-start my-5">
+                    @foreach($reservation->related->seats as $seat) 
+                        <div class="mr-4">
+                            <p>
+                            <strong>Rij: </strong>{{$seat->row}} <br>          
+                            <strong>Stoelnummer: </strong>{{$seat->number}}<br>
+                            </p>
                         </div>
                     @endforeach
                 </div>

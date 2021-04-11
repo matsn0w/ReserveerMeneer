@@ -6,19 +6,17 @@ use App\Models\FilmEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class MovieReserrvation extends Model
+class RestaurantReservation extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'filmevent_id'
-    ];
+    protected $fillable = ['restaurant_id', 'date', 'time', 'groupsize'];
 
     public function reservation() {
         return $this->morphOne(Reservation::class, 'related', 'reservations');
     }
 
-    public function filmevent() {
-        return $this->belongsTo(FilmEvenót::class);
+    public function restaurant() {
+        return $this->belongsTo(Restaurant::class);
     }
 }

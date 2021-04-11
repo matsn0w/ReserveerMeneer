@@ -25,7 +25,7 @@ class FilmEventReservation extends Model
     }
 
     public function filmevent() {
-        return $this->hasOne(FilmEvent::class);
+        return $this->belongsTo(FilmEvent::class);
     }
 
     public function seats() {
