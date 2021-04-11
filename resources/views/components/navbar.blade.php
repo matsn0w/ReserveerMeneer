@@ -24,14 +24,13 @@
 
             <div class="navbar-end">
 
-                {{-- TODO: Check for roles --}}
                 @auth
-                    @if(auth()->user()->hasRole('ADMIN'))
-                    <a class="navbar-item" href="{{ route('dashboard.index') }}">Dashboard</a>
+                    @if (auth()->user()->hasRole('ADMIN'))
+                        <a class="navbar-item" href="{{ route('dashboard.index') }}">Dashboard</a>
                     @endif
-                @endauth
-                <a class="navbar-item" href="{{ route('reservations.index') }}">Mijn Reserveringen</a>
 
+                    <a class="navbar-item" href="{{ route('reservations.index') }}">Mijn Reserveringen</a>
+                @endauth
 
                 <div class="navbar-item">
                     <div class="buttons">
@@ -40,8 +39,8 @@
                         @endauth
 
                         @guest
-                            <a class="button is-link" href="{{ route('login') }}">Log in</a>
-                            <a class="button is-link" href="{{ route('register') }}">Register</a>
+                            <a class="button is-link" href="{{ route('login') }}">Inloggen</a>
+                            <a class="button is-link" href="{{ route('register') }}">Registreren</a>
                         @endguest
                     </div>
                 </div>

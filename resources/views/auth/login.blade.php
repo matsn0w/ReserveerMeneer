@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="box">
-        <form action="{{ route('login') }}" method="POST">
+        <form class="block" action="{{ route('login') }}" method="POST">
             @csrf
 
             <div class="field">
@@ -42,5 +42,7 @@
                 </div>
             </div>
         </form>
+
+        <p>Nog geen account? <a href="{{ route('register') }}">Registreer je hier!</a></p>
     </div>
 @endsection
