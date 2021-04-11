@@ -19,7 +19,8 @@ class AuthTest extends DuskTestCase
         parent::setUp();
 
         if (!static::$migrationRun){
-            $this->artisan('migrate:fresh --seed');
+            $this->artisan('migrate:fresh');
+            $this->artisan('db:seed');
             static::$migrationRun = true;
         }
     }
@@ -55,7 +56,6 @@ class AuthTest extends DuskTestCase
         $user = User::factory([
             'name' => 'Teddie',
             'email' => 'teddie@hotmail.nl',
-            'phonenumber' => '123' // TODO: this can be removed
         ])->create();
 
         $this->browse(function (Browser $browser) use ($user) {
@@ -78,7 +78,6 @@ class AuthTest extends DuskTestCase
             $user = User::factory([
                 'name' => 'Teddie',
                 'email' => 'teddie@hotmail.nl',
-                'phonenumber' => '123' // TODO: this can be removed
             ])->create();
 
             $browser->loginAs(User::find(1))
@@ -113,7 +112,6 @@ class AuthTest extends DuskTestCase
         $user = User::factory([
             'name' => 'Teddie',
             'email' => 'teddie@hotmail.nl',
-            'phonenumber' => '123' // TODO: this can be removed
         ])->create();
 
         $this->browse(function (Browser $browser) {
