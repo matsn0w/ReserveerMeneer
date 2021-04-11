@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MaxMoviesPerHallPerDay;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FilmEventRequest extends FormRequest
@@ -26,7 +27,7 @@ class FilmEventRequest extends FormRequest
         return [
             'hall_id' => ['required'],
             'movie_id' => ['required'],
-            'start' => ['required'],
+            'start' => ['required', new MaxMoviesPerHallPerDay($this->get('hall_id'))],
             // TODO: check for uniqeness
         ];
     }
