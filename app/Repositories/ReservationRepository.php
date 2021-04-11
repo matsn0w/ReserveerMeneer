@@ -8,6 +8,7 @@ use App\Models\EventGuest;
 use App\Models\FilmEventReservation;
 use App\Models\RestaurantReservation;
 use App\Models\Reservation;
+use App\Models\Seat;
 use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\isEmpty;
@@ -64,11 +65,41 @@ class ReservationRepository extends BaseRepository
                 $seats = $validatedReservation['seats'];
                 unset($validatedReservation['seats']);
                 $reservation_related = FilmEventReservation::create($validatedReservation);
+                $reservation_lock = FilmEventReservation::create(['filmevent_id' => $validatedReservation['filmevent_id']]);
 
-                foreach($seats as $seat) {
+                foreach($seats as $seat_id) {
+
+                    //search seat in db -> check if 
+
+                    $found = Seat::find($seat_id);
+                    if($found != null) {
+                        $hall_id = $found->hall_id;
+                        $row = $found->row;
+                        $number = $found->number;
+                        
+                        $lock1 = Seat::where('hall_id', '=', $hall_id)
+                                    ->where('row', '=', $row)
+                                    ->where('number', '=', $number-1)->first();
+                        $lock2 = Seat::where('hall_id', '=', $hall_id)
+                                    ->where('row', '=', $row)
+                                    ->where('number', '=', $number+1)->first();
+
+                        if($lock1 != null) {
+                            DB::table('filmevent_reservation_seat')->insert([
+                                'filmevent_reservation_id' => $reservation_lock->id,
+                                'seat_id' => $lock1->id
+                            ]);
+                        } if($lock2 != null) {
+                            DB::table('filmevent_reservation_seat')->insert([
+                                'filmevent_reservation_id' => $reservation_lock->id,
+                                'seat_id' => $lock2->id
+                            ]);
+                        } 
+                    }
+
                     DB::table('filmevent_reservation_seat')->insert([
                         'filmevent_reservation_id' => $reservation_related->id,
-                        'seat_id' => $seat
+                        'seat_id' => $seat_id
                     ]);
                 }
                 break;
