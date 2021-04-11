@@ -35,7 +35,7 @@ class FilmEvent extends Model
     }
 
     public function filmeventreservations() {
-        return $this->hasMany(FilmEventReservation::class);
+        return $this->hasMany(FilmEventReservation::class, 'filmevent_id');
     }
 
     public function endTime()
