@@ -17,7 +17,7 @@ class CreateRestaurantsTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->foreignId('category_id')->constrained('restaurant_categories');
+            $table->foreignId('category_id')->constrained('restaurant_categories')->onDelete('cascade');
             $table->integer('seats');
             $table->timestamps();
         });

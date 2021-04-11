@@ -21,8 +21,8 @@ class CreateMoviesTable extends Migration
         });
 
         Schema::create('cinema_movie', function (Blueprint $table) {
-            $table->foreignId('cinema_id')->constrained();
-            $table->foreignId('movie_id')->constrained();
+            $table->foreignId('cinema_id')->constrained()->onDelete('cascade');
+            $table->foreignId('movie_id')->constrained()->onDelete('cascade');
             $table->unique(['cinema_id', 'movie_id']);
         });
     }
