@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Event;
 use App\Models\EventGuest;
 use App\Models\EventReservation;
+use App\Models\File;
+use App\Models\FilmEvent;
 use App\Models\FilmEventReservation;
 use App\Models\Reservation;
 use App\Models\Restaurant;
@@ -33,41 +35,63 @@ class ReservationSeeder extends Seeder
         // ->create();
 
 
-        $user = User::factory()->count(1)->create();
-        $address = Address::factory(1)->count(1)->create();
+        $this->user = User::factory()->create();
+        $this->address = Address::factory()->create();
 
-        Reservation::factory()->count(4)->create(['user_id' => $user->id, 'address_id' => $address->id])->each(function ($reservation) {
-            //create 5 posts for each user
-            $reservation->related->save(EventReservation::factory()->create()->each(function ($eventreservation) {
-                $eventreservation->event->save(Event::factory()->create());
-                $eventreservation->guests->saveMany(EventGuest::factory()->count(5)->create());
-            }));
-        });
 
-        // Reservation::factory()->count(1)
-        //     ->has(RestaurantReservation::factory()->count(4)
-        //         ->has(Restaurant::factory())
-        //     )
-        //     ->has(Address::factory())
-        //     ->has(User::factory())
-        // ->create();
+        Reservation::factory()->count(4)->create([
+            'user_id' => $this->user->id, 
+            'address_id' => $this->address->id,
+            'related_id' => function() {
+                $eventreservation = EventReservation::factory()->create([
+                    'event_id' => Event::factory()->create()->id,
+                ]);
+                $eventreservation->guests()->saveMany(EventGuest::factory()->count(5)->create([
+                    'event_reservation_id' => $eventreservation->id,
+                    'file_id' => File::factory()->create([
+                        'user_id' => $this->user->id,
+                    ])->id 
+                ]));
+                return $eventreservation->id;
+            },
+            'related_type' => 'App\Models\EventReservation',
+        ]);
 
-        // Reservation::factory()->count(1)
-        //     ->has(FilmEventReservation::factory()->count(1)
-        //         ->has(FilmEvent::all()->random())
-        //     )
-        //     ->has(Address::factory()->count(1))
-        //     ->has(User::factory()->count(1))
-        // ->create();
+        Reservation::factory()->count(4)->create([
+            'user_id' => $this->user->id, 
+            'address_id' => $this->address->id,
+            'related_id' => function() {
+                $restaurantreservation = RestaurantReservation::factory()->create([
+                    'restaurant_id' => Restaurant::factory()->create()->id,
+                ]);
 
-        // foreach(FilmEventReservation::all() as $filmreservation) {
-        //     $this->filmevent = $filmreservation->filmevent;
-        //     $hall = $this->filmevent->hall;
-        //     $this->reservedseats = $hall->seats->filmeventreservations->filter(function($r) { return $r->filmevent_id == $this->filmevent->id;});
-        //     $seats = $hall->seats->filter(function($r) { return !$this->reservedseats->contains($r);});
+                return $restaurantreservation->id;
+            },
+            'related_type' => 'App\Models\RestaurantReservation',
+        ]);
 
-        //     $seat = $seats->random();
-        //     $filmreservation->seats->save($seat);
-        // }
+        Reservation::factory()->count(4)->create([
+            'user_id' => $this->user->id, 
+            'address_id' => $this->address->id,
+            'related_id' => function() {
+                $filmeventreservation = FilmEventReservation::factory()->create([
+                    'filmevent_id' => FilmEvent::factory()->create()->id,
+                ]);
+
+                return $filmeventreservation->id;
+            },
+            'related_type' => 'App\Models\FilmEventReservation',
+        ]);
+
+
+
+        foreach(FilmEventReservation::all() as $filmreservation) {
+            $this->filmevent = $filmreservation->filmevent;
+            $hall = $this->filmevent->hall;
+            $seats = $hall->seats;
+
+            $seat = $seats->random();
+            $filmreservation->seats()->save($seat);
+        }
     }
 }

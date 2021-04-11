@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use DateInterval;
 use App\Models\EventReservation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,7 +25,7 @@ class EventReservationFactory extends Factory
         $date = $this->faker->dateTimeThisMonth();
         return [
             'startdate' => $date,
-            'enddate' => date('Y-m-d', strtotime($date. ' + 5 days')),
+            'enddate' => $date->add(new DateInterval('P5D')),
             'ticketamount' => 5,
         ];
     }

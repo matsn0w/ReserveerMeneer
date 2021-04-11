@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\RestaurantReservation;
+use App\Models\File;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RestaurantReservationFactory extends Factory
+class FileFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = RestaurantReservation::class;
+    protected $model = File::class;
 
     /**
      * Define the model's default state.
@@ -21,11 +21,9 @@ class RestaurantReservationFactory extends Factory
      */
     public function definition()
     {
-        $date = $this->faker->dateTimeThisMonth;
         return [
-            'date' => $date,
-            'time' => $date,
-            'groupsize' => $this->faker->numberBetween(1, 5),
+            'name' => $this->faker->name,
+            'url' => $this->faker->imageUrl(),
         ];
     }
 }
