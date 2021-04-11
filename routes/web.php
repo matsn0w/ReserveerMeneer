@@ -28,6 +28,15 @@ use App\Http\Controllers\RestaurantReservationController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/events-overview/{sort?}{dateFrom?}{dateTill?}', [HomeController::class, 'events'])->name('home.events');
 
+Route::resources([
+    'restaurants' => RestaurantController::class,
+    'events' => EventController::class,
+    'cinemas' => CinemaController::class,
+    'halls' => HallController::class,
+    'movies' => MovieController::class,
+    'filmevents' => FilmEventController::class
+]);
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/restaurants/{id}/reserve', [RestaurantReservationController::class, 'reserve'])->name('restaurantreservations.reserve');
     Route::put('/restaurants/{id}/reserve', [RestaurantReservationController::class, 'store'])->name('restaurantreservations.store');
@@ -40,16 +49,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/filmevents/{filmevent}/reserve', [FilmEventReservationController::class, 'reserve'])->name('filmeventreservations.reserve');
     Route::put('/filmevents/{filmevent}/reserve', [FilmEventReservationController::class, 'store'])->name('filmeventreservations.store');
 
-    Route::resources([
-        'restaurants' => RestaurantController::class,
-        'events' => EventController::class,
-        'cinemas' => CinemaController::class,
-        'halls' => HallController::class,
-        'movies' => MovieController::class,
-        'filmevents' => FilmEventController::class
-    ]);
-
-    Route::resource('filmevents', FilmEventController::class)->except(['index']);
     Route::get('/myreservations', [ReservationController::class, 'index'])->name('reservations.index');
     Route::get('/myreservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
     Route::get('/myreservations/{reservation}/export/CSV', [ReservationController::class, 'exportToCSV'])->name('reservations.exportCSV');

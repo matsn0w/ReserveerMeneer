@@ -3,7 +3,7 @@
 ])
 
 @section('top-right')
-    <a class="button is-link is-light" href="{{ route('cinemas.create') }}">Nieuwe bioscoop</a>
+    <a class="butt	on is-link is-light" href="{{ route('cinemas.create') }}">Nieuwe bioscoop</a>
 @endsection
 
 @section('content')
