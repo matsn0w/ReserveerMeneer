@@ -35,12 +35,6 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        if(Role::where('name', '=', 'DEFAULT')->count() == 0) {
-            $role = Role::make();
-            $role->name = 'DEFAULT';
-            $role->description = 'Default application user';
-            $role->save();
-        }
         $role_id = Role::where('name', '=', 'DEFAULT')->first()->id;
 
         $user = User::create([
@@ -55,6 +49,6 @@ class CreateNewUser implements CreatesNewUsers
             'user_id' => $user->id
         ]);
 
-        return $user; 
+        return $user;
     }
 }

@@ -48,7 +48,7 @@ class MakeAdmin extends Command
     {
         // ask for details
         $answers = $this->askQuestions();
-        
+
         // ask if the info is correct
         if (!$this->confirmUser($answers)) {
             $this->info('Aborted.');
@@ -57,12 +57,6 @@ class MakeAdmin extends Command
 
         $this->info("Creating admin account for user '{$answers['name']}'...");
 
-        if(Role::where('name', '=', 'ADMIN')->count() == 0) {
-            $role = Role::make();
-            $role->name = 'ADMIN';
-            $role->description = 'Acts as platform owner';
-            $role->save();
-        }
         $role_id = Role::where('name', '=', 'ADMIN')->first()->id;
 
         // create the user account
