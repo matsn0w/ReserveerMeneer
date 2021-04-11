@@ -3,7 +3,9 @@
 ])
 
 @section('top-right')
-    <a class="button is-link is-light" href="{{ route('filmevents.create') }}">Nieuwe filmavond</a>
+    @can('create', App\Models\FilmEvent::class)
+        <a class="button is-link is-light" href="{{ route('filmevents.create') }}">Nieuwe filmavond</a>
+    @endcan
 @endsection
 
 @section('content')
@@ -23,8 +25,15 @@
                         </div>
 
                         <footer class="card-footer">
+                            @can('reserve', $filmevent)
+                                <a class="card-footer-item" href="{{ route('filmeventreservations.reserve', $filmevent) }}">Reserveren</a>
+                            @endcan
+
                             <a class="card-footer-item" href="{{ route('filmevents.show', $filmevent) }}">Bekijken</a>
-                            <a class="card-footer-item" href="{{ route('filmevents.edit', $filmevent) }}">Bewerken</a>
+
+                            @can('update', $filmevent)
+                                <a class="card-footer-item" href="{{ route('filmevents.edit', $filmevent) }}">Bewerken</a>
+                            @endcan
                         </footer>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-@extends('layouts.base', [  
+@extends('layouts.base', [
     'title' => $title = __('eventreservation.event'),
 ])
 
@@ -6,13 +6,12 @@
     <script src="{{ asset('js/eventreservation.js') }}" defer></script>
 @endpush
 
+@section('top-right')
+    <a href="{{ route('eventreservations.locale', [$event->id, 'en']) }}" class="button is-primary is-light">{{__('eventreservation.english')}}</a>
+    <a href="{{ route('eventreservations.locale', [$event->id, 'nl']) }}" class="button is-primary is-light">{{__('eventreservation.dutch')}}</a>
+@endsection
+
 @section('content')
-
-    <div class="container mt-5">
-        <a href="{{ route('eventreservations.locale', [$event->id, 'en']) }}" class="button is-primary mt-2">{{__('eventreservation.english')}}</a>
-        <a href="{{ route('eventreservations.locale', [$event->id, 'nl']) }}" class="button is-primary mt-2">{{__('eventreservation.dutch')}}</a>
-    </div>
-
     <div class="tile is-ancestor">
         <div class="tile is-parent">
             <div class="tile is-child box">
@@ -31,7 +30,6 @@
                     <div class="columns">
                         <div class="column">
                             @include('components.address-form')
-                            
                         </div>
 
                         <div class="column">
@@ -97,9 +95,9 @@
                         </div>
                     </div>
 
-                    <div class="container mt-5">
+                    <div class="block">
                         <button type="submit" class="button is-primary">{{__('eventreservation.next')}}</button>
-                        <button class="button is-danger">{{__('eventreservation.cancel')}}</button>
+                        <a href="{{ route('events.show', $event) }}" class="button is-link is-light">{{__('eventreservation.cancel')}}</a>
                     </div>
                 </form>
             </div>

@@ -3,7 +3,9 @@
 ])
 
 @section('top-right')
-    <a class="button is-link is-light" href="{{ route('movies.create') }}">Nieuwe film</a>
+    @can('create', App\Models\Movie::class)
+        <a class="button is-link is-light" href="{{ route('movies.create') }}">Nieuwe film</a>
+    @endcan
 @endsection
 
 @section('content')

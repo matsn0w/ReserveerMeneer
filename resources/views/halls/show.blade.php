@@ -19,18 +19,23 @@
     <div class="block">
         <h2>Aankomende filmavonden</h2>
 
-        @foreach ($hall->filmevents as $filmevent)
+        @forelse ($hall->filmevents as $filmevent)
             <div class="block">
                 <p>
                     <a href="{{ route('filmevents.show', $filmevent) }}">{{ $filmevent->movie->name }}</a><br>
                     <strong>Start:</strong> {{ date('d-m-Y H:i', strtotime($filmevent->start)) }}
                 </p>
             </div>
-        @endforeach
+        @empty
+            <p>Er zijn nog geen filmavonden!</p>
+        @endforelse
     </div>
 
     <div class="block">
-        <a href="{{ route('halls.edit', $hall) }}">Bewerken</a> |
+        @can('update', $hall)
+            <a href="{{ route('halls.edit', $hall) }}">Bewerken</a> |
+        @endcan
+
         <a href="{{ route('halls.index') }}">Terug naar overzicht</a>
     </div>
 @endsection

@@ -10,6 +10,11 @@ use App\Http\Requests\FilmEventRequest;
 
 class FilmEventController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(FilmEvent::class, 'filmevent');
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -11,7 +11,9 @@
         </div>
 
         <div class="level-right">
-            <a href="{{ route('halls.create') }}" class="button is-link is-light">Nieuwe zaal</a>
+            @can('create', App\Models\Hall::class)
+                <a href="{{ route('halls.create') }}" class="button is-link is-light">Nieuwe zaal</a>
+            @endcan
         </div>
     </div>
 
@@ -31,7 +33,10 @@
                         </div>
 
                         <footer class="card-footer">
-                            <a class="card-footer-item" href="{{ route('halls.show', $hall) }}">Bekijken</a>
+                            @can('update', $hall)
+                                <a class="card-footer-item" href="{{ route('halls.show', $hall) }}">Bekijken</a>
+                            @endcan
+                            <a class="card-footer-item" href="{{ route('halls.edit', $hall) }}">Bewerken</a>
                         </footer>
                     </div>
                 </div>
@@ -45,12 +50,14 @@
         </div>
 
         <div class="level-right">
-            <a href="{{ route('filmevents.create') }}" class="button is-link is-light">Nieuwe filmavond</a>
+            @can('create', App\Models\FilmEvent::class)
+                <a href="{{ route('filmevents.create') }}" class="button is-link is-light">Nieuwe filmavond</a>
+            @endcan
         </div>
     </div>
 
     @foreach ($cinema->halls as $hall)
-        @foreach ($hall->filmevents as $filmevent)
+        @forelse ($hall->filmevents as $filmevent)
             <div class="block">
                 <p>
                     <strong>{{ $filmevent->movie->name }}</strong><br>
@@ -59,10 +66,15 @@
                 </p>
             </div>
         @endforeach
-    @endforeach
+    @empty
+        <p>Er zijn nog geen filmavonden!</p>
+    @endforelse
 
     <div class="block">
-        <a href="{{ route('cinemas.edit', $cinema) }}">Bewerken</a> |
+        @can('update', $cinema)
+            <a href="{{ route('cinemas.edit', $cinema) }}">Bewerken</a> |
+        @endcan
+
         <a href="{{ route('cinemas.index') }}">Terug naar het overzicht</a>
     </div>
 @endsection

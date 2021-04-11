@@ -3,7 +3,9 @@
 ])
 
 @section('top-right')
-    <a class="button is-link is-light" href="{{ route('halls.create') }}">Nieuwe zaal</a>
+    @can('create', App\Models\Hall::class)
+        <a class="button is-link is-light" href="{{ route('halls.create') }}">Nieuwe zaal</a>
+    @endcan
 @endsection
 
 @section('content')
@@ -23,7 +25,10 @@
 
                         <footer class="card-footer">
                             <a class="card-footer-item" href="{{ route('halls.show', $hall) }}">Bekijken</a>
-                            <a class="card-footer-item" href="{{ route('halls.edit', $hall) }}">Bewerken</a>
+
+                            @can('update', $hall)
+                                <a class="card-footer-item" href="{{ route('halls.edit', $hall) }}">Bewerken</a>
+                            @endcan
                         </footer>
                     </div>
                 </div>

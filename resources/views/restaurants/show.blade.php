@@ -11,9 +11,13 @@
                 <p><strong>Categorie:</strong> {{ $restaurant->category->name }}</p>
                 <p><strong>Zitplaatsen: </strong>{{ $restaurant->seats }}</p>
 
-                <a class="button is-primary" href="{{ route('restaurantreservations.reserve', $restaurant->id) }}">Reserveren</a>
-                <!-- Authorisatie en Authenticatie op bewerken -->
-                <a class="button is-link is-light" href="{{ route('restaurants.edit', $restaurant) }}">Bewerken</a>
+                @can('reserve', $restaurant)
+                    <a class="button is-primary" href="{{ route('restaurantreservations.reserve', $restaurant->id) }}">Reserveren</a>
+                @endcan
+
+                @can('update', $restaurant)
+                    <a class="button is-link is-light" href="{{ route('restaurants.edit', $restaurant) }}">Bewerken</a>
+                @endcan
             </div>
         </div>
 

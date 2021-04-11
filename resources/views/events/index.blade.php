@@ -3,7 +3,9 @@
 ])
 
 @section('top-right')
-    <a class="button is-link is-light" href="{{ route('events.create') }}">Nieuw evenement</a>
+    @can('create', App\Model\Event::class)
+        <a class="button is-link is-light" href="{{ route('events.create') }}">Nieuw evenement</a>
+    @endcan
 @endsection
 
 @section('content')
@@ -24,7 +26,10 @@
 
                         <footer class="card-footer">
                             <a class="card-footer-item" href="{{ route('events.show', $event) }}">Bekijken</a>
-                            <a class="card-footer-item" href="{{ route('events.edit', $event) }}">Bewerken</a>
+
+                            @can('update', $event)
+                                <a class="card-footer-item" href="{{ route('events.edit', $event) }}">Bewerken</a>
+                            @endcan
                         </footer>
                     </div>
                 </div>

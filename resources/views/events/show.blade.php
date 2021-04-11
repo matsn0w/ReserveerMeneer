@@ -11,8 +11,14 @@
     </p>
 
     <div class="block">
-        <a href="{{ route('eventreservations.reserve', $event->id) }}">Reserveren</a> | 
-        <a href="{{ route('events.edit', $event) }}">Bewerken</a> |
+        @can('reserve', $event)
+            <a href="{{ route('eventreservations.reserve', $event->id) }}">Reserveren</a> |
+        @endcan
+
+        @can('update', $event)
+            <a href="{{ route('events.edit', $event) }}">Bewerken</a> |
+        @endcan
+
         <a href="{{ route('events.index') }}">Terug naar overzicht</a>
     </div>
 @endsection

@@ -10,6 +10,11 @@ use App\Http\Requests\HallRequest;
 
 class HallController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Hall::class, 'hall');
+    }
+
     /**
      * Display a listing of the resource.
      *

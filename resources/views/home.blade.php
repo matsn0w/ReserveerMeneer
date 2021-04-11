@@ -16,12 +16,29 @@
             <nav class="panel">
                 <p class="panel-heading mb-0">Onderdelen</p>
 
-                <a class="panel-block" href="{{ route('restaurants.index') }}">Restaurants</a>
-                <a class="panel-block" href="{{ route('cinemas.index') }}">Bioscopen</a>
-                <a class="panel-block" href="{{ route('halls.index') }}">Zalen</a>
-                <a class="panel-block" href="{{ route('movies.index') }}">Films</a>
-                <a class="panel-block" href="{{ route('events.index') }}">Evenementen</a>
-                <a class="panel-block" href="{{ route('filmevents.index') }}">Filmavonden</a>
+                @can('viewAny', App\Models\Restaurant::class)
+                    <a class="panel-block" href="{{ route('restaurants.index') }}">Restaurants</a>
+                @endcan
+
+                @can('viewAny', App\Models\Cinema::class)
+                    <a class="panel-block" href="{{ route('cinemas.index') }}">Bioscopen</a>
+                @endcan
+
+                @can('viewAny', App\Models\Hall::class)
+                    <a class="panel-block" href="{{ route('halls.index') }}">Zalen</a>
+                @endcan
+
+                @can('viewAny', App\Models\Movie::class)
+                    <a class="panel-block" href="{{ route('movies.index') }}">Films</a>
+                @endcan
+
+                @can('viewAny', App\Models\Event::class)
+                    <a class="panel-block" href="{{ route('events.index') }}">Evenementen</a>
+                @endcan
+
+                @can('viewAny', App\Models\FilmEvent::class)
+                    <a class="panel-block" href="{{ route('filmevents.index') }}">Filmavonden</a>
+                @endcan
 
                 @auth
                     @if(auth()->user()->hasRole('ADMIN'))
@@ -39,7 +56,9 @@
         </div>
 
         <div class="level-right">
-            <a class="button is-link is-light" href="{{ route('home.events') }}">Alle evenementen</a>
+            @can('viewAny', App\Models\Event::class)
+                <a class="button is-link is-light" href="{{ route('home.events') }}">Alle evenementen</a>
+            @endcan
         </div>
     </div>
 
