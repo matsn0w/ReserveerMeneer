@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Movie;
 use Illuminate\Http\Request;
+use App\Http\Requests\MovieRequest;
 
 class MovieController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Movie::class, 'movie');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -34,14 +40,12 @@ class MovieController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  MovieRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MovieRequest $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'min:2']
-        ]);
+        $validated = $request->validated();
 
         $movie = Movie::create($validated);
 
@@ -79,15 +83,13 @@ class MovieController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  MovieRequest  $request
      * @param  Movie  $movie
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Movie $movie)
+    public function update(MovieRequest $request, Movie $movie)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'min:2']
-        ]);
+        $validated = $request->validated();
 
         $movie->update($validated);
 
@@ -105,6 +107,8 @@ class MovieController extends Controller
     public function destroy(Movie $movie)
     {
         $movie->delete();
+
+        session()->flash('success', 'Film is verwijderd!');
 
         return redirect()->route('movies.index');
     }

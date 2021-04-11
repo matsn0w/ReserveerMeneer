@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Cinema;
 use Illuminate\Http\Request;
+use App\Http\Requests\CinemaRequest;
 
 class CinemaController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Cinema::class, 'cinema');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -34,14 +40,12 @@ class CinemaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CinemaRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CinemaRequest $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'min:2']
-        ]);
+        $validated = $request->validated();
 
         $cinema = Cinema::create($validated);
 
@@ -79,15 +83,13 @@ class CinemaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CinemaRequest  $request
      * @param  \App\Models\Cinema  $cinema
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cinema $cinema)
+    public function update(CinemaRequest $request, Cinema $cinema)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'min:2']
-        ]);
+        $validated = $request->validate();
 
         $cinema->update($validated);
 
@@ -105,6 +107,8 @@ class CinemaController extends Controller
     public function destroy(Cinema $cinema)
     {
         $cinema->delete();
+
+        session()->flash('success', 'Bioscoop is verwijderd!');
 
         return redirect()->route('cinemas.index');
     }

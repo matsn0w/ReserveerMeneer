@@ -18,13 +18,15 @@ class Hall extends Model
         'cinema_id'
     ];
 
-    public function cinema()
-    {
+    public function cinema() {
         return $this->belongsTo(Cinema::class);
     }
 
-    public function seats()
-    {
+    public function seats() {
         return $this->hasMany(Seat::class);
+    }
+
+    public function filmevents() {
+        return $this->hasMany(FilmEvent::class);
     }
 }

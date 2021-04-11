@@ -19,6 +19,7 @@ class CreateFilmEventsTable extends Migration
             $table->foreignId('movie_id')->constrained();
             $table->timestamp('start');
             $table->timestamps();
+
             $table->unique(['hall_id', 'movie_id', 'start']);
         });
     }

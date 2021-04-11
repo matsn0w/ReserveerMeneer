@@ -3,18 +3,18 @@
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
             <a class="pagination-previous" aria-disabled="true" aria-label="@lang('pagination.previous')" disabled>
-                <span aria-hidden="true">Previous</span>
+                <span aria-hidden="true">Vorige</span>
             </a>
         @else
-            <a class="pagination-previous" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">Previous</a>
+            <a class="pagination-previous" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">Vorige</a>
         @endif
 
         {{-- Next Page Link --}}
         @if ($paginator->hasMorePages())
-            <a class="pagination-next" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">Next</a>
+            <a class="pagination-next" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">Volgende</a>
         @else
             <a class="pagination-next" aria-disabled="true" aria-label="@lang('pagination.next')" disabled>
-                <span aria-hidden="true">Next</span>
+                <span aria-hidden="true">Volgende</span>
             </a>
         @endif
 

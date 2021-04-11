@@ -8,17 +8,33 @@
     <title>{{ $title }} | {{ env('APP_NAME') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    @yield('styles')
+    @stack('styles')
 
     <script src="{{ asset('js/app.js') }}" defer></script>
-    @yield('scripts')
+    @stack('scripts')
 </head>
 <body>
     <x-navbar />
 
     <div class="container">
         <section class="section">
-            <h1 class="title">{{ $title }}</h1>
+            @if (session()->has('error'))
+                <div class="notification is-danger is-light">{{ session('error') }}</div>
+            @endif
+
+            @if (session()->has('success'))
+                <div class="notification is-success is-light">{{ session('success') }}</div>
+            @endif
+
+            <div class="level">
+                <div class="level-left">
+                    <h1 class="title">{{ $title }}</h1>
+                </div>
+
+                <div class="level-right">
+                    @yield('top-right')
+                </div>
+            </div>
 
             <div class="content">
                 @yield('content')
@@ -34,5 +50,7 @@
             </div>
         </div>
     </footer>
+
+    <x-logoutform />
 </body>
 </html>

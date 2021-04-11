@@ -6,9 +6,15 @@ use App\Models\Hall;
 use App\Models\Seat;
 use App\Models\Cinema;
 use Illuminate\Http\Request;
+use App\Http\Requests\HallRequest;
 
 class HallController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Hall::class, 'hall');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,18 +46,13 @@ class HallController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  HallRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(HallRequest $request)
     {
         // validate input
-        $validated = $request->validate([
-            'cinema_id' => ['required'],
-            'name' => ['required', 'min:2'],
-            'rows' => ['required', 'integer', 'min:1'],
-            'seatsPerRow' => ['required', 'integer', 'min:1']
-        ]);
+        $validated = $request->validate();
 
         // create the hall
         $hall = Hall::create($validated);
@@ -115,17 +116,14 @@ class HallController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  HallRequest  $request
      * @param  \App\Models\Hall  $hall
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Hall $hall)
+    public function update(HallRequest $request, Hall $hall)
     {
         // validate the request
-        $validated = $request->validate([
-            'cinema_id' => ['required'],
-            'name' => ['required', 'min:2']
-        ]);
+        $validated = $request->validated();
 
         // update the hall
         $hall->update($validated);

@@ -5,18 +5,21 @@ namespace App\Http\Controllers;
 use DateTime;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use App\Rules\ContainsCategory;
 use App\Models\RestaurantCategory;
 use Illuminate\Support\Facades\DB;
 use App\Models\RestaurantOpeninghours;
-use App\Rules\ContainsCategory;
+use App\Http\Requests\RestaurantRequest;
 use Symfony\Component\Console\Input\Input;
 
 class RestaurantController extends Controller
 {
     protected $openinghoursController;
+
     public function __construct(RestaurantOpeninghoursController $controller)
     {
         $this->openinghoursController = $controller;
+        $this->authorizeResource(Restaurant::class, 'restaurant');
     }
 
     /**
@@ -27,9 +30,6 @@ class RestaurantController extends Controller
     public function index(Request $request)
     {
         $availableCategories = RestaurantCategory::all();
-
-        // we assume there is no filter set
-        $request['filter'] = null;
 
         $values = $this->applyCategoryFilter($request);
 
@@ -51,7 +51,7 @@ class RestaurantController extends Controller
         $weekdays = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'];
 
         $array = [];
-        foreach($weekdays as $weekday) {
+        foreach ($weekdays as $weekday) {
             $array[$weekday] = ["openinghour" => "00:00", "closinghour" => "00:00"];
         }
 
@@ -61,13 +61,13 @@ class RestaurantController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  RestaurantRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RestaurantRequest $request)
     {
         // validate the request
-        $validatedAttributes = $this->validateRestaurant($request);
+        $validatedAttributes = $request->validated();
 
         // create the restaurant
         $restaurant = Restaurant::create($validatedAttributes);
@@ -113,14 +113,14 @@ class RestaurantController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  RestaurantRequest  $request
      * @param  \App\Models\Restaurant  $restaurant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Restaurant $restaurant)
+    public function update(RestaurantRequest $request, Restaurant $restaurant)
     {
         // validate the request
-        $validatedAttributes = $this->validateRestaurant($request);
+        $validatedAttributes = $request->validated();
 
         // update the restaurant
         $restaurant->update($validatedAttributes);
@@ -140,16 +140,9 @@ class RestaurantController extends Controller
         // delete the restaurant
         $restaurant->delete();
 
-        return redirect('restaurants')->with('flash_message', 'Restaurant verwijderd!');
-    }
+        session()->flash('success', 'Restaurant is verwijderd!');
 
-    public function validateRestaurant(Request $request) {
-        return $request->validate([
-            'name' => ['required', 'min:3', 'max:100'],
-            'description' => ['required', 'min:1', 'max:1000'],
-            'category_id' => ['required', 'exists:restaurant_categories,id'],
-            'seats' => ['required', 'integer', 'min:1', 'max:1000']
-        ]);
+        return redirect('restaurants');
     }
 
     public function applyCategoryFilter($request) {
@@ -157,7 +150,10 @@ class RestaurantController extends Controller
             'filter' => ['nullable', 'exists:restaurant_categories,id']
         ]);
 
-        $filter = $validated['filter'];
+        $filter = null;
+        if(request()->filled('filter')) {
+            $filter = $validated['filter'];
+        }
 
         $values = array('restaurants' => "", 'filter' => "");
 

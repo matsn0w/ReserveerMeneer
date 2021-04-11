@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class MakeAdmin extends Command
 {
@@ -16,6 +18,7 @@ class MakeAdmin extends Command
     protected $signature = 'auth:admin
         {username=admin : The user\'s name}
         {email=admin@localhost : The user\'s email address}
+        {phonenumber=0612345678 : the user\'s phone number}
         {password=admin : The user\'s password}
     ';
 
@@ -45,7 +48,7 @@ class MakeAdmin extends Command
     {
         // ask for details
         $answers = $this->askQuestions();
-
+        
         // ask if the info is correct
         if (!$this->confirmUser($answers)) {
             $this->info('Aborted.');
@@ -54,12 +57,26 @@ class MakeAdmin extends Command
 
         $this->info("Creating admin account for user '{$answers['name']}'...");
 
+        if(Role::where('name', '=', 'ADMIN')->count() == 0) {
+            $role = Role::make();
+            $role->name = 'ADMIN';
+            $role->description = 'Acts as platform owner';
+            $role->save();
+        }
+        $role_id = Role::where('name', '=', 'ADMIN')->first()->id;
+
         // create the user account
         $user = User::make();
         $user->name = $answers['name'];
         $user->email = $answers['email'];
+        $user->phonenumber = $answers['phone'];
         $user->password = Hash::make($answers['password']);
         $user->save();
+
+        DB::table('role_user')->insert([
+            'role_id' => $role_id,
+            'user_id' => $user->id
+        ]);
 
         $this->info('User successfully created!');
 
@@ -69,11 +86,13 @@ class MakeAdmin extends Command
     private function askQuestions() {
         $name = $this->ask('Enter a name:');
         $email = $this->ask('Enter an email address:');
+        $phone = $this->ask('Enter a phone number');
         $password = $this->secret('Enter a password:');
 
         $answers = [
             'name' => $name,
             'email' => $email,
+            'phone' => $phone,
             'password' => $password
         ];
 
@@ -84,6 +103,7 @@ class MakeAdmin extends Command
     {
         $this->info("Username: {$user['name']}");
         $this->info("Email: {$user['email']}");
+        $this->info("Phone: {$user['phone']}");
         $this->info("Password: {$user['password']}");
 
         return $this->confirm('Is this correct?', true);

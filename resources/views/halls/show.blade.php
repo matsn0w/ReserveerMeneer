@@ -13,22 +13,29 @@
     <div class="block">
         <h2>Stoelen</h2>
 
-        <div class="seats">
-            @php $counter = 1; @endphp
-            @foreach ($hall->seats->chunk($hall->seatsPerRow) as $row)
-                <div class="row">
-                    <p>Rij {{ $counter++ }}</p>
-
-                    @foreach ($row as $seat)
-                        <div class="seat" data-seat-id="{{ $seat->id }}">{{ $seat->number }}</div>
-                    @endforeach
-                </div>
-            @endforeach
-        </div>
+        <x-seats :hall="$hall" />
     </div>
 
     <div class="block">
-        <a href="{{ route('halls.edit', $hall) }}">Bewerken</a> |
+        <h2>Aankomende filmavonden</h2>
+
+        @forelse ($hall->filmevents as $filmevent)
+            <div class="block">
+                <p>
+                    <a href="{{ route('filmevents.show', $filmevent) }}">{{ $filmevent->movie->name }}</a><br>
+                    <strong>Start:</strong> {{ date('d-m-Y H:i', strtotime($filmevent->start)) }}
+                </p>
+            </div>
+        @empty
+            <p>Er zijn nog geen filmavonden!</p>
+        @endforelse
+    </div>
+
+    <div class="block">
+        @can('update', $hall)
+            <a href="{{ route('halls.edit', $hall) }}">Bewerken</a> |
+        @endcan
+
         <a href="{{ route('halls.index') }}">Terug naar overzicht</a>
     </div>
 @endsection

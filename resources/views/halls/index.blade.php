@@ -2,11 +2,13 @@
     'title' => 'Bioscoopzalen'
 ])
 
-@section('content')
-    <div class="block">
-        <a href="{{ route('halls.create') }}">Nieuwe zaal</a>
-    </div>
+@section('top-right')
+    @can('create', App\Models\Hall::class)
+        <a class="button is-link is-light" href="{{ route('halls.create') }}">Nieuwe zaal</a>
+    @endcan
+@endsection
 
+@section('content')
     @foreach($halls->chunk(4) as $chunk)
         <div class="columns">
             @foreach($chunk as $hall)
@@ -23,7 +25,10 @@
 
                         <footer class="card-footer">
                             <a class="card-footer-item" href="{{ route('halls.show', $hall) }}">Bekijken</a>
-                            <a class="card-footer-item" href="{{ route('halls.edit', $hall) }}">Bewerken</a>
+
+                            @can('update', $hall)
+                                <a class="card-footer-item" href="{{ route('halls.edit', $hall) }}">Bewerken</a>
+                            @endcan
                         </footer>
                     </div>
                 </div>

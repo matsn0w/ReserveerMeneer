@@ -1,4 +1,6 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/eventreservation.js": "/js/eventreservation.js",
+    "/js/filmeventreservation.js": "/js/filmeventreservation.js",
     "/css/app.css": "/css/app.css"
 }
