@@ -43,9 +43,13 @@
                 background: $primary;
             }
 
-            &.disabled {
+            &.disabled, &.reserved {
                 opacity: 50%;
                 cursor: not-allowed;
+            }
+
+            &.reserved {
+                background: $primary;
             }
         }
     }

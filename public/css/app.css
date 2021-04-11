@@ -10264,9 +10264,12 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .seats .row .seat.selected {
   background: #852fbe;
 }
-.seats .row .seat.disabled {
+.seats .row .seat.disabled, .seats .row .seat.reserved {
   opacity: 50%;
   cursor: not-allowed;
+}
+.seats .row .seat.reserved {
+  background: #852fbe;
 }
 
 .guestimg {

@@ -1,23 +1,15 @@
 (() => {
-    const input = document.querySelector('input[name=seats]');
     let seatIDs = [];
 
-    if (input == null) {
-        console.log('input not found');
-        return;
-    }
+    const getLeftSeat = (seat) => {
+        let leftID = parseInt(seat.getAttribute('data-seat-id')) - 1;
+        return document.querySelector(`.seat[data-seat-id="${leftID}"]`);
+    };
 
-    let seats = document.querySelectorAll('.seat');
-
-    seats.forEach(seat => {
-        seat.addEventListener('click', (e) => {
-            if (seat.disabled) {
-                return;
-            }
-
-            toggleSeat(seat);
-        });
-    });
+    const getRightSeat = (seat) => {
+        let rightID = parseInt(seat.getAttribute('data-seat-id')) + 1;
+        return document.querySelector(`.seat[data-seat-id="${rightID}"]`);
+    };
 
     const toggleSeat = (seat) => {
         let id = seat.getAttribute('data-seat-id');
@@ -39,32 +31,63 @@
     };
 
     const toggleLeftSeat = (seat) => {
-        let leftID = parseInt(seat.getAttribute('data-seat-id')) - 1;
-        let leftSeat = document.querySelector(`.seat[data-seat-id="${leftID}"]`);
+        let leftSeat = getLeftSeat(seat);
 
         if (leftSeat == null) {
             return;
         }
 
-        // check if the left seat is in the same row
-        if (leftSeat.parentElement === seat.parentElement) {
-            leftSeat.disabled = !leftSeat.disabled;
-            leftSeat.classList.toggle('disabled');
+        // check if the left seat is not in the same row
+        if (leftSeat.parentElement !== seat.parentElement) {
+            return;
         }
+
+        // disable or enable the seat
+        leftSeat.disabled = !leftSeat.disabled;
+        leftSeat.classList.toggle('disabled');
     };
 
     const toggleRightSeat = (seat) => {
-        let rightID = parseInt(seat.getAttribute('data-seat-id')) + 1;
-        let rightSeat = document.querySelector(`.seat[data-seat-id="${rightID}"]`);
+        let rightSeat = getRightSeat(seat);
 
         if (rightSeat == null) {
             return;
         }
 
-        // check if the right seat is in the same row
-        if (rightSeat.parentElement === seat.parentElement) {
-            rightSeat.disabled = !rightSeat.disabled;
-            rightSeat.classList.toggle('disabled');
+        // check if the right seat is not in the same row
+        if (rightSeat.parentElement !== seat.parentElement) {
+            return;
         }
+
+        // disable or enable the seat
+        rightSeat.disabled = !rightSeat.disabled;
+        rightSeat.classList.toggle('disabled');
     };
+
+    const input = document.querySelector('input[name=seats]');
+
+    if (input == null) {
+        console.log('input not found');
+        return;
+    }
+
+    let seats = document.querySelectorAll('.seat');
+
+    seats.forEach(seat => {
+        // check if the seat is already reserved
+        if (seat.classList.contains('reserved')) {
+            seat.disabled = true;
+            toggleLeftSeat(seat);
+            toggleRightSeat(seat);
+        }
+
+        seat.addEventListener('click', (e) => {
+            // check if the seat or a seat next to the seat is disabled
+            if (!seat.classList.contains('selected') && (seat.disabled || getLeftSeat(seat).disabled || getRightSeat(seat).disabled)) {
+                return;
+            }
+
+            toggleSeat(seat);
+        });
+    });
 })();
