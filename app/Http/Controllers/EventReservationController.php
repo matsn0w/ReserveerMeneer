@@ -44,13 +44,13 @@ class EventReservationController extends Controller
     }
 
     public function setLocale($id, $locale) {
-        
+
         if(in_array($locale, ['en', 'nl'])) {
             app()->setlocale($locale);
         }
 
         return redirect()->route('eventreservations.reserve', [$id, $locale]);
-    } 
+    }
 
     public function nextStep(Request $request, $event_id, $locale = null) {
         if(in_array($locale, ['en', 'nl'])) {
@@ -64,7 +64,7 @@ class EventReservationController extends Controller
         $validatedReservation = $this->validateReservation($request, $event);
         $validatedReservation['event_id'] = $event->id;
         $validatedAddress = $this->validateAddress($request);
-        
+
         $request->session()->put('address_data', $validatedAddress);
         $request->session()->put('reservation_data', $validatedReservation);
 
@@ -84,25 +84,25 @@ class EventReservationController extends Controller
         $new_guests = [];
         $this->validateGuests($request);
         $files = [];
-        
+
         $i = 0;
         foreach($request['guests'] as $guest) {
             if($request->hasFile('guests.'.$i)) {
                 if($request->file('guests.'.$i)['image']->isValid()) {
                     $file = $this->validateFile($request, $i)['guests'][$i]['image'];
-                    $files[$i.'-'.$guest['name']] = $file; 
+                    $files[$i.'-'.$guest['name']] = $file;
                 }
             } else {
                 abort(500, 'No image found');
             }
             $i++;
         }
-        
+
         $i = 0;
         foreach($request['guests'] as $guest) {
             $file = $files[$i.'-'.$guest['name']];
             $extension = $file->extension();
-            $name = $this->generateName($guest['name']); 
+            $name = $this->generateName($guest['name']);
             $file->storeAs('public/images', $name.".".$extension);
             $url = $name.".".$extension;
             $file = File::create([
@@ -110,8 +110,8 @@ class EventReservationController extends Controller
                 'name' => $name,
                 'url' => $url
             ]);
-            
-            
+
+
             array_push($new_guests, array(
                 'name' => $guest['name'],
                 'birthdate' => $guest['birthdate'],
@@ -136,7 +136,6 @@ class EventReservationController extends Controller
         ]);
     }
 
-    //Move to common location
     public function validateAddress(Request $request) {
         return $request->validate([
             'postal_code' => ['required'],
@@ -162,12 +161,12 @@ class EventReservationController extends Controller
     }
 
     public function validateGuests(Request $request) {
-          
+
         return $request->validate([
             'guests.*.name' => ['required', 'min:3', 'max:80'],
             'guests.*.birthdate' => ['required', 'before:today'],
-        ]); 
-    } 
+        ]);
+    }
 
 
 }

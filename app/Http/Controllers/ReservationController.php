@@ -17,14 +17,14 @@ class ReservationController extends Controller
     }
 
     public function show(Reservation $reservation) {
-        
+
         if($reservation->user_id != auth()->user()->id) {
             return redirect()->route('reservations.index');
         }
 
         return view('reservations.show', [
             'reservation' => $reservation,
-        ]); 
+        ]);
     }
 
     public function exportToCSV(Reservation $reservation)
@@ -35,8 +35,8 @@ class ReservationController extends Controller
     }
 
     public function exportToJSON(Reservation $reservation) {
-        $data = json_encode($this->prepExportData($reservation)); 
-        
+        $data = json_encode($this->prepExportData($reservation));
+
         $file = time() . '_file.json';
         $destinationPath=public_path()."/storage/json/";
         if (!is_dir($destinationPath)) {  mkdir($destinationPath,0777,true);  }
@@ -48,11 +48,12 @@ class ReservationController extends Controller
         $guests = [];
         foreach($reservation->related->guests as $guest) {
             $exportObj = (object) [
-                'event_name' => $reservation->related->event->name,//TODO check for additional info
+                'event_name' => $reservation->related->event->name,
                 'group_size' => $reservation->related->ticketamount,
                 'reserved_by' => [
                     'name' => $reservation->user->name,
                     'email' => $reservation->user->email,
+                    'phonenumber' => $reservation->user->phonenumber,
                 ],
                 'ticket_valid' => [
                     'from' => $reservation->related->startdate,
@@ -61,12 +62,12 @@ class ReservationController extends Controller
                 'guest' => [
                     'name' => $guest->name,
                     'birthdate' => $guest->birthdate,
-                    'imageurl' => $guest->file->url, 
+                    'imageurl' => $guest->file->url,
                 ],
             ];
 
             array_push($guests, $exportObj);
-        } 
+        }
         return $guests;
     }
 }
