@@ -8,6 +8,11 @@ use App\Http\Requests\MovieRequest;
 
 class MovieController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Movie::class, 'movie');
+    }
+
     /**
      * Display a listing of the resource.
      *

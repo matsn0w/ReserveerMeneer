@@ -19,6 +19,7 @@ class RestaurantController extends Controller
     public function __construct(RestaurantOpeninghoursController $controller)
     {
         $this->openinghoursController = $controller;
+        $this->authorizeResource(Restaurant::class, 'restaurant');
     }
 
     /**

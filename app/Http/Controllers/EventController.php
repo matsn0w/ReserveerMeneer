@@ -9,6 +9,11 @@ use App\Http\Requests\EventRequest;
 
 class EventController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Event::class, 'event');
+    }
+
     /**
      * Display a listing of the resource.
      *

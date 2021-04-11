@@ -3,7 +3,9 @@
 ])
 
 @section('top-right')
-    <a class="butt	on is-link is-light" href="{{ route('cinemas.create') }}">Nieuwe bioscoop</a>
+    @can('create', App\Models\Cinema::class)
+        <a class="button is-link is-light" href="{{ route('cinemas.create') }}">Nieuwe bioscoop</a>
+    @endcan
 @endsection
 
 @section('content')
@@ -22,7 +24,10 @@
 
                         <footer class="card-footer">
                             <a class="card-footer-item" href="{{ route('cinemas.show', $cinema) }}">Bekijken</a>
-                            <a class="card-footer-item" href="{{ route('cinemas.edit', $cinema) }}">Bewerken</a>
+
+                            @can('update', $cinema)
+                                <a class="card-footer-item" href="{{ route('cinemas.edit', $cinema) }}">Bewerken</a>
+                            @endcan
                         </footer>
                     </div>
                 </div>

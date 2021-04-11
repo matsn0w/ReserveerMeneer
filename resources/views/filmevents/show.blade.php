@@ -12,8 +12,14 @@
     <x-seats :hall="$filmevent->hall" />
 
     <div class="block">
-        <a href="{{ route('filmeventreservations.reserve', $filmevent) }}">Reserveren</a> |
-        <a href="{{ route('filmevents.edit', $filmevent) }}">Bewerken</a> |
+        @can('reserve', $filmevent)
+            <a href="{{ route('filmeventreservations.reserve', $filmevent) }}">Reserveren</a> |
+        @endcan
+
+        @can('update', $filmevent)
+            <a href="{{ route('filmevents.edit', $filmevent) }}">Bewerken</a> |
+        @endcan
+
         <a href="{{ route('filmevents.index') }}">Terug naar overzicht</a>
     </div>
 @endsection

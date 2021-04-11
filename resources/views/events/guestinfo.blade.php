@@ -25,11 +25,11 @@
 
                         <div class="field">
                             <label class="label" for="guests[{{$i}}][name]">{{__('eventreservation.fullname')}}</label>
-                        
+
                             <div class="control">
                                 <input class="input" type="text" name="guests[{{$i}}][name]" id="guests[{{$i}}][name]" value="" required>
                             </div>
-                        
+
                             @error('guests[{{$i}}][birthdate]')
                                 <p class="help is-danger">{{ $message }}</p>
                             @enderror
@@ -52,7 +52,7 @@
                             @enderror
                         </div>
 
-                        
+
                         <div class="field">
                             <label class="label" for="guests[{{$i}}][image]">{{__('eventreservation.image')}}</label>
 
@@ -69,9 +69,9 @@
                         </div>
                     @endfor
 
-                    <div class="container mt-5">
+                    <div class="block">
                         <button type="submit" class="button is-primary">{{__('eventreservation.next')}}</button>
-                        <button class="button is-danger">{{__('eventreservation.cancel')}}</button>
+                        <a href="{{ route('events.show', $event) }}" class="button is-link is-light">{{__('eventreservation.cancel')}}</a>
                     </div>
                 </form>
             </div>

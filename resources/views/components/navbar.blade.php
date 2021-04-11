@@ -16,10 +16,22 @@
             <div class="navbar-start">
                 <a class="navbar-item" href="{{ route('restaurants.index') }}">Restaurants</a>
                 <a class="navbar-item" href="{{ route('cinemas.index') }}">Bioscopen</a>
-                <a class="navbar-item" href="{{ route('halls.index') }}">Zalen</a>
-                <a class="navbar-item" href="{{ route('movies.index') }}">Films</a>
-                <a class="navbar-item" href="{{ route('events.index') }}">Evenementen</a>
-                <a class="navbar-item" href="{{ route('filmevents.index') }}">Filmavonden</a>
+
+                @can('viewAny', App\Models\Hall::class)
+                    <a class="navbar-item" href="{{ route('halls.index') }}">Zalen</a>
+                @endcan
+
+                @can('viewAny', App\Models\Movie::class)
+                    <a class="navbar-item" href="{{ route('movies.index') }}">Films</a>
+                @endcan
+
+                @can('viewAny', App\Models\Event::class)
+                    <a class="navbar-item" href="{{ route('events.index') }}">Evenementen</a>
+                @endcan
+
+                @can('viewAny', App\Models\FilmEvent::class)
+                    <a class="navbar-item" href="{{ route('filmevents.index') }}">Filmavonden</a>
+                @endcan
             </div>
 
             <div class="navbar-end">

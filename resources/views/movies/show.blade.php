@@ -22,6 +22,9 @@
         @endforelse
     </div>
 
-    <a href="{{ route('movies.edit', $movie) }}">Bewerken</a> |
+    @can('update', $movie)
+        <a href="{{ route('movies.edit', $movie) }}">Bewerken</a> |
+    @endcan
+
     <a href="{{ route('movies.index') }}">Terug naar het overzicht</a>
 @endsection
